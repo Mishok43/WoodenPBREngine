@@ -20,6 +20,9 @@
 *.mod
 *.smod
 
+*.opendb
+*.opensdf
+
 # Compiled Static libraries
 *.lai
 *.la
