@@ -2,12 +2,16 @@
 //
 
 #include "pch.h"
-#include "WOptions.h"
+#include "MEngine.h"
 
+WPBR_USING
 
 int main(int argc, char* argv[])
 {
-	WOptions options = WOptions::processArgumentsToOptions(argv, (std::size_t)argc);
+	DOptions options = DOptions::createOptionsByCMDArguments(argv, (std::size_t)argc);
+	MEngine engine(options);
+	engine.loadData();
+	engine.render();
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

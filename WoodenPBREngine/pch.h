@@ -11,11 +11,11 @@
 
 #include <cstddef>
 #include <string>
+#include <assert.h>
 
-using namespace WoodenPBR;
-
-#define WOODEN_PBR_BEGIN namespace WoodenPBR {
-#define WOODEN_PBR_END }
+#define WPBR_USING using namespace WoodenPBR;
+#define WPBR_BEGIN namespace WoodenPBR {
+#define WPBR_END }
 // TODO: add headers that you want to pre-compile here
 
 #endif //PCH_H
