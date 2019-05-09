@@ -4,6 +4,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WoodenPBREngine", "WoodenPBREngine.vcxproj", "{72E0F04C-A05A-4BB6-AA60-87913F8FA986}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B3596647-5DB7-46DC-9D39-801B0F6A66EB} = {B3596647-5DB7-46DC-9D39-801B0F6A66EB}
+		{86DDAD96-BAC0-40BF-A401-8D5443C58056} = {86DDAD96-BAC0-40BF-A401-8D5443C58056}
+		{8EB029A1-F5D6-47A1-87F1-6FF56B00DE04} = {8EB029A1-F5D6-47A1-87F1-6FF56B00DE04}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WoodenMathLibrarry", "..\..\WoodenMathLibrarry\WoodenMathLibrarry\WoodenMathLibrarry.vcxproj", "{8EB029A1-F5D6-47A1-87F1-6FF56B00DE04}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WoodenAllocators", "..\..\WoodenAllocators\WoodenAllocators.vcxproj", "{86DDAD96-BAC0-40BF-A401-8D5443C58056}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WoodenECS", "..\..\WoodenECS\WoodenECS\WoodenECS.vcxproj", "{B3596647-5DB7-46DC-9D39-801B0F6A66EB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +32,30 @@ Global
 		{72E0F04C-A05A-4BB6-AA60-87913F8FA986}.Release|x64.Build.0 = Release|x64
 		{72E0F04C-A05A-4BB6-AA60-87913F8FA986}.Release|x86.ActiveCfg = Release|Win32
 		{72E0F04C-A05A-4BB6-AA60-87913F8FA986}.Release|x86.Build.0 = Release|Win32
+		{8EB029A1-F5D6-47A1-87F1-6FF56B00DE04}.Debug|x64.ActiveCfg = Debug|x64
+		{8EB029A1-F5D6-47A1-87F1-6FF56B00DE04}.Debug|x64.Build.0 = Debug|x64
+		{8EB029A1-F5D6-47A1-87F1-6FF56B00DE04}.Debug|x86.ActiveCfg = Debug|Win32
+		{8EB029A1-F5D6-47A1-87F1-6FF56B00DE04}.Debug|x86.Build.0 = Debug|Win32
+		{8EB029A1-F5D6-47A1-87F1-6FF56B00DE04}.Release|x64.ActiveCfg = Release|x64
+		{8EB029A1-F5D6-47A1-87F1-6FF56B00DE04}.Release|x64.Build.0 = Release|x64
+		{8EB029A1-F5D6-47A1-87F1-6FF56B00DE04}.Release|x86.ActiveCfg = Release|Win32
+		{8EB029A1-F5D6-47A1-87F1-6FF56B00DE04}.Release|x86.Build.0 = Release|Win32
+		{86DDAD96-BAC0-40BF-A401-8D5443C58056}.Debug|x64.ActiveCfg = Debug|x64
+		{86DDAD96-BAC0-40BF-A401-8D5443C58056}.Debug|x64.Build.0 = Debug|x64
+		{86DDAD96-BAC0-40BF-A401-8D5443C58056}.Debug|x86.ActiveCfg = Debug|Win32
+		{86DDAD96-BAC0-40BF-A401-8D5443C58056}.Debug|x86.Build.0 = Debug|Win32
+		{86DDAD96-BAC0-40BF-A401-8D5443C58056}.Release|x64.ActiveCfg = Release|x64
+		{86DDAD96-BAC0-40BF-A401-8D5443C58056}.Release|x64.Build.0 = Release|x64
+		{86DDAD96-BAC0-40BF-A401-8D5443C58056}.Release|x86.ActiveCfg = Release|Win32
+		{86DDAD96-BAC0-40BF-A401-8D5443C58056}.Release|x86.Build.0 = Release|Win32
+		{B3596647-5DB7-46DC-9D39-801B0F6A66EB}.Debug|x64.ActiveCfg = Debug|x64
+		{B3596647-5DB7-46DC-9D39-801B0F6A66EB}.Debug|x64.Build.0 = Debug|x64
+		{B3596647-5DB7-46DC-9D39-801B0F6A66EB}.Debug|x86.ActiveCfg = Debug|Win32
+		{B3596647-5DB7-46DC-9D39-801B0F6A66EB}.Debug|x86.Build.0 = Debug|Win32
+		{B3596647-5DB7-46DC-9D39-801B0F6A66EB}.Release|x64.ActiveCfg = Release|x64
+		{B3596647-5DB7-46DC-9D39-801B0F6A66EB}.Release|x64.Build.0 = Release|x64
+		{B3596647-5DB7-46DC-9D39-801B0F6A66EB}.Release|x86.ActiveCfg = Release|Win32
+		{B3596647-5DB7-46DC-9D39-801B0F6A66EB}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

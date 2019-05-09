@@ -9,13 +9,16 @@
 #ifndef PCH_H
 #define PCH_H
 
-#include <cstddef>
-#include <string>
-#include <assert.h>
-
 #define WPBR_USING using namespace WoodenPBR;
 #define WPBR_BEGIN namespace WoodenPBR {
 #define WPBR_END }
+
+#include <cstddef>
+#include <string>
+#include <assert.h>
+#include "WoodenECS/WECS.h"
+
+
 // TODO: add headers that you want to pre-compile here
 
 #endif //PCH_H

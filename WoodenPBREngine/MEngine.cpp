@@ -1,13 +1,7 @@
+#include "pch.h"
 #include "MEngine.h"
 
-
 WPBR_BEGIN
-
-MEngine::MEngine(const DOptions& options)
-{
-	assert(init(options), "PBR Engine wasn't initialized successfully");
-}
-
 
 bool MEngine::init(const DOptions& options)
 {
@@ -16,7 +10,15 @@ bool MEngine::init(const DOptions& options)
 		return false;
 	}
 
-	sceneFilename = options.inSceneFileName;
+	if (options.inSceneFileName.size() > 0)
+	{
+		sceneFilename = options.inSceneFileName;
+	}
+
+	registerComponent<class CLight>();
+	registerComponent<class CPrimitive>();
+	registerComponent<class CRay>();
+	registerSystem<class SLighting>();
 
 	bInit = true;
 	return false;
@@ -24,14 +26,8 @@ bool MEngine::init(const DOptions& options)
 
 void MEngine::loadResources()
 {
-	if (sceneFilename.size() > 0)
-	{
-		sceneFilename = DEFAULT_SCENE_FILENAME;
-	}
-
-
-
-
+	static_assert(false);
+	DScene scene;// TODO: PARSE SCENE FILE!
 }
 
 void MEngine::render()
