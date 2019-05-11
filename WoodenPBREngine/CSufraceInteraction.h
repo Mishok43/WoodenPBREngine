@@ -9,7 +9,7 @@ class CSufraceInteraction
 {
 	CRay ray;
 	class CPrimitive* primitive;
-	bool intersection;
+	bool bIntersect;
 };
 
 

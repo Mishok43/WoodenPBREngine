@@ -5,15 +5,18 @@
 
 WPBR_BEGIN
 
+class CRay;
+
+
 class SCollision
 {
 public:
-	using cmp_type_list = typename wecs::type_list<CSufraceInteraction>;
+	using cmp_type_list = typename wecs::type_list<>;
 
-	void create(size_t hEntity, CSufraceInteraction& c1)
-	{
-		
-	}
+
+
+	static CSufraceInteraction raycast(CRay& ray, size_t hPrimitive);
+
 };
 
 WPBR_END

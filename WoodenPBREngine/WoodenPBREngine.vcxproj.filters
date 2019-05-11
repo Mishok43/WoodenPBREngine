@@ -45,9 +45,6 @@
     <ClInclude Include="CSufraceInteraction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SIntegrator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -55,6 +52,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CSampler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SIntegratorSampler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SIntergratorWhitted.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DRayDifferential.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -78,6 +84,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SLighting.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SIntergratorWhitted.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

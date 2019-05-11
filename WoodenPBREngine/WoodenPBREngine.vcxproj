@@ -162,8 +162,9 @@
     <ClInclude Include="CSufraceInteraction.h" />
     <ClInclude Include="CLight.h" />
     <ClInclude Include="CPrimitive.h" />
+    <ClInclude Include="DRayDifferential.h" />
     <ClInclude Include="SCollision.h" />
-    <ClInclude Include="SIntegrator.h" />
+    <ClInclude Include="SIntegratorSampler.h" />
     <ClInclude Include="SLighting.h" />
     <ClInclude Include="CRay.h" />
     <ClInclude Include="CScene.h" />
@@ -171,6 +172,7 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="MEngine.h" />
     <ClInclude Include="DOptions.h" />
+    <ClInclude Include="SIntergratorWhitted.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DScene.cpp" />
@@ -184,6 +186,7 @@
     </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="DOptions.cpp" />
+    <ClCompile Include="SIntergratorWhitted.cpp" />
     <ClCompile Include="SLighting.cpp" />
   </ItemGroup>
   <ItemGroup>
