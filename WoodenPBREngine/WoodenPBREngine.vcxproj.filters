@@ -63,6 +63,12 @@
     <ClInclude Include="DRayDifferential.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="WPBRSettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CSpectrumSampled.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">

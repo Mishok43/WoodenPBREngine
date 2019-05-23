@@ -159,6 +159,7 @@
   <ItemGroup>
     <ClInclude Include="CCamera.h" />
     <ClInclude Include="CSampler.h" />
+    <ClInclude Include="CSpectrumSampled.h" />
     <ClInclude Include="CSufraceInteraction.h" />
     <ClInclude Include="CLight.h" />
     <ClInclude Include="CPrimitive.h" />
@@ -173,6 +174,7 @@
     <ClInclude Include="MEngine.h" />
     <ClInclude Include="DOptions.h" />
     <ClInclude Include="SIntergratorWhitted.h" />
+    <ClInclude Include="WPBRSettings.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DScene.cpp" />
