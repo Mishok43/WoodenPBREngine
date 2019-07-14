@@ -7,8 +7,8 @@ WPBR_BEGIN
 
 class CRay
 {
-	wml::DVector3f o;
-	wml::DVector3f dir;
+	DVector3f o;
+	DVector3f dir;
 };
 
 WPBR_END

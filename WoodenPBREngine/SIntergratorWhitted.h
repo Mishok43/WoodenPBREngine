@@ -37,7 +37,7 @@ class SIntegratorWhitted
 		AllocT& alloc,
 		uint32_t depth) const;
 
-	void renderTile(wml::DVector2u&& tileBounds,
+	void renderTile(DVector2u&& tileBounds,
 					CSampler&& tileSampler,
 					CFileTile&& tileFilm);
 

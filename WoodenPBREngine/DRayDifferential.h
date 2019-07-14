@@ -4,8 +4,8 @@
 #include "WoodenMathLibrarry/DRay.h"
 
 WPBR_BEGIN
-template<typename T, uint8_t alignment = wml::sse_alignment_size_v<wml::__m_t<T>>>
-class alignas(alignment) DRayDifferential: public wml::DRay<T>
+template<typename T, uint8_t alignment = sse_alignment_size_v<__m_t<T>>>
+class alignas(alignment) DRayDifferential: public DRay<T>
 {
 	using vector_type = typename DVector<T, 4>;
 
@@ -23,8 +23,8 @@ class alignas(alignment) DRayDifferential: public wml::DRay<T>
 	}
 
 protected:
-	wml::DRay<T> difXRay;
-	wml::DRay<T> difYRay;
+	DRay<T> difXRay;
+	DRay<T> difYRay;
 };
 
 WPBR_END

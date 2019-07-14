@@ -63,6 +63,9 @@
     <ClInclude Include="DRayDifferential.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MTransform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">

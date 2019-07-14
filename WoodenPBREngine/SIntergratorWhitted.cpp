@@ -64,8 +64,8 @@ CSpectrum SIntegratorWhitted<AllocT>::specularReflect(
 	AllocT& alloc,
 	uint32_t depth) const
 {
-	wml::DVector3f surfToRay = surfIntersct.surfToRay;
-	wml::DVector3f reflectedRay;
+	DVector3f surfToRay = surfIntersct.surfToRay;
+	DVector3f reflectedRay;
 
 	float pdf;
 	BxDFType type = BxDFType(BSDF_REFLECTION | BSDF_SPECULAR);
@@ -84,14 +84,14 @@ CSpectrum SIntegratorWhitted<AllocT>::specularReflect(
 
 
 template<typename AllocT>
-void SIntegratorWhitted<AllocT>::renderTile(wml::DVector2u&& tileBounds,
+void SIntegratorWhitted<AllocT>::renderTile(DVector2u&& tileBounds,
 				CSampler&& tileSampler,
 				CFileTile&& tileFilm)
 {
 
 	AllocT allocPerSample(1 << 14); // 16 kilobyte
 
-	for (wml::DVector2u pixel : tileBounds)
+	for (DVector2u pixel : tileBounds)
 	{
 		tileSampler.startPixel(pixel);
 		do
@@ -122,10 +122,10 @@ void SIntegratorWhitted<AllocT>::updateECS(wecs::WECS& _engine, CScene& scene,
 {
 	preprocess(scene, sampler);
 
-	wml::DBounds2u sampleBounds = camera.film.getSampleBounds();
-	wml::DVector2u sampleExtent = sampleBounds.diagonal();
+	DBounds2u sampleBounds = camera.film.getSampleBounds();
+	DVector2u sampleExtent = sampleBounds.diagonal();
 	const uint8_t tileSize = 16;
-	wml::DVector2u nTiles((sampleExtent.x() + tileSize - 1) / tileSize,
+	DVector2u nTiles((sampleExtent.x() + tileSize - 1) / tileSize,
 		(sampleExtent.y() + tileSize - 1) / tileSize);
 
 	cScene = &scene;
@@ -136,7 +136,7 @@ void SIntegratorWhitted<AllocT>::updateECS(wecs::WECS& _engine, CScene& scene,
 	{
 		for (size_t j = 0; j < nTiles.y(); ++j)
 		{
-			wml::DVector2i tile = wml::DVector2i(i, j);
+			DVector2i tile = DVector2i(i, j);
 
 			uint32_t seed = tile.x() + tile.y()*nTiles.x();
 			CSampler tileSampler = sampler.clone(seed);
@@ -147,8 +147,8 @@ void SIntegratorWhitted<AllocT>::updateECS(wecs::WECS& _engine, CScene& scene,
 			uint32_t boundMinY = sampleBounds.pMin().y() + tile.y*tileSize;
 			uint32_t boundMaxY = std::min(boundMinY + tileSize, sampleBounds.pMax().y());
 
-			wml::DBounds2u tileBounds(wml::DVector2u(boundMinX, boundMinY),
-									  wml::DVector2u(boundMaxX, boundMaxY));
+			DBounds2u tileBounds(DVector2u(boundMinX, boundMinY),
+									  DVector2u(boundMaxX, boundMaxY));
 
 			CFilmTile tileFilm = camera.film.getFilmTile(tileBounds);
 

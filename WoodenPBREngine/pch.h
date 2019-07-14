@@ -17,7 +17,9 @@
 #include <string>
 #include <assert.h>
 #include "WoodenECS/WECS.h"
+#include "WoodenMathLibrarry/DVector.h"
 
+using namespace wml;
 
 // TODO: add headers that you want to pre-compile here
 

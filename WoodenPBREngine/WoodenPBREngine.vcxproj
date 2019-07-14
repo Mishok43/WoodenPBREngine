@@ -163,6 +163,7 @@
     <ClInclude Include="CLight.h" />
     <ClInclude Include="CPrimitive.h" />
     <ClInclude Include="DRayDifferential.h" />
+    <ClInclude Include="MTransform.h" />
     <ClInclude Include="SCollision.h" />
     <ClInclude Include="SIntegratorSampler.h" />
     <ClInclude Include="SLighting.h" />

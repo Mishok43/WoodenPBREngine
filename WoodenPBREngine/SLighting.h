@@ -25,7 +25,7 @@ public:
 							 float& pdf,
 							 VisibilityTester& visibility);
 
-	static float funcSample(const wml::DVector3f& wo,
+	static float funcSample(const DVector3f& wo,
 							 CSufraceInteraction& surf,
 							 CSampler& sampler,
 							 float& pdf,
