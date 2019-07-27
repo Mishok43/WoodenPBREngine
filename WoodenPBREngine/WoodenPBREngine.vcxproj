@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -157,14 +157,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CBounds.h" />
     <ClInclude Include="CCamera.h" />
+    <ClInclude Include="CMedium.h" />
     <ClInclude Include="CSampler.h" />
+    <ClInclude Include="CShape.h" />
     <ClInclude Include="CSpectrumSampled.h" />
+    <ClInclude Include="CSphere.h" />
     <ClInclude Include="CSufraceInteraction.h" />
     <ClInclude Include="CLight.h" />
     <ClInclude Include="CPrimitive.h" />
     <ClInclude Include="DRayDifferential.h" />
-    <ClInclude Include="MTransform.h" />
+    <ClInclude Include="CTransform.h" />
     <ClInclude Include="SCollision.h" />
     <ClInclude Include="SIntegratorSampler.h" />
     <ClInclude Include="SLighting.h" />
@@ -175,6 +179,7 @@
     <ClInclude Include="MEngine.h" />
     <ClInclude Include="DOptions.h" />
     <ClInclude Include="SIntergratorWhitted.h" />
+    <ClInclude Include="SShapeSphere.h" />
     <ClInclude Include="WPBRSettings.h" />
   </ItemGroup>
   <ItemGroup>

@@ -20,6 +20,9 @@
 #include "WoodenMathLibrarry/DVector.h"
 
 using namespace wml;
+using namespace wecs;
+
+using efloat = typename float;
 
 // TODO: add headers that you want to pre-compile here
 
