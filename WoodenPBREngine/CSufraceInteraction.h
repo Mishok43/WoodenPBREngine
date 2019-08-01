@@ -58,7 +58,8 @@ struct CInteractionSurface: public CInteraction
 		DVector3f dndu, dndv;
 	} shading;
 
-	CShape* shape;
+
+	HComp<CShape> 
 
 	void setShadingGeometry(DVector3f dpdu, DVector3f dpdv,
 							DVector3f dndu, DVector3f dndv,

@@ -87,6 +87,9 @@
     <ClInclude Include="CSphere.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CMaterial.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">

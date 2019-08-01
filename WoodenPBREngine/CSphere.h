@@ -4,6 +4,7 @@
 #include "CRay.h"
 #include "CSufraceInteraction.h"
 #include "MEngine.h"
+#include "WoodenMathLibrarry/DRay.h"
 #include "WoodenMathLibrarry/HSolver.h"
 
 WPBR_BEGIN
@@ -66,7 +67,7 @@ public:
 
 
 		DVector3f oErr, dErr;
-		DRay ray = e.world(ray, INV_TRANFORM);
+		DRayf ray = e.world(ray, INV_TRANFORM);
 
 		float a = ray.dir.length2();
 		float b = 2 * (dot(ray.dir, ray.origin));

@@ -93,6 +93,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <AdditionalIncludeDirectories>C:\Users\mishok43\source\repos\WoodenMath;C:\Users\mishok43\source\repos\WoodenECS;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -127,6 +128,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>C:\Users\mishok43\source\repos\WoodenMath;C:\Users\mishok43\source\repos\WoodenECS;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -159,6 +161,7 @@
   <ItemGroup>
     <ClInclude Include="CBounds.h" />
     <ClInclude Include="CCamera.h" />
+    <ClInclude Include="CMaterial.h" />
     <ClInclude Include="CMedium.h" />
     <ClInclude Include="CSampler.h" />
     <ClInclude Include="CShape.h" />
