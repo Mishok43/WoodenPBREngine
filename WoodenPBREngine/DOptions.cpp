@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "DOptions.h"
 
 char* getCMDOption(char **begin, char** end, const std::string& option)
@@ -30,6 +31,6 @@ DOptions DOptions::createOptionsByCMDArguments(char* argv[], std::size_t numArgu
 			options.inSceneFileName = filename;
 		}
 	}
-	
+	return options;
 }
 WPBR_END

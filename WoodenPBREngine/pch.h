@@ -9,13 +9,21 @@
 #ifndef PCH_H
 #define PCH_H
 
-#include <cstddef>
-#include <string>
-#include <assert.h>
-
 #define WPBR_USING using namespace WoodenPBR;
 #define WPBR_BEGIN namespace WoodenPBR {
 #define WPBR_END }
+
+#include <cstddef>
+#include <string>
+#include <assert.h>
+#include "WoodenECS/WECS.h"
+#include "WoodenMathLibrarry/DVector.h"
+
+using namespace wml;
+using namespace wecs;
+
+using efloat = typename float;
+
 // TODO: add headers that you want to pre-compile here
 
 #endif //PCH_H
