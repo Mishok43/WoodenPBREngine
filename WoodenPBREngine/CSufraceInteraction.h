@@ -35,7 +35,7 @@ struct CInteractionSurface: public CInteraction
 		DVector2f uv, DVector3f wo,
 		DVector3f dpdu, DVector3f dpdv,
 		DVector3f dndu, DVector3f dndv,
-		float time, CShape* shape):
+		float time, HCompR<CShape> hSurfShape):
 		CInteraction{
 			std::move(p), 
 			std::move(pError), std::move(wo),
@@ -44,7 +44,7 @@ struct CInteractionSurface: public CInteraction
 		uv(std::move(uv)),
 		dpdu(std::move(dpdu)), dpdv(std::move(dpdv)),
 		dndu(std::move(dndu)), dndv(std::move(dndv)),
-		shape(shape)
+		hSurfShape(hSurfShape)
 	{}
 
 	DVector2f uv;
@@ -58,7 +58,7 @@ struct CInteractionSurface: public CInteraction
 		DVector3f dndu, dndv;
 	} shading;
 
-	CShape* shape;
+	HCompR<CShape> hSurfShape;
 
 	void setShadingGeometry(DVector3f dpdu, DVector3f dpdv,
 							DVector3f dndu, DVector3f dndv,
@@ -70,7 +70,8 @@ struct CInteractionSurface: public CInteraction
 		shading.dndu = std::move(dndu);
 		shading.dndv = std::move(dndv);
 
-		if (shape && (shape->bReverseOrientation ^ shape->bTransformSwapsHandedness))
+		const CShape& surfShape = hSurfShape.get();
+		if (surfShape.bReverseOrientation ^ surfShape.bTransformSwapsHandedness)
 		{
 			shading.n *= -1;
 		}

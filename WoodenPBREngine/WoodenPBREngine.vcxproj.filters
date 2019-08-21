@@ -69,9 +69,6 @@
     <ClInclude Include="WPBRSettings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CShape.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CMedium.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -84,7 +81,16 @@
     <ClInclude Include="SShapeSphere.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CSphere.h">
+    <ClInclude Include="CPhaseFunction.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CSSphere.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CShape.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SShape.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -111,6 +117,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SIntergratorWhitted.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CSSphere.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

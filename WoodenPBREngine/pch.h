@@ -19,6 +19,8 @@
 #include "WoodenECS/WECS.h"
 #include "WoodenMathLibrarry/DVector.h"
 
+#define PI 3.14
+
 using namespace wml;
 using namespace wecs;
 

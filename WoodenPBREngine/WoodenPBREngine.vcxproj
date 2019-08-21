@@ -160,10 +160,12 @@
     <ClInclude Include="CBounds.h" />
     <ClInclude Include="CCamera.h" />
     <ClInclude Include="CMedium.h" />
+    <ClInclude Include="CPhaseFunction.h" />
     <ClInclude Include="CSampler.h" />
     <ClInclude Include="CShape.h" />
+    <ClInclude Include="SShape.h" />
     <ClInclude Include="CSpectrumSampled.h" />
-    <ClInclude Include="CSphere.h" />
+    <ClInclude Include="CSSphere.h" />
     <ClInclude Include="CSufraceInteraction.h" />
     <ClInclude Include="CLight.h" />
     <ClInclude Include="CPrimitive.h" />
@@ -183,6 +185,7 @@
     <ClInclude Include="WPBRSettings.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CSSphere.cpp" />
     <ClCompile Include="DScene.cpp" />
     <ClCompile Include="MEngine.cpp" />
     <ClCompile Include="MParser.cpp" />
