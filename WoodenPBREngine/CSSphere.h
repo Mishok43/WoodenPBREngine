@@ -1,11 +1,10 @@
 #pragma once
 #include "pch.h"
-#include "CBounds.h"
-#include "CRay.h"
 #include "CSufraceInteraction.h"
 #include "SShape.h"
-#include "MEngine.h"
 #include "WoodenMathLibrarry/HSolver.h"
+#include "WoodenMathLibrarry/DRay.h"
+#include "WoodenMathLibrarry/DBounds.h"
 
 WPBR_BEGIN
 

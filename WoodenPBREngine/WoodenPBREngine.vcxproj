@@ -167,6 +167,8 @@
     <ClInclude Include="CSampler.h" />
     <ClInclude Include="CSCylinder.h" />
     <ClInclude Include="CShape.h" />
+    <ClInclude Include="CSTriangleMesh.h" />
+    <ClInclude Include="CTriangle.h" />
     <ClInclude Include="SShape.h" />
     <ClInclude Include="CSpectrumSampled.h" />
     <ClInclude Include="CSSphere.h" />
@@ -191,6 +193,7 @@
   <ItemGroup>
     <ClCompile Include="CSCylinder.cpp" />
     <ClCompile Include="CSSphere.cpp" />
+    <ClCompile Include="CSTriangleMesh.cpp" />
     <ClCompile Include="DScene.cpp" />
     <ClCompile Include="MEngine.cpp" />
     <ClCompile Include="MParser.cpp" />

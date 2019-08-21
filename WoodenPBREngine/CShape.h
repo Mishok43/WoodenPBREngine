@@ -9,6 +9,7 @@ struct CShape
 	{
 		Sphere,
 		Cylinder,
+		Triangle,
 		SIZE
 	};
 
