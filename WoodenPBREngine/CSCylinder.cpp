@@ -18,7 +18,7 @@ uint32_t SCylinder::create(CShape shape,
 
 float SCylinder::getArea(const CCylinder& eCylinder)
 {
-	return 4*PI*eCylinder.radius*eCylinder.radius;
+	return eCylinder.radius*2*PI*(eCylinder.zMax-eCylinder.zMin);
 }
 
 bool SCylinder::intersect(const CTransform& eWorld,
@@ -31,9 +31,10 @@ bool SCylinder::intersect(const CTransform& eWorld,
 	DVector3f oErr, dErr;
 	DRayf rayL = eWorld(rayW, INV_TRANFORM);
 
-	float a = rayL.dir.length2();
-	float b = 2 * (dot(rayL.dir, rayL.origin));
-	float c = rayL.origin.length2() - eCylinder.radius*eCylinder.radius;
+	float a = dot<2>(rayL.dir, rayL.dir); // dx*dx + dy*dy
+	float b = 2 * (dot<2>(rayL.dir, rayL.origin));
+	float c = rayL.origin.length2<2>() - eCylinder.radius*eCylinder.radius;
+
 
 	float t0, t1;
 	if (!HSolver::getRootsQuadraticEquation(a, b, c, t0, t1))
