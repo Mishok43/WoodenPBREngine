@@ -165,6 +165,7 @@
     <ClInclude Include="CMedium.h" />
     <ClInclude Include="CPhaseFunction.h" />
     <ClInclude Include="CSampler.h" />
+    <ClInclude Include="CSCylinder.h" />
     <ClInclude Include="CShape.h" />
     <ClInclude Include="SShape.h" />
     <ClInclude Include="CSpectrumSampled.h" />
@@ -188,6 +189,7 @@
     <ClInclude Include="WPBRSettings.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CSCylinder.cpp" />
     <ClCompile Include="CSSphere.cpp" />
     <ClCompile Include="DScene.cpp" />
     <ClCompile Include="MEngine.cpp" />

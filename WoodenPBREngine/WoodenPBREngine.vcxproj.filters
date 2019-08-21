@@ -96,6 +96,9 @@
     <ClInclude Include="CMaterial.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CSCylinder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -123,6 +126,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CSSphere.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CSCylinder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

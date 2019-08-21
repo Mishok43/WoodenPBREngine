@@ -8,6 +8,7 @@ struct CShape
 	enum class Type
 	{
 		Sphere,
+		Cylinder,
 		SIZE
 	};
 
