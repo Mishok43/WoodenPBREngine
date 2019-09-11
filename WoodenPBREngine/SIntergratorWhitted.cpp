@@ -117,7 +117,7 @@ void SIntegratorWhitted<AllocT>::renderTile(DVector2u&& tileBounds,
 }
 
 template<typename AllocT>
-void SIntegratorWhitted<AllocT>::updateECS(wecs::WECS& _engine, CScene& scene,
+void SIntegratorWhitted<AllocT>::updateECS(wecs::WECS& engine, CScene& scene,
 										   CCamera& camera, CSampler& sampler)
 {
 	preprocess(scene, sampler);
@@ -151,6 +151,10 @@ void SIntegratorWhitted<AllocT>::updateECS(wecs::WECS& _engine, CScene& scene,
 									  DVector2u(boundMaxX, boundMaxY));
 
 			CFilmTile tileFilm = camera.film.getFilmTile(tileBounds);
+
+
+			HEntity hEntity = engine.createEntity();
+			engine.addComponent(hEntity, )
 
 			renderTile(std::move(tileBounds),
 					   std::move(tileSampler),

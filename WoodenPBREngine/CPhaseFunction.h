@@ -13,7 +13,7 @@ struct CPhaseFunction
 	};
 
 	Type type = Type::COUNT;
-	DECL_UNMANAGED_DENSE_COMP_DATA(CPhaseFunction, 4)
+	DECL_MANAGED_DENSE_COMP_DATA(CPhaseFunction, 4)
 }; DECL_OUT_COMP_DATA(CPhaseFunction)
 
 struct CPhaseFunctionHG

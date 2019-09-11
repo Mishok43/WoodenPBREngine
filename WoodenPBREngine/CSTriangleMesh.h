@@ -2,33 +2,10 @@
 
 #include "pch.h"
 #include "CTransform.h"
+#include "MEngine.h"
 #include "WoodenMathLibrarry/DPoint.h"
 
 WPBR_BEGIN
-
-struct CPositionArray
-{
-	std::vector<DPoint3f> data;
-	DECL_UNMANAGED_DENSE_COMP_DATA(CPositionArray, 16)
-}; DECL_OUT_COMP_DATA(CPositionArray)
-
-struct CNormalArray
-{
-	std::vector<DNormal3f> data;
-	DECL_UNMANAGED_DENSE_COMP_DATA(CNormalArray, 16)
-}; DECL_OUT_COMP_DATA(CNormalArray)
-
-struct CTangentArray
-{
-	std::vector<DVector3f> data;
-	DECL_UNMANAGED_DENSE_COMP_DATA(CTangentArray, 16)
-}; DECL_OUT_COMP_DATA(CTangentArray)
-
-struct CUVArray
-{
-	std::vector<DPoint2f> data;
-	DECL_UNMANAGED_DENSE_COMP_DATA(CUVArray, 16)
-}; DECL_OUT_COMP_DATA(CUVArray)
 
 struct CTriangleMesh
 {
@@ -41,20 +18,24 @@ struct CTriangleMesh
 
 	uint32_t nTriangles, nVertices;
 	std::vector<uint32_t> iVertices;
+	std::vector<DPoint2f> uvs;
+	std::vector<DVector3f> tangents;
+	std::vector<DNormal3f> normals;
+	std::vector<DPoint3f> positions;
 
-	DECL_UNMANAGED_DENSE_COMP_DATA(CTriangleMesh, 16)
+	DECL_UNMANAGED_DENSE_SHARED_COMP_DATA(CTriangleMesh, 16)
 }; DECL_OUT_COMP_DATA(CTriangleMesh)
 
 class STriangleMesh
 {
-	using cmp_type_list = typename wecs::type_list<CTriangleMesh, CTransform, CPositionArray>;
+	using cmp_type_list = typename wecs::type_list<CTriangleMesh, CTransform>;
 public:
 	static uint32_t create(CTransform world,
-						   CTriangleMesh mesh,
-						   CPositionArray positions,
-						   CNormalArray* normals = nullptr,
-						   CTangentArray* tangents = nullptr,
-						   CUVArray* uvs = nullptr);
+						   CTriangleMesh mesh);
+
+
+	void generateTriangles(MEngine& engine,
+				const CTriangleMesh& triangleMesh);
 
 
 };

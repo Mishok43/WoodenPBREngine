@@ -28,7 +28,8 @@
 *.la
 *.a
 *.lib
-
+*.db
+*.ipch
 # Executables
 *.exe
 *.out

@@ -3,6 +3,7 @@
 #include "pch.h"
 #include "CSufraceInteraction.h"
 #include "WoodenMathLibrarry/DTransform.h"
+#include "DRayDifferential.h"
 
 WPBR_BEGIN
 
@@ -25,29 +26,64 @@ public:
 		DTransform(std::move(m), std::move(mInv))
 	{}
 
-	inline CInteractionSurface operator()(const CInteractionSurface& interSurf) const
+	inline CSurfInteraction operator()(const CSurfInteraction& surfInter) const
 	{
-		CInteractionSurface res;
-		res.dndu = (*this)(interSurf.dndu);
-		res.dndv = (*this)(interSurf.dndv);
-		res.dpdu = (*this)(interSurf.dpdu); 
-		res.dpdv = (*this)(interSurf.dpdv);
+		CSurfInteraction res;
+		res.dndu = (*this)(surfInter.dndu);
+		res.dndv = (*this)(surfInter.dndv);
+		res.dpdu = (*this)(surfInter.dpdu); 
+		res.dpdv = (*this)(surfInter.dpdv);
 		
-		//res.uv = (*this)(interSurf.uv);
-		res.n = (*this)(interSurf.n);
-		res.wo = (*this)(interSurf.wo);
+		//res.uv = (*this)(surfInter.uv);
+		res.n = (*this)(surfInter.n);
 
-		res.shading.dndu = (*this)(interSurf.shading.dndu);
-		res.shading.dndv = (*this)(interSurf.shading.dndv);
-		res.shading.dpdu = (*this)(interSurf.shading.dpdu);
-		res.shading.dpdv = (*this)(interSurf.shading.dpdv);
-		res.shading.n = (*this)(interSurf.shading.n);
+		res.wo = (*this)(surfInter.wo);
 
+		res.shading.dndu = (*this)(surfInter.shading.dndu);
+		res.shading.dndv = (*this)(surfInter.shading.dndv);
+		res.shading.dpdu = (*this)(surfInter.shading.dpdu);
+		res.shading.dpdv = (*this)(surfInter.shading.dpdv);
+		res.shading.n = (*this)(surfInter.shading.n);
+
+		return res;
+	}
+
+	inline DRayDifferentialf operator()(const DRayDifferentialf& rayDif) const
+	{
+		DRayDifferentialf res;
+		res.origin = (*this)(rayDif.origin);
+		res.dir = (*this)(rayDif.dir);
+		res.difXRay = (*this)(rayDif.difXRay);
+		res.difYRay = (*this)(rayDif.difYRay);
 		return res;
 	}
 
 	DECL_MANAGED_DENSE_COMP_DATA(CTransform, 1024)
 }; DECL_OUT_COMP_DATA(CTransform)
+
+
+struct CTransformCameraScreen : public CTransform
+{
+	using base = typename CTransform;
+	using base::operator ();
+	DECL_MANAGED_DENSE_COMP_DATA(CTransformCameraScreen, 1)
+}; DECL_OUT_COMP_DATA(CTransformCameraScreen)
+
+struct CTransformRasterCamera : public CTransform
+{
+	using base = typename CTransform;
+	using base::operator ();
+
+	DECL_MANAGED_DENSE_COMP_DATA(CTransformRasterCamera, 1)
+}; DECL_OUT_COMP_DATA(CTransformRasterCamera)
+
+struct CTransformScreenRaster : public CTransform
+{
+	using base = typename CTransform;
+	using base::operator ();
+	DECL_MANAGED_DENSE_COMP_DATA(CTransformScreenRaster, 1)
+}; DECL_OUT_COMP_DATA(CTransformScreenRaster)
+
 
 //using CTransformf = typename CTransform<float>;
 //using CTransformd = typename CTransform<double>;

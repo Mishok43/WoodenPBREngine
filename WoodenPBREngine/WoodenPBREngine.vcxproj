@@ -159,26 +159,50 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CBXDF.h" />
+    <ClInclude Include="CAnimatedTransform.h" />
     <ClInclude Include="CBounds.h" />
-    <ClInclude Include="CCamera.h" />
+    <ClInclude Include="CBSDF.h" />
+    <ClInclude Include="CFilterMitchell.h" />
+    <ClInclude Include="CMaterialMatte.h" />
+    <ClInclude Include="CMaterialPlastic.h" />
+    <ClInclude Include="CRayDifferential.h" />
+    <ClInclude Include="CSCamera.h" />
+    <ClInclude Include="CCentroid.h" />
+    <ClInclude Include="CSFilm.h" />
     <ClInclude Include="CMaterial.h" />
     <ClInclude Include="CMedium.h" />
+    <ClInclude Include="CNormal.h" />
+    <ClInclude Include="CoefficientSpectrum.h" />
     <ClInclude Include="CPhaseFunction.h" />
+    <ClInclude Include="CPosition.h" />
+    <ClInclude Include="CRenderTile.h" />
     <ClInclude Include="CSampler.h" />
+    <ClInclude Include="CSCameraEnviroment.h" />
+    <ClInclude Include="CSCameraOrthographic.h" />
+    <ClInclude Include="CSCameraPerspective.h" />
+    <ClInclude Include="CSCameraProjective.h" />
     <ClInclude Include="CSCylinder.h" />
     <ClInclude Include="CShape.h" />
+    <ClInclude Include="CSpectrum.h" />
+    <ClInclude Include="CSSampler.h" />
+    <ClInclude Include="CSSamplerStratified.h" />
     <ClInclude Include="CSTriangleMesh.h" />
-    <ClInclude Include="CTriangle.h" />
-    <ClInclude Include="SShape.h" />
+    <ClInclude Include="CTangent.h" />
+    <ClInclude Include="CSTriangle.h" />
     <ClInclude Include="CSpectrumSampled.h" />
     <ClInclude Include="CSSphere.h" />
     <ClInclude Include="CSufraceInteraction.h" />
     <ClInclude Include="CLight.h" />
     <ClInclude Include="CPrimitive.h" />
+    <ClInclude Include="CUV.h" />
     <ClInclude Include="DRayDifferential.h" />
     <ClInclude Include="CTransform.h" />
+    <ClInclude Include="MicrofaceDistr.h" />
+    <ClInclude Include="RGBSpectrum.h" />
     <ClInclude Include="SCollision.h" />
     <ClInclude Include="SIntegratorSampler.h" />
+    <ClInclude Include="SLBVH.h" />
     <ClInclude Include="SLighting.h" />
     <ClInclude Include="CRay.h" />
     <ClInclude Include="CScene.h" />
@@ -193,6 +217,7 @@
   <ItemGroup>
     <ClCompile Include="CSCylinder.cpp" />
     <ClCompile Include="CSSphere.cpp" />
+    <ClCompile Include="CSTriangle.cpp" />
     <ClCompile Include="CSTriangleMesh.cpp" />
     <ClCompile Include="DScene.cpp" />
     <ClCompile Include="MEngine.cpp" />

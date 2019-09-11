@@ -1,54 +1,52 @@
 #include "CSTriangleMesh.h"
+#include "CSTriangle.h"
+#include "CPosition.h"
+#include "CNormal.h"
+#include "CUV.h"
+#include "CTangent.h"
 #include "MEngine.h"
 
 WPBR_BEGIN
 uint32_t STriangleMesh::create(
 						 CTransform world,
-						 CTriangleMesh mesh,
-						 CPositionArray positions,
-						 CNormalArray* normals = nullptr,
-						 CTangentArray* tangents = nullptr,
-						 CUVArray* uvs = nullptr)
+						 CTriangleMesh mesh)
 {
 	MEngine& engine = MEngine::getInstance();
 	uint32_t hEntity = engine.createEntity();
 
 	engine.addComponent<CTransform>(hEntity, std::move(world));
 	engine.addComponent<CTriangleMesh>(hEntity, std::move(mesh));
-	engine.addComponent<CPositionArray>(hEntity, std::move(positions));
-	if (normals)
-	{
-		engine.addComponent<CNormalArray>(hEntity, std::move(*normals));
-	}
-	if (tangents)
-	{
-		engine.addComponent<CTangentArray>(hEntity, std::move(*normals));
-	}
-	if (uvs)
-	{
-		engine.addComponent<CUVArray>(hEntity, std::move(*normals));
-	}
-
 
 	// Convert elements to world space
 	for (uint32_t i = 0; i < mesh.nVertices; i++)
 	{
-		positions.data[i] = world(positions.data[i]);
+		mesh.positions[i] = world(mesh.positions[i]);
 
-		if (normals)
+		if (!mesh.normals.empty())
 		{
-			normals->data[i] = world(normals->data[i]);
+			mesh.normals[i] = world(mesh.normals[i]);
 		}
 
-		if (tangents)
+		if (!mesh.tangents.empty())
 		{
-			tangents->data[i] = world(tangents->data[i]);
+			mesh.tangents[i] = world(mesh.tangents[i]);
 		}
 	}
 
 	return hEntity;
 }
 
+
+void STriangleMesh::generateTriangles(MEngine& engine,
+						   const CTriangleMesh& triangleMesh)
+{
+	for (uint32_t i = 0; i < triangleMesh.nTriangles; i++)
+	{
+		
+		HEntity hEntity = engine.createEntity();
+		engine.addComponent<CTriangle>(hEntity, CTriangle{ i });
+	}
+}
 
 WPBR_END
 

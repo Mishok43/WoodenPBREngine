@@ -10,13 +10,13 @@ struct CPrimitive
 {
 
 
-	DECL_UNMANAGED_DENSE_COMP_DATA(CPrimitive, 16)
+	DECL_MANAGED_DENSE_COMP_DATA(CPrimitive, 16)
 }; DECL_OUT_COMP_DATA(CPrimitive)
 
 struct CPrimitiveGeometric
 {
 
-	DECL_UNMANAGED_DENSE_COMP_DATA(CPrimitiveGeometric, 16)
+	DECL_MANAGED_DENSE_COMP_DATA(CPrimitiveGeometric, 16)
 }; DECL_OUT_COMP_DATA(CPrimitiveGeometric)
 
 class SPrimitiveGeometric
@@ -26,18 +26,18 @@ class SPrimitiveGeometric
 	template<typename CShapeT>
 	static bool intersect(const HComp<CShapeT> eHShape, 
 						  const CRay& ray, 
-						  CInteractionSurface& interSurf)
+						  CInteractionSurface& surfInter)
 	{
 		MEngine& mengine = MEngine::getInstance();
 		CShapeT& eShape = mengine.getComponent<CShapeT>(eHShape);
 		float tHit;
-		if (!CShapeT::intersect(ray, &tHit, interSurf))
+		if (!CShapeT::intersect(ray, &tHit, surfInter))
 		{
 			return false;
 		}
 
 		r.tMax = tHit;
-		interSurf.
+		surfInter.
 	}
 };
 

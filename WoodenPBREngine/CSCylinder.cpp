@@ -62,7 +62,7 @@ bool SCylinder::intersect(const CTransform& eWorld,
 					  const CCylinder& eCylinder,
 					  HCompR<CShape> hShape,
 					  const DRayf& rayW, float& tHit,
-					  CInteractionSurface& surfInter)
+					  CInteractionSurface	& surfInter)
 {
 	float phi;
 	DPoint3f pHit;

@@ -14,14 +14,18 @@
 #define WPBR_END }
 
 #include <cstddef>
+#include "stdint.h"
 #include <string>
 #include <assert.h>
 #include "WoodenECS/WECS.h"
 #include "WoodenMathLibrarry/DVector.h"
 
+//using uint32_t = typename std::uint32_t;
+
 #define PI 3.14
 
 using namespace wml;
+using namespace wal;
 using namespace wecs;
 
 using efloat = typename float;

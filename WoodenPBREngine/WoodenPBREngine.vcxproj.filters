@@ -48,9 +48,6 @@
     <ClInclude Include="CScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CCamera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CSampler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -90,9 +87,6 @@
     <ClInclude Include="CShape.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SShape.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CMaterial.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -102,7 +96,85 @@
     <ClInclude Include="CSTriangleMesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CTriangle.h">
+    <ClInclude Include="CRenderTile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CPosition.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CNormal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CTangent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CUV.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CSTriangle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SLBVH.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CCentroid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CoefficientSpectrum.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RGBSpectrum.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CSCamera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CAnimatedTransform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CRayDifferential.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CSCameraProjective.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CSCameraOrthographic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CSCameraPerspective.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CSCameraEnviroment.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CSSampler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CSpectrum.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CSSamplerStratified.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CSFilm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CFilterMitchell.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MicrofaceDistr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CBSDF.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CMaterialMatte.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CBXDF.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CMaterialPlastic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -138,6 +210,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CSTriangleMesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CSTriangle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
