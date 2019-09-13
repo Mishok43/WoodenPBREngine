@@ -8,6 +8,7 @@ WPBR_BEGIN
 
 class RGBSpectrum : public DVector3f
 {
+public:
 	RGBSpectrum(float v = 0.f) :
 		DVector3f(v)
 	{

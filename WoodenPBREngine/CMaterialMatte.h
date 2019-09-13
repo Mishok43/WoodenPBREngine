@@ -13,7 +13,7 @@ void computeScattering(
 	const CTextureDiffuse& kd,
 	const CTextureRoughness& sigma,
 	const CTextureBumpMap& bumpMap,
-	const CSurfInteraction& si,
+	const CSurfaceInteraction& si,
 	TransportMode mode,
 	bool allowMultipleLobes
 )

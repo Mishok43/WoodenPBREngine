@@ -26,9 +26,9 @@ public:
 		DTransform(std::move(m), std::move(mInv))
 	{}
 
-	inline CSurfInteraction operator()(const CSurfInteraction& surfInter) const
+	inline CSurfaceInteraction operator()(const CSurfaceInteraction& surfInter) const
 	{
-		CSurfInteraction res;
+		CSurfaceInteraction res;
 		res.dndu = (*this)(surfInter.dndu);
 		res.dndv = (*this)(surfInter.dndv);
 		res.dpdu = (*this)(surfInter.dpdu); 

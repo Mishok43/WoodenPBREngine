@@ -91,7 +91,7 @@ void JobProcessTriangleFullInteractionRequests::update(WECS* ecs, uint8_t iThrea
 			vUVs[1] * barycentric[1] +
 			vUVs[2] * barycentric[2];
 
-		CSurfInteraction res = CSurfInteraction(pHit, uvHit, -ray.dir, dpdu, dpdv,
+		CSurfaceInteraction res = CSurfaceInteraction(pHit, uvHit, -ray.dir, dpdu, dpdv,
 										DNormal3f(0.0f, 0.0f, 0.0f),
 										DNormal3f(0.0f, 0.0f, 0.0f), tHit);
 
@@ -167,7 +167,7 @@ void JobProcessTriangleFullInteractionRequests::update(WECS* ecs, uint8_t iThrea
 			res.setShadingGeometry(ss, ts, dndu, dndv, true);
 		}
 
-		ecs->addComponent<CSurfInteraction>(interactionRequest.rayCastEntity, std::move(res));
+		ecs->addComponent<CSurfaceInteraction>(interactionRequest.rayCastEntity, std::move(res));
 
 	}, requests);
 }

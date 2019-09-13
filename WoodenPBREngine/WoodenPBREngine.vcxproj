@@ -195,6 +195,8 @@
     <ClInclude Include="CSufraceInteraction.h" />
     <ClInclude Include="CLight.h" />
     <ClInclude Include="CPrimitive.h" />
+    <ClInclude Include="CTexture.h" />
+    <ClInclude Include="CTextureMapping.h" />
     <ClInclude Include="CUV.h" />
     <ClInclude Include="DRayDifferential.h" />
     <ClInclude Include="CTransform.h" />

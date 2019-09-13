@@ -19,7 +19,7 @@ struct alignas(16) CBSDF
 };
 
 Spectrum f(
-	const CSurfInteraction& surfInter,
+	const CSurfaceInteraction& surfInter,
 	const CBSDF& bsdf,
 	const DVector3f& woW, const DVector3f& wiW, 
 	BxDFType flags)

@@ -177,6 +177,12 @@
     <ClInclude Include="CMaterialPlastic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CTextureMapping.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CTexture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">

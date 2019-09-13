@@ -134,9 +134,9 @@ void JobProcessSphereInteractionRequests::update(WECS* ecs, uint8_t iThread)
 
 		//const HComp<CShape> h = hShape;
 
-		CSurfInteraction res = eWorld(CSurfInteraction(pHit, DVector2f(u, v), -rayL.dir,
+		CSurfaceInteraction res = eWorld(CSurfaceInteraction(pHit, DVector2f(u, v), -rayL.dir,
 						   dpdu, dpdv, dndu, dndv, rayL.t));
-		ecs->addComponent<CSurfInteraction>(interactionRequest.rayCastEntity, std::move(res));
+		ecs->addComponent<CSurfaceInteraction>(interactionRequest.rayCastEntity, std::move(res));
 	}, requests);
 }
 

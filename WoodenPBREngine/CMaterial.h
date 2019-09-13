@@ -5,9 +5,9 @@
 
 WPBR_BEGIN
 
-void bump(const CTextureBumpMap& bumpMap, CSurfInteraction& surfInter)
+void bump(const CTextureBumpMap& bumpMap, CSurfaceInteraction& surfInter)
 {
-	CSurfInteraction siTmp = surfInter;
+	CSurfaceInteraction siTmp = surfInter;
 	float du = 0.5f*(std::abs(surfInter.dudx) + std::abs(surfInter.dudy));
 	if (du == 0.0f)
 	{
@@ -64,7 +64,7 @@ struct CTextureBumpMap : public Texture<float>
 
 class JobComputeScattering
 {
-	void core(const CRayDifferential& ray, const CSurfInteraction& surfInter)
+	void core(const CRayDifferential& ray, const CSurfaceInteraction& surfInter)
 	{
 		computeDifferentials();
 

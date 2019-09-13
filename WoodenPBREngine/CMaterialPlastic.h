@@ -14,13 +14,11 @@ void computeScattering(
 	const CTextureSpecular& ks,
 	const CTextureRoughness& roughness,
 	const CTextureBumpMap& bumpMap,
-	const CSurfInteraction& si,
+	const CSurfaceInteraction& si,
 	TransportMode mode,
 	bool allowMultipleLobes
 )
 {
-
-
 	Spectrum ks = ks.sample(si);
 	if (!ks.isBlack())
 	{
@@ -36,12 +34,7 @@ void computeScattering(
 		fresnelDielectric.etaT = 1.5f;
 
 		ecs.addComponent<CFresnelDielectric>(hEntity, std::move(CMicrofaceDistrTrowbridgeReitz));
-
-	}
-
-	
-
-	
+	}	
 
 }
 

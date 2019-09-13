@@ -44,11 +44,11 @@ struct CInteraction
 	DECL_MANAGED_DENSE_COMP_DATA(CInteraction, 16);
 }; DECL_OUT_COMP_DATA(CInteraction)
 
-struct CSurfInteraction: public CInteraction
+struct CSurfaceInteraction: public CInteraction
 {
-	CSurfInteraction() = default;
+	CSurfaceInteraction() = default;
 
-	CSurfInteraction(
+	CSurfaceInteraction(
 		DPoint3f p, 
 		DVector2f uv, DVector3f wo,
 		DVector3f dpdu, DVector3f dpdv,
@@ -86,7 +86,6 @@ struct CSurfInteraction: public CInteraction
 
 		float ty = -(dot(n, ray.difYRay.origin) - d) / dot(n, ray.difYRay.dir);
 		DPoint3f py = ray.difYRay.origin + ray.difYRay.dir*ty;
-
 
 		dpdx = px - p;
 		dpdy = py - p;
@@ -178,8 +177,8 @@ struct CSurfInteraction: public CInteraction
 		}
 	}
 
-	DECL_MANAGED_DENSE_COMP_DATA(CSurfInteraction, 8);
-}; DECL_OUT_COMP_DATA(CSurfInteraction)
+	DECL_MANAGED_DENSE_COMP_DATA(CSurfaceInteraction, 8);
+}; DECL_OUT_COMP_DATA(CSurfaceInteraction)
 
 
 
