@@ -14,7 +14,7 @@ WPBR_BEGIN
 class SampledSpectrum : public CoefficientSpectrum<nSpectralSamples/8>
 {
 public:
-	SampledSpectrum(float v = 0.0f) :
+	explicit SampledSpectrum(float v = 0.0f) :
 		CoefficientSpectrum(v)
 	{}
 
