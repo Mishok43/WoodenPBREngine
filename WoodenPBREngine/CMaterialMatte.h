@@ -25,7 +25,6 @@ void computeScattering(
 		CBXDFOreanNayar oreanNayar = CBXDFOreanNayar(sigma);
 		ecs.addComponent<CBXDFOreanNayar>(hEntity, oreanNayar);
 	}
-
 }
 
 WPBR_END

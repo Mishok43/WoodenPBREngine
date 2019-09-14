@@ -28,24 +28,25 @@ struct CInteractionRequest
 struct CRayCast
 {
 	DRayf ray;
+	bool bSurfInteraction=true; 
+	bool res;
 	std::vector<HEntity, AllocatorAligned<HEntity>> interactionEntities;
 }; 
+
 
 struct CInteraction
 {
 	DPoint3f p;
 	DVector3f wo;
-	DNormal3f n;
 	CMedium* medium;
 	float time;
-
-	bool isSurfaceInteraction() const { return n != DNormal3f(); }
 
 	DECL_MANAGED_DENSE_COMP_DATA(CInteraction, 16);
 }; DECL_OUT_COMP_DATA(CInteraction)
 
 struct CSurfaceInteraction: public CInteraction
 {
+	DNormal3f n;
 	CSurfaceInteraction() = default;
 
 	CSurfaceInteraction(

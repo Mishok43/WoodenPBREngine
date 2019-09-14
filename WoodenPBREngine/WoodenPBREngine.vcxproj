@@ -198,6 +198,7 @@
     <ClInclude Include="CTexture.h" />
     <ClInclude Include="CTextureMapping.h" />
     <ClInclude Include="CUV.h" />
+    <ClInclude Include="CVisibilityTest.h" />
     <ClInclude Include="DRayDifferential.h" />
     <ClInclude Include="CTransform.h" />
     <ClInclude Include="MicrofaceDistr.h" />

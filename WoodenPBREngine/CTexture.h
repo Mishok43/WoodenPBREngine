@@ -53,12 +53,22 @@ struct CTextureRGB
 		return i;
 	}
 
-	RGBSpectrum& texel(const DPoint2i& p, uint8_t mip) const
+	const RGBSpectrum& texel(const DPoint2i& p, uint8_t mip) const
 	{
 		return mips[mip][iTexel(p, mip)];
 	}
 
-	RGBSpectrum& texel(uint32_t x, uint32_t y, uint8_t mip) const
+	const RGBSpectrum& texel(uint32_t x, uint32_t y, uint8_t mip) const
+	{
+		return mips[mip][iTexel(DPoint2i(x, y), mip)];
+	}
+
+	RGBSpectrum& texel(const DPoint2i& p, uint8_t mip) 
+	{
+		return mips[mip][iTexel(p, mip)];
+	}
+
+	RGBSpectrum& texel(uint32_t x, uint32_t y, uint8_t mip) 
 	{
 		return mips[mip][iTexel(DPoint2i(x, y), mip)];
 	}
@@ -137,9 +147,6 @@ class JobFilterTableGaussing: public JobParallazible
 
 class JobSampleAnisotropicTextureRGB : public Job
 {
-
-
-
 	RGBSpectrum sample(
 		   CTextureMappedPoint& st,
 		   const CTextureRGBSamplerAnistropic& sampler,
@@ -171,13 +178,12 @@ class JobSampleAnisotropicTextureRGB : public Job
 		uint32_t nLevels = tex.mips.size();
 		float lod = std::max(0.0f, nLevels - 1.0f + log2(minorLength));
 		int ilod = std::floor(lod);
-		return wml::lerp(ewa(st, tex, ilod),
-					ewa(st, tex, ilod+1), lod - ilod);
+		return wml::lerp(ewa(st, tex, filterTable, ilod),
+					ewa(st, tex, filterTable, ilod+1), lod - ilod);
 	}
 
 	RGBSpectrum triangle(const DPoint2f& st,
 						 const CTextureRGB& tex,
-						 const CFilterTableGaussing& filter,
 						 uint32_t mip)
 	{
 		uint32_t nLevels = tex.mips.size();
@@ -194,6 +200,7 @@ class JobSampleAnisotropicTextureRGB : public Job
 
 	RGBSpectrum ewa(CTextureMappedPoint& p,
 					const CTextureRGB& tex,
+					const CFilterTableGaussing& filter,
 					uint32_t mip)
 	{
 		uint32_t nLevels = tex.mips.size();
@@ -313,9 +320,6 @@ class JobLoadTexture: public Job
 {
 public:
 	static std::map<std::string, HEntity> textures;
-
-
-
 	virtual void update(WECS* ecs) override
 	{
 		ComponentsGroup<CTextureInfo> texInfos = queryComponentsGroup<CTextureInfo>();
