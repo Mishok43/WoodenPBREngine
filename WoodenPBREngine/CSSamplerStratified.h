@@ -42,7 +42,6 @@ class JobSamplerStratifiedGenerateSampels: public JobParallazible
 			
 			std::random_device rd; std::mt19937 gen(rd());
 			std::uniform_real_distribution<float> uniform(0.0, 1.0);
-
 			
 			for (uint32_t i = 0; i < samples.samples1D.size(); i++)
 			{

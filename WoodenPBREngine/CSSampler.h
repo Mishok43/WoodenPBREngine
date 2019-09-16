@@ -9,6 +9,8 @@
 #include "CSpectrum.h"
 WPBR_BEGIN
 
+
+
 struct CSampleIndex
 {
 	uint16_t val;
@@ -22,6 +24,24 @@ struct CSampler
 	DECL_MANAGED_DENSE_COMP_DATA(CSampler, 1)
 }; DECL_OUT_COMP_DATA(CSampler)
 
+
+struct CSamples1D
+{
+	std::vector<float, AllocatorAligned<float>> data;
+	uint32_t i;
+};
+
+struct CSamples2D
+{
+	std::vector<float, AllocatorAligned<float>> data;
+	uint32_t i;
+};
+
+struct CCameraSample
+{
+	DPoint2f pFilm;
+	int32_t iSample=0;
+};
 
 struct CHEntitySampler: public HEntity
 {

@@ -32,7 +32,7 @@ struct CLightPoint: public CompDummy
 
 class JobLightPointsSample
 {
-	Spectrum sampleLI(
+	Spectrum sample_li(
 		const CLightPoint& light,
 		const CLightIntensity& lI,
 		const CLightPosition& lp,
@@ -55,9 +55,9 @@ struct CLightSpot
 	float cosFalloffStart;
 };
 
-class JobLightPointsSample
+class JobLightSpotSample
 {
-	Spectrum sampleLI(
+	Spectrum sample_li(
 		const CLightSpot& spot,
 		const CLightIntensity& lI,
 		const CLightPosition& lp,
@@ -96,5 +96,6 @@ class JobLightPointsSample
 		return lI *(falloff/ disLength2);
 	}
 };
+
 
 WPBR_END

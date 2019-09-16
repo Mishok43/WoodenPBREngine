@@ -163,6 +163,7 @@
     <ClInclude Include="CAnimatedTransform.h" />
     <ClInclude Include="CBounds.h" />
     <ClInclude Include="CBSDF.h" />
+    <ClInclude Include="CDistribution.h" />
     <ClInclude Include="CFilterMitchell.h" />
     <ClInclude Include="CMaterialMatte.h" />
     <ClInclude Include="CMaterialPlastic.h" />

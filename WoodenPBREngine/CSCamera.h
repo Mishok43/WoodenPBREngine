@@ -2,7 +2,7 @@
 #include "pch.h"
 #include "MEngine.h"
 #include "CAnimatedTransform.h"
-#include "CFilm.h"
+#include "CSFilm.h"
 #include "CMedium.h"
 #include "CRayDifferential.h"
 #include "WoodenECS/Job.h"
@@ -16,19 +16,6 @@ struct CCamera
 }; DECL_OUT_COMP_DATA(CCamera)
 
 
-struct CCameraSamplesBatch
-{
-	std::vector<DPoint2f, AllocatorAligned<DPoint2f>> pFilm;
-	std::vector<float, AllocatorAligned<float>> time;
-	bool bFinishSampling = false;
-
-	std::vector<float, AllocatorAligned<float>> samples1D;
-	std::vector<DVector2f, AllocatorAligned<DVector2f>> samples2D;
-	std::vector<HEntity, AllocatorAligned<HEntity>> raysEntities;
-	int32_t iSample=0;
-	uint32_t iSample1D=0;
-	uint32_t iSample2D=0;
-};
 
 
 class SCamera
