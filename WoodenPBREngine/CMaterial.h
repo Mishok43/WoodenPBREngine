@@ -2,6 +2,7 @@
 #include "pch.h"
 #include "CRayDifferential.h"
 #include "CSufraceInteraction.h"
+#include "CTexture.h"
 
 WPBR_BEGIN
 
@@ -44,32 +45,6 @@ void bump(const CTextureBumpMap& bumpMap, CSurfaceInteraction& surfInter)
 }
 
 
-
-struct CTextureSpecular : public Texture<Spectrum>
-{
-};
-
-
-struct CTextureDiffuse : public Texture<Spectrum>
-{
-};
-
-struct CTextureRoughness : public Texture<float>
-{
-};
-
-struct CTextureBumpMap : public Texture<float>
-{
-};
-
-class JobComputeScattering
-{
-	void core(const CRayDifferential& ray, const CSurfaceInteraction& surfInter)
-	{
-		computeDifferentials();
-
-	}
-};
 
 
 WPBR_END

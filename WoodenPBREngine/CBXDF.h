@@ -20,37 +20,6 @@ enum BxDFType
 };
 
 
-struct CFresnelConductor
-{
-	Spectrum etaI, etaT, k;
-
-	Spectrum f(float cosThetaI) const
-	{
-		cosThetaI = wml::clamp(cosThetaI, -1, 1);
-		Spectrum eta = etaT / etaI;
-		Spectrum etak = k / etaI;
-
-		float cosThetaI2 = cosThetaI * cosThetaI;
-		float sinThetaI2 = 1. - cosThetaI2;
-		Spectrum eta2 = eta * eta;
-		Spectrum etak2 = etak * etak;
-
-		Spectrum t0 = eta2 - etak2 - sinThetaI2;
-		Spectrum a2plusb2 = sqrt(t0 * t0 + eta2 * etak2 * 4);
-		Spectrum t1 = a2plusb2 + cosThetaI2;
-		Spectrum a = sqrt((a2plusb2 + t0)*0.5);
-		Spectrum t2 = a * cosThetaI*2.0f;
-		Spectrum Rs = (t1 - t2) / (t1 + t2);
-
-		Spectrum t3 = a2plusb2 * cosThetaI2 + sinThetaI2 * sinThetaI2;
-		Spectrum t4 = t2 * sinThetaI2;
-		Spectrum Rp = Rs * (t3 - t4) / (t3 + t4);
-
-		return (Rp + Rs)*0.5;
-	}
-};
-
-
 struct CFresnelDielectric
 {
 	float etaI, etaT;
@@ -103,6 +72,11 @@ bool refract(const DVector3f& wi, const DNormal3f& n, float eta, DVector3f& wt)
 
 struct CSpectrumScale : public Spectrum
 {
+	CSpectrumScale(Spectrum s):
+		Spectrum(std::move(s))
+	{
+	}
+
 	DECL_MANAGED_DENSE_COMP_DATA(CSpectrumScale, 1)
 }; DECL_OUT_COMP_DATA(CSpectrumScale)
 
@@ -214,95 +188,94 @@ struct CBXDFLambertian
 //	return ft / abs(cosTheta(wi));
 //}
 
-class JobBRDFConductorMicrofaceEstimate
+
+struct CFresnelConductor
 {
-	/*Spectrum rho(
-		const DVector3f& woW,
-		const CReflectDirSamplerMicroface& microface,
-		const CSpectrumScale& R,
-		const CFresnelConductor& fresnel,
-		const CSamples2D& samples,
-		uint32_t iSampleOffset,
-		uint32_t nSamples) const
+	Spectrum etaI, etaT, k;
+
+	Spectrum f(float cosThetaI) const
 	{
-		Spectrum r(0.00f);
-		for (uint32_t i = 0; i < nSamples; i++)
-		{
-			DVector3f wi;
-			float pdf;
-			Spectrum f = sample(microface, R, fresnel, wo, samples.data[iSampleOffset + i], wi, pdf);
-			if (pdf > 0)
-			{
-				r += f * absCosTheta(wi) / pdf;
-			}
-		}
-		return r / nSamples;
-	}*/
+		cosThetaI = wml::clamp(cosThetaI, -1, 1);
+		Spectrum eta = etaT / etaI;
+		Spectrum etak = k / etaI;
 
-	Spectrum sample(
-		const CReflectDirSamplerMicroface& microface,
-		const CSpectrumScale& R,
-		const CFresnelConductor& fresnel,
-		const DVector3f& wo,
-		const DPoint2f& u,
-		DVector3f& wi,
-		float& wiPDF) const
-	{
-		DVector3f wh;
+		float cosThetaI2 = cosThetaI * cosThetaI;
+		float sinThetaI2 = 1. - cosThetaI2;
+		Spectrum eta2 = eta * eta;
+		Spectrum etak2 = etak * etak;
 
-		float whD;
-		wh = microface.sample(wo, u, whD);
-		wi = reflect(wo, wh);
-		if (!isSameHemisphere(wi, wo))
-		{
-			return Spectrum(0.0f);
-		}
+		Spectrum t0 = eta2 - etak2 - sinThetaI2;
+		Spectrum a2plusb2 = sqrt(t0 * t0 + eta2 * etak2 * 4);
+		Spectrum t1 = a2plusb2 + cosThetaI2;
+		Spectrum a = sqrt((a2plusb2 + t0)*0.5);
+		Spectrum t2 = a * cosThetaI*2.0f;
+		Spectrum Rs = (t1 - t2) / (t1 + t2);
 
-		wiPDF = microface.pdf(wh, whD) / (4 * dot(wo, wh));
+		Spectrum t3 = a2plusb2 * cosThetaI2 + sinThetaI2 * sinThetaI2;
+		Spectrum t4 = t2 * sinThetaI2;
+		Spectrum Rp = Rs * (t3 - t4) / (t3 + t4);
 
-		float cosThetaO = absCosTheta(wo), cosThetaI = absCosTheta(wi);
-		if (cosThetaI == 0 || cosThetaO == 0)
-		{
-			return Spectrum(0.);
-		}
-
-		if (wh.x() == 0 && wh.y() == 0 && wh.z() == 0)
-		{
-			return Spectrum(0.);
-		}
-
-		Spectrum fr = fresnel.f(dot(wi, wh));
-		return fr*R*(whD / (4 * cosThetaI*cosThetaO));
+		return (Rp + Rs)*0.5;
 	}
 };
 
 
-class JobBRDFConductorMicrofaceEstimate
-{
 
-	float p(const DVector3f &wo, const DVector3f &wi) const
-	{
-		return isSameHemisphere(wo, wi) ? absCosTheta(wi) / PI : 0;
-	}
 
-	Spectrum sample(
-		const CSpectrumScale& R,
-		const CBXDFOreanNayar& oreanNayar,
-		const DVector3f& wo,
-		const DPoint2f& u,
-		DVector3f& wi,
-		float& wiPDF) const
-	{
-		wi = sampleHemisphereCosSin(u);
-		if (wo.z() < 0)
-		{
-			wi.z *= -1;
-		}
+//class JobBRDFConductorMicrofaceEstimate
+//{
+//	/*Spectrum rho(
+//		const DVector3f& woW,
+//		const CReflectDirSamplerMicroface& microface,
+//		const CSpectrumScale& R,
+//		const CFresnelConductor& fresnel,
+//		const CSamples2D& samples,
+//		uint32_t iSampleOffset,
+//		uint32_t nSamples) const
+//	{
+//		Spectrum r(0.00f);
+//		for (uint32_t i = 0; i < nSamples; i++)
+//		{
+//			DVector3f wi;
+//			float pdf;
+//			Spectrum f = sample(microface, R, fresnel, wo, samples.data[iSampleOffset + i], wi, pdf);
+//			if (pdf > 0)
+//			{
+//				r += f * absCosTheta(wi) / pdf;
+//			}
+//		}
+//		return r / nSamples;
+//	}*/
+//
+//};
 
-		wiPDF = p(wo, wi);
-		Spectrum fr = R*oreanNayar.f(wo, wi);
-		return fr;
-	}
-};
+//
+//class JobBRDFConductorMicrofaceEstimate
+//{
+//
+//	float p(const DVector3f &wo, const DVector3f &wi) const
+//	{
+//		return isSameHemisphere(wo, wi) ? absCosTheta(wi) / PI : 0;
+//	}
+//
+//	Spectrum sample(
+//		const CSpectrumScale& R,
+//		const CBXDFOreanNayar& oreanNayar,
+//		const DVector3f& wo,
+//		const DPoint2f& u,
+//		DVector3f& wi,
+//		float& wiPDF) const
+//	{
+//		wi = sampleHemisphereCosSin(u);
+//		if (wo.z() < 0)
+//		{
+//			wi.z *= -1;
+//		}
+//
+//		wiPDF = p(wo, wi);
+//		Spectrum fr = R*oreanNayar.f(wo, wi);
+//		return fr;
+//	}
+//};
 
 WPBR_END

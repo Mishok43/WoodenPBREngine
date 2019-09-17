@@ -18,11 +18,16 @@ public:
 		CoefficientSpectrum(v)
 	{}
 
+	SampledSpectrum(const CoefficientSpectrum& r):
+		CoefficientSpectrum(r)
+	{}
 
-	SampledSpectrum(const RGBSpectrum& r, SpectrumType t)
+	SampledSpectrum(const RGBSpectrum& r, SpectrumType t =  SpectrumType::Reflectance)
 	{
 		*this = SampledSpectrum::fromRGB(r, t);
 	}
+
+
 
 	static float averageSpectrumSamples(const float* lambda, const float *values, int n, 
 										float waveLength0, float waveLength1)

@@ -15,69 +15,58 @@ struct CTextureMappedPoint
 	DVector2f dstdy;
 };
 
-struct CTextureMappingUV
-{
-	const float su, sv, du, dv;
-	DECL_MANAGED_DENSE_COMP_DATA(CTextureMappingUV, 16)
-}; DECL_OUT_COMP_DATA(CTextureMappingUV)
 
-struct CTextureMappingSphere
+class TextureMappingUV
 {
-	CTransform texture;
-	DECL_MANAGED_DENSE_COMP_DATA(CTextureMappingSphere, 16)
-}; DECL_OUT_COMP_DATA(CTextureMappingSphere)
-
-class JobMapUV
-{
-	void map(
-		WECS* ecs,
-		HEntity hEntity,
+public:
+	static CTextureMappedPoint map(
 		const CSurfaceInteraction& si,
-		const CTextureMappingUV& mapping)
+		const DVector2f& suv = DVector2f(1.0f, 1.0f),
+		const DVector2f& duv = DVector2f(0.0f, 0.0f))
 	{
 		CTextureMappedPoint mappedPoint;
-		mappedPoint.dstdx = DVector2f(mapping.su*si.dudx, mapping.sv*si.dvdx);
-		mappedPoint.dstdy = DVector2f(mapping.su*si.dudy, mapping.sv*si.dvdy);
-		mappedPoint.p = DPoint2f(mapping.su*si.uv[0] + mapping.du, mapping.sv*si.uv[1] + mapping.dv);
-		ecs->addComponent<CTextureMappedPoint>(hEntity);
+		mappedPoint.dstdx =  suv*DVector2f(si.dudx, si.dvdx);
+		mappedPoint.dstdy = duv*DVector2f(si.dudy, si.dvdy);
+		mappedPoint.p = suv*si.uv + duv;
+		return mappedPoint;
 	}
 };
 
-class JobMapSphere
+class TextureMappingSphere
 {
-	DPoint2f sphere(const DPoint3f& p) const
+public:
+	static DPoint2f sphere(const DPoint3f& p, const CTransform& world) 
 	{
-		DVector3f vec = normalize(texture(p) - DPoint3f(0.0, 0.0, 0.0));
+		DVector3f vec = normalize(world(p, INV_TRANFORM) - DPoint3f(0.0, 0.0, 0.0));
 		float theta = sphericalTheta(vec), phi = sphericalPhi(vec);
 		return DPoint2f(theta*1.0 / PI, phi / (2 * PI));
 	}
 
-	void map(
-		WECS* ecs,
-		HEntity hEntity,
+	static CTextureMappedPoint map(
 		const CSurfaceInteraction& si,
-		const CTextureMappingSphere& mapping)
+		const CTransform& world)
 	{
 		CTextureMappedPoint mappedPoint;
 
-		DPoint2f st = sphere(si.p);
+		DPoint2f st = sphere(si.p, world);
 
 		const float dt = 0.1f;
-		DPoint2f stdx = sphere(si.p + si.dpdx*dt);
+		DPoint2f stdx = sphere(si.p + si.dpdx*dt, world);
 		DVector2f dstdx = (stdx - st) / dt;
-		DPoint2f stdy = sphere(si.p + si.dpdy*dt);
+		DPoint2f stdy = sphere(si.p + si.dpdy*dt, world);
 		DVector2f dstdy = (stdy - st) / dt;
 
 		if (dstdx[1] > .5)        dstdx[1] = 1 - dstdx[1];
 		else if (dstdx[1] < -.5f) dstdx[1] = -dstdx[1] + 1;
 		if (dstdy[1] > .5)        dstdy[1] = 1 - dstdy[1];
 		else if (dstdy[1] < -.5f) dstdy[1] = -dstdy[1] + 1;
-		
+
 		mappedPoint.dstdx = dstdx;
 		mappedPoint.dstdy = dstdy;
 		mappedPoint.p = st;
 
-		ecs->addComponent<CTextureMappedPoint>(hEntity, mappedPoint);
+
+		return mappedPoint;
 	}
 };
 

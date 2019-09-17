@@ -57,6 +57,7 @@ struct CLightSpot
 
 class JobLightSpotSample
 {
+
 	Spectrum sample_li(
 		const CLightSpot& spot,
 		const CLightIntensity& lI,
@@ -72,8 +73,7 @@ class JobLightSpotSample
 		float disLength2 = dis.length2();
 		wi = dis / std::sqrt(disLength2);
 		pdf = 1.0f;
-
-
+			
 		DVector3f wil = lworld(-wi, INV_TRANFORM);
 
 		float falloff;

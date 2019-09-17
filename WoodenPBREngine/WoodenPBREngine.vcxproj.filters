@@ -189,6 +189,12 @@
     <ClInclude Include="CDistribution.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CBSDFConductorMicroface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CLightAreaSphere.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">

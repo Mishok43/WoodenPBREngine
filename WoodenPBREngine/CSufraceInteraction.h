@@ -132,25 +132,25 @@ struct CSurfaceInteraction: public CInteraction
 	}
 
 
-	void computeDifferentialsForSpecularReflection(const DRayDifferentialf& rd)
-	{
-		rd.difXRay.origin = rd.origin + rd.dpdx;
-		rd.difYRay.origin = rd.origin + rd.dpdy;
+	//void computeDifferentialsForSpecularReflection(const DRayDifferentialf& rd)
+	//{
+	//	rd.difXRay.origin = rd.origin + rd.dpdx;
+	//	rd.difYRay.origin = rd.origin + rd.dpdy;
 
-		DNormal3f dndx = rd.shading.dndu * rd.dudx +
-			rd.shading.dndv * rd.dvdx;
-		DNormal3f dndy = rd.shading.dndu * rd.dudy +
-			rd.shading.dndv * rd.dvdy;
+	//	DNormal3f dndx = rd.shading.dndu * rd.dudx +
+	//		rd.shading.dndv * rd.dvdx;
+	//	DNormal3f dndy = rd.shading.dndu * rd.dudy +
+	//		rd.shading.dndv * rd.dvdy;
 
-		DVector3f dwodx = -rd.difXRay.dir - wo, dwody = -rd.difYRay.dir - wo;
-		float dDNdx = dot(dwodx, shading.n) + dot(wo, dndx);
-		float dDNdy = dot(dwody, shading.n) + dot(wo, dndy);
-		rd.difXRay.dir = wi - dwodx +
-			DVector3f(dndx*dot(wo, shading.n) + shading.n*dDNdx)*2;
-		rd.difYRay.dir = wi - dwody +
-			DVector3f(dndy*dot(wo, shading.n) + shading.n*dDNdy)*2;
+	//	DVector3f dwodx = -rd.difXRay.dir - wo, dwody = -rd.difYRay.dir - wo;
+	//	float dDNdx = dot(dwodx, shading.n) + dot(wo, dndx);
+	//	float dDNdy = dot(dwody, shading.n) + dot(wo, dndy);
+	//	rd.difXRay.dir = wi - dwodx +
+	//		DVector3f(dndx*dot(wo, shading.n) + shading.n*dDNdx)*2;
+	//	rd.difYRay.dir = wi - dwody +
+	//		DVector3f(dndy*dot(wo, shading.n) + shading.n*dDNdy)*2;
 
-	}
+	//}
 
 	void setShadingGeometry(DVector3f dpdu, DVector3f dpdv,
 							DVector3f dndu, DVector3f dndv,

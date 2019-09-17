@@ -11,10 +11,17 @@ WPBR_BEGIN
 
 struct CReflectDirSamplerMicroface
 {
-	const float alphax, alphay;
 	
-	static inline float roughnessToAlpha(float roughness);
 
+	 float alphax, alphay;
+	
+	static inline float roughnessToAlpha(float roughness)
+	{
+		roughness = std::max(roughness, 1e-3f);
+		float x = std::log(roughness);
+		return 1.62142f + 0.819955f * x + 0.1734f * x * x + 0.0171201f * x * x * x +
+			0.000640711f * x * x * x * x;
+	}
 
 	float d(const DVector3f& wh) const
 	{
@@ -31,7 +38,7 @@ struct CReflectDirSamplerMicroface
 		return pd;
 	}
 
-	float pdf(const DVector3f& wo, const DVector3f& wh) const
+	float pdf(const DVector3f& wh) const
 	{
 		return d(wh) * absCosTheta(wh);
 	}
@@ -42,7 +49,7 @@ struct CReflectDirSamplerMicroface
 	}
 
 
-	DVector3f sample(const DVector3f &wo,
+	DVector3f sample_f(const DVector3f &wo,
 					 const DPoint2f &u,
 					 float& pdf) const
 	{
@@ -78,7 +85,9 @@ struct CReflectDirSamplerMicroface
 		pdf = d(wh);
 		return wh;
 	}
-};
+
+	DECL_MANAGED_DENSE_COMP_DATA(CReflectDirSamplerMicroface, 1)
+}; DECL_OUT_COMP_DATA(CReflectDirSamplerMicroface)
 
 struct CReflectDirSamplerCosSin
 {

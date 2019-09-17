@@ -6,6 +6,7 @@
 #include "CSufraceInteraction.h"
 #include "WoodenMathLibrarry/DPoint.h"
 #include "WoodenMathLibrarry/DNormal.h"
+#include "CTextureMapping.h"
 #include "WoodenMathLibrarry/DVector.h"
 #include "WoodenECS/Job.h"
 #include "CSTriangleMesh.h"
@@ -94,6 +95,14 @@ class JobUpdateBoundsAndCentroidTriangle : public JobParallazible
 			eCentroid = CCentroid(eBounds);
 		}, triangles);
 	}
+};
+
+class STriangle
+{
+public:
+	static CTextureMappedPoint mapUV(
+		const CSurfaceInteraction& si
+	);
 };
 
 

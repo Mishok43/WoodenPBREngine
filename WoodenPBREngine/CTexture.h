@@ -25,19 +25,11 @@ class TextureConst
 	T value;
 };
 
-
-struct CTextureInfo
+template<typename T>
+struct TextureBase
 {
 	std::string filename;
-	HEntity handle;
-
-	DECL_MANAGED_DENSE_COMP_DATA(CTextureInfo, 16)
-}; DECL_OUT_COMP_DATA(CTextureInfo)
-
-struct CTextureRGB
-{
-	std::string filename;
-	std::vector<std::vector<RGBSpectrum, AllocatorAligned<RGBSpectrum>>> mips;
+	std::vector<std::vector<T, AllocatorAligned<T>>> mips;
 	std::vector<DPoint2i, AllocatorAligned<DPoint2i>> resolutions;
 	std::vector<DPoint2i, DPoint2i> mipNBlocks;
 
@@ -45,51 +37,96 @@ struct CTextureRGB
 	uint32_t iTexel(const DPoint2i& p, uint8_t mip) const
 	{
 		const DPoint2i& nBlocks = mipNBlocks[mip];
-		constexpr uint8_t blockArea = blockSize*blockSize;
+		constexpr uint8_t blockArea = blockSize * blockSize;
 		DPoint2i block = p / blockSize;
 
 		uint32_t iBlock = block.x() + block.y()*nBlocks.x();
-		uint32_t i = iBlock * blockArea+(p.x()%blockSize)+(p.y()%blockSize)*blockSize;
+		uint32_t i = iBlock * blockArea + (p.x() % blockSize) + (p.y() % blockSize)*blockSize;
 		return i;
 	}
 
-	const RGBSpectrum& texel(const DPoint2i& p, uint8_t mip) const
+	const T& texel(const DPoint2i& p, uint8_t mip) const
 	{
 		return mips[mip][iTexel(p, mip)];
 	}
 
-	const RGBSpectrum& texel(uint32_t x, uint32_t y, uint8_t mip) const
+	const T& texel(uint32_t x, uint32_t y, uint8_t mip) const
 	{
 		return mips[mip][iTexel(DPoint2i(x, y), mip)];
 	}
 
-	RGBSpectrum& texel(const DPoint2i& p, uint8_t mip) 
+	T& texel(const DPoint2i& p, uint8_t mip)
 	{
 		return mips[mip][iTexel(p, mip)];
 	}
 
-	RGBSpectrum& texel(uint32_t x, uint32_t y, uint8_t mip) 
+	T& texel(uint32_t x, uint32_t y, uint8_t mip)
 	{
 		return mips[mip][iTexel(DPoint2i(x, y), mip)];
 	}
 
+};
+
+
+struct CTextureRGB : public TextureBase<RGBSpectrum>
+{
 	DECL_MANAGED_DENSE_COMP_DATA(CTextureRGB, 16)
 }; DECL_OUT_COMP_DATA(CTextureRGB)
 
-struct CTextureRMIP
+struct CTextureR : public TextureBase<float>
 {
-	std::vector<float, AllocatorAligned<float>> texels;
 
-	DECL_MANAGED_DENSE_COMP_DATA(CTextureRMIP, 16)
-}; DECL_OUT_COMP_DATA(CTextureRMIP)
+	DECL_MANAGED_DENSE_COMP_DATA(CTextureR, 16)
+}; DECL_OUT_COMP_DATA(CTextureR)
 
-struct CTextureMIPHandle : public HEntity
+
+
+template<typename T>
+struct CTextureBindingBase
 {
-	CTextureMIPHandle() = default;
-	CTextureMIPHandle(HEntity h): HEntity(h){ }
+	std::string filename;
+	HEntity tex;
 
-	DECL_MANAGED_DENSE_COMP_DATA(CTextureMIPHandle, 16)
-}; DECL_OUT_COMP_DATA(CTextureMIPHandle)
+	const T& getTex(WECS* ecs) const
+	{
+		return ecs->getComponent<T>(tex);
+	}
+};
+
+struct CTextureBindingRGB: public CTextureBindingBase<CTextureRGB>
+{
+	//DECL_MANAGED_DENSE_COMP_DATA(CTextureBindingRGB, 16)
+}; //DECL_OUT_COMP_DATA(CTextureBindingRGB)
+
+struct CTextureBindingR: public CTextureBindingBase<CTextureR>
+{
+	//DECL_MANAGED_DENSE_COMP_DATA(CTextureBindingR, 16)
+}; 
+
+
+struct CTextureSpecular : public CTextureBindingR
+{
+	DECL_MANAGED_DENSE_COMP_DATA(CTextureSpecular, 1)
+}; DECL_OUT_COMP_DATA(CTextureSpecular)
+
+struct CTextureDiffuse : public CTextureBindingRGB
+{
+	DECL_MANAGED_DENSE_COMP_DATA(CTextureDiffuse, 1)
+}; DECL_OUT_COMP_DATA(CTextureDiffuse)
+
+
+struct CTextureRoughness : public CTextureBindingR
+{
+	DECL_MANAGED_DENSE_COMP_DATA(CTextureRoughness, 1)
+}; DECL_OUT_COMP_DATA(CTextureRoughness)
+
+
+struct CTextureBumpMap : public CTextureBindingR
+{
+	DECL_MANAGED_DENSE_COMP_DATA(CTextureBumpMap, 1)
+}; DECL_OUT_COMP_DATA(CTextureBumpMap)
+
+
 
 
 struct CSurfaceInteractionHandle : public HEntity
@@ -102,17 +139,17 @@ struct CSurfaceInteractionHandle : public HEntity
 }; DECL_OUT_COMP_DATA(CSurfaceInteractionHandle)
 
 
-struct CTextureRGBSamplerIsotropic
+struct CTextureSamplerIsotropic
 {	 
-	DECL_MANAGED_DENSE_COMP_DATA(CTextureRGBSamplerIsotropic, 1)
-}; DECL_OUT_COMP_DATA(CTextureRGBSamplerIsotropic)
+	DECL_MANAGED_DENSE_COMP_DATA(CTextureSamplerIsotropic, 1)
+}; DECL_OUT_COMP_DATA(CTextureSamplerIsotropic)
 
-struct CTextureRGBSamplerAnistropic
+struct CTextureSamplerAnistropic
 {
 	float maxAnisotropy;
 	HEntity filterTable;
-	DECL_MANAGED_DENSE_COMP_DATA(CTextureRGBSamplerAnistropic, 1)
-}; DECL_OUT_COMP_DATA(CTextureRGBSamplerAnistropic)
+	DECL_MANAGED_DENSE_COMP_DATA(CTextureSamplerAnistropic, 1)
+}; DECL_OUT_COMP_DATA(CTextureSamplerAnistropic)
 
 struct CFilterTableGaussing
 {
@@ -145,13 +182,38 @@ class JobFilterTableGaussing: public JobParallazible
 	}
 };
 
-class JobSampleAnisotropicTextureRGB : public Job
+
+class STextureSampler
 {
-	RGBSpectrum sample(
-		   CTextureMappedPoint& st,
-		   const CTextureRGBSamplerAnistropic& sampler,
-		   const CFilterTableGaussing& filterTable,
-		   const CTextureRGB& tex) 
+public:
+
+	template<typename T>
+	static T triangle(const DPoint2f& st,
+						 const TextureBase<T>& tex,
+						 uint32_t mip)
+	{
+		uint32_t nLevels = tex.mips.size();
+		mip = wml::clamp(mip, 0, nLevels - 1);
+		float s = st[0] * tex.resolutions[mip].x() - 0.5f;
+		float t = st[1] * tex.resolutions[mip].y() - 0.5f;
+		int s0 = std::floor(s), t0 = std::floor(t);
+		float ds = s - s0, dt = t - t0;
+		return	tex.texel(s0, t0, mip)*(1 - ds) * (1 - dt) +
+			tex.texel(s0, t0 + 1, mip)*(1 - ds) * dt +
+			tex.texel(s0 + 1, t0, mip)*ds * (1 - dt) +
+			tex.texel(s0 + 1, t0 + 1, mip)*ds * dt;
+	}
+};
+
+class STextureSampleAnisotropic
+{
+public:
+	template<typename T>
+	static T sample(
+		const CTextureMappedPoint& st,
+		const CTextureSamplerAnistropic& sampler,
+		const CFilterTableGaussing& filterTable,
+		const TextureBase<T>& tex)
 	{
 		DVector2f& dst0 = st.dstdx;
 		DVector2f& dst1 = st.dstdy;
@@ -161,7 +223,7 @@ class JobSampleAnisotropicTextureRGB : public Job
 			std::swap(dst0, dst1);
 		float majorLength = dst0.length();
 		float minorLength = dst1.length();
-		
+
 		if (minorLength * maxAnisotropy < majorLength && minorLength > 0)
 		{
 			float scale = majorLength / (minorLength * maxAnisotropy);
@@ -174,47 +236,32 @@ class JobSampleAnisotropicTextureRGB : public Job
 			return triangle(st.p, tex, 0);
 		}
 
-		
+
 		uint32_t nLevels = tex.mips.size();
 		float lod = std::max(0.0f, nLevels - 1.0f + log2(minorLength));
 		int ilod = std::floor(lod);
 		return wml::lerp(ewa(st, tex, filterTable, ilod),
-					ewa(st, tex, filterTable, ilod+1), lod - ilod);
+						 ewa(st, tex, filterTable, ilod + 1), lod - ilod);
 	}
 
-	RGBSpectrum triangle(const DPoint2f& st,
-						 const CTextureRGB& tex,
-						 uint32_t mip)
-	{
-		uint32_t nLevels = tex.mips.size();
-		mip = wml::clamp(mip, 0, nLevels - 1);
-		float s = st[0] * tex.resolutions[mip].x() - 0.5f;
-		float t = st[1] * tex.resolutions[mip].y() - 0.5f;
-		int s0 = std::floor(s), t0 = std::floor(t);
-		float ds = s - s0, dt = t - t0;
-		return	tex.texel(s0, t0, mip)*(1 - ds) * (1 - dt) +
-				tex.texel(s0, t0 + 1, mip)*(1 - ds) * dt +
-				tex.texel(s0 + 1, t0, mip)*ds * (1 - dt) +
-				tex.texel(s0 + 1, t0 + 1, mip)*ds * dt;
-	}
-
-	RGBSpectrum ewa(CTextureMappedPoint& p,
-					const CTextureRGB& tex,
+	template<typename T>
+	static T ewa(const CTextureMappedPoint& p,
+					const TextureBase<T>& tex,
 					const CFilterTableGaussing& filter,
 					uint32_t mip)
 	{
 		uint32_t nLevels = tex.mips.size();
 
-		DVector2f& st = p.p;
-		DVector2f& dst0 = p.dstdx;
-		DVector2f& dst1 = p.dstdy;
+		DVector2f st = p.p;
+		DVector2f dst0 = p.dstdx;
+		DVector2f dst1 = p.dstdy;
 
 
-		st = tex.resolutions[mip]*st   - 0.5f;
+		st = tex.resolutions[mip] * st - 0.5f;
 		dst0 *= tex.resolutions[mip];
 		dst1 *= tex.resolutions[mip];
-	
-		
+
+
 		DVector3f abc;
 		abc[0] = dst0[1] * dst0[1] + dst1[1] * dst1[1] + 1;
 		abc[1] = -2 * (dst0[0] * dst0[1] + dst1[0] * dst1[1]);
@@ -229,7 +276,7 @@ class JobSampleAnisotropicTextureRGB : public Job
 
 		float det = -B * B + 4 * A * C;
 		float invDet = 1 / det;
-		float uSqrt = std::sqrt(det * C),vSqrt = std::sqrt(A * det);
+		float uSqrt = std::sqrt(det * C), vSqrt = std::sqrt(A * det);
 
 		DVector2f uvSqrt(C, A);
 		uvSqrt *= det;
@@ -244,8 +291,8 @@ class JobSampleAnisotropicTextureRGB : public Job
 
 		int s1 = std::floor(st1[0]);
 		int t1 = std::floor(st1[1]);
-		
-		RGBSpectrum sum(0.f);
+
+		T sum(0.f);
 		float sumWts = 0;
 		for (int it = t0; it <= t1; ++it)
 		{
@@ -253,12 +300,12 @@ class JobSampleAnisotropicTextureRGB : public Job
 			for (int is = s0; is <= s1; ++is)
 			{
 				float ss = is - st[0];
-				
+
 				float r2 = A * ss * ss + B * ss * tt + C * tt * tt;
 				if (r2 < 1)
 				{
 					int index = std::min((int)(r2 * filter.size),
-										 filter.size- 1);
+										 filter.size - 1);
 					float weight = filter.weights[index];
 					sum += tex.texel(is, it, mip) * weight;
 					sumWts += weight;
@@ -271,12 +318,16 @@ class JobSampleAnisotropicTextureRGB : public Job
 };
 
 
-class JobSampleIsotropicTextureRGB : public Job
+
+class STextureSamplerIsotropic
 {
-	RGBSpectrum sample(
+
+public:
+
+	template<typename T>
+	static T sample(
 		   const CTextureMappedPoint& st,
-		   const CTextureRGBSamplerIsotropic& sampler,
-		   const CTextureRGB& tex) 
+		   const TextureBase<T>& tex) 
 	{
 		float width = 2 * std::max(std::max(st.dstdx[0], st.dstdx[1]),
 								   std::max(st.dstdy[0], st.dstdy[1]));
@@ -285,7 +336,7 @@ class JobSampleIsotropicTextureRGB : public Job
 		float level = nLevels - 1 + log2(std::max(width, 0));
 		if (level < 0)
 		{
-			return triangle(st.p, tex, 0);
+			return STextureSampler::triangle(st.p, tex, 0);
 		}
 		else if (level >= nLevels - 1)
 		{
@@ -295,40 +346,24 @@ class JobSampleIsotropicTextureRGB : public Job
 		{
 			int iLevel = std::floor(level);
 			float delta = level - iLevel;
-			return lerp(triangle(st.p, tex, iLevel), triangle(st.p, tex, iLevel + 1), delta);
+			return lerp(STextureSampler::triangle(st.p, tex, iLevel), STextureSampler::triangle(st.p, tex, iLevel + 1), delta);
 		}
-	}
-
-	RGBSpectrum triangle(const DPoint2f& st,
-						 const CTextureRGB& tex,
-						 uint32_t mip)
-	{
-		uint32_t nLevels = tex.mips.size();
-		mip = wml::clamp(mip, 0, nLevels - 1);
-		float s = st[0] * tex.resolutions[mip].x() - 0.5f;
-		float t = st[1] * tex.resolutions[mip].y() - 0.5f;
-		int s0 = std::floor(s), t0 = std::floor(t);
-		float ds = s - s0, dt = t - t0;
-		return	tex.texel(s0, t0, mip)*(1 - ds) * (1 - dt) +
-				tex.texel(s0, t0 + 1, mip)*(1 - ds) * dt +
-				tex.texel(s0 + 1, t0, mip)*ds * (1 - dt) +
-				tex.texel(s0 + 1, t0 + 1, mip)*ds * dt;
 	}
 };
 
-class JobLoadTexture: public Job
+class JobLoadTextureRGB: public Job
 {
 public:
 	static std::map<std::string, HEntity> textures;
 	virtual void update(WECS* ecs) override
 	{
-		ComponentsGroup<CTextureInfo> texInfos = queryComponentsGroup<CTextureInfo>();
-		for_each([&](HEntity hEntity, CTextureInfo& textureInfo)
+		ComponentsGroup<CTextureBindingRGB> texInfos = queryComponentsGroup<CTextureBindingRGB>();
+		for_each([&](HEntity hEntity, CTextureBindingRGB& textureInfo)
 		{
 			std::map<std::string, HEntity>::const_iterator it = textures.find(textureInfo.filename);
 			if (it != textures.cend())
 			{
-				ecs->addComponent<CTextureMIPHandle>(hEntity, std::move(it->second));
+				textureInfo.tex = it->second;
 				return;
 			}
 
@@ -349,9 +384,8 @@ public:
 			HEntity hTexture = ecs->createEntity();
 			ecs->addComponent<CTextureRGB>(hTexture, std::move(texels));
 
-			textureInfo.handle = hTexture;
+			textureInfo.tex = hTexture;
 			textures[textureInfo.filename] = hTexture;
-			
 		}, texInfos);
 	}
 
@@ -449,6 +483,7 @@ public:
 		return ret;
 	}
 };
+
 
 
 WPBR_END

@@ -4,7 +4,7 @@
 #include "RGBSpectrum.h"
 
 WPBR_BEGIN
-using Spectrum = typename CoefficientSpectrum<4>;
+using Spectrum = typename SampledSpectrum;
 
 void blackbody(const float* lambda, uint32_t n, float T, float* le)
 {

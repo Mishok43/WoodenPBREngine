@@ -5,6 +5,7 @@
 #include "CBounds.h"
 #include "CCentroid.h"
 #include "WoodenECS/Job.h"
+#include "CTextureMapping.h"
 #include "WoodenMathLibrarry/HSolver.h"
 #include "WoodenMathLibrarry/DRay.h"
 #include "WoodenMathLibrarry/DBounds.h"
@@ -48,7 +49,7 @@ class JobProcessSphereFullInteractionRequests: public JobParallazible
 	void update(WECS* ecs, uint8_t iThread) override;
 };
 
-class JobProcessSphereInteractionRequests: public JobParallazible
+class JobProcessSphereSurfInteractionRequests: public JobParallazible
 {
 	constexpr static uint32_t slice = 64;
 
@@ -60,6 +61,7 @@ class JobProcessSphereInteractionRequests: public JobParallazible
 
 	void update(WECS* ecs, uint8_t iThread) override;
 };
+
 
 class JobUpdateBoundsAndCentroidSphere : public JobParallazible
 {
@@ -92,26 +94,55 @@ class JobUpdateBoundsAndCentroidSphere : public JobParallazible
 
 
 
-class SSphere
+namespace SSphere
 {
-	using cmp_type_list = typename wecs::type_list<CShape, CTransform, CSphere, CBounds, CCentroid>;
-public:
-
-	static uint32_t create(CShape shape,
+	uint32_t create(CShape shape,
 						   CTransform transform,
 						   CSphere sphere);
 
 
-	static float getArea(const CSphere& eSphere);
+	float getArea(const CSphere& eSphere);
+
+	float pdf(
+		const CSphere& sphere,
+		const CTransform& transform,
+		const CInteraction& inter,
+		const DVector3f& wi);
+
+	CTextureMappedPoint mapUV(
+		const CSphere& sphere,
+		const CTransform& world,
+		const CSurfaceInteraction& si
+	);
+
+	CInteraction sample(
+		const CSphere& sphere,
+		const CTransform& transform,
+		const CInteraction& interac,
+		const DPoint2f& u,
+		float& p
+	);
+
+	bool intersect(
+		const DRayf& rayW,
+		const CSphere& sphere,
+		const CTransform& world,
+		CInteractionSphere& interactionSphere,
+		float& tHit);
+
+	CSurfaceInteraction computeSurfInteraction(
+		const CSphere& sphere,
+		const CTransform& world,
+		const CInteractionSphere& interactionSphere);
 
 	/*bool intersect(const CTransform& eWorld,
 						  const CSphere& eSphere,
 						  const DRayf& rayW, float& tHit,
 						  CInteractionSurface& surfInter);*/
 
-	static DBounds3f getBoundLocal(const CSphere& eSphere);
+	DBounds3f getBoundLocal(const CSphere& eSphere);
 
-	static DBounds3f getBoundWorld(const CSphere& eSphere,
+	DBounds3f getBoundWorld(const CSphere& eSphere,
 								   const CTransform& eWorld);
 
 };

@@ -275,4 +275,9 @@ void JobProcessTriangleInteractionRequests::update(WECS* ecs, uint8_t iThread)
 }
 
 
+CTextureMappedPoint STriangle::mapUV(const CSurfaceInteraction& si)
+{
+	return TextureMappingUV::map(si);
+}
+
 WPBR_END
