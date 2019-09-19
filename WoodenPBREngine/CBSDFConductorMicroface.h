@@ -3,9 +3,47 @@
 #include "pch.h"
 #include "CSpectrum.h"
 #include "CBXDF.h"
+#include "CBSDF.h"
+#include "CSSampler.h"
 #include "MicrofaceDistr.h"
 
 WPBR_BEGIN
+
+class JobBSDFConductorMicrofaceCompute: 
+	public JobParallaziblePerCompGroup<CReflectDirSamplerMicroface, CFresnelConductor, CBSDFComputeRequest, CSpectrumScale>
+{
+	void update(WECS* ecs, HEntity hEntity, CReflectDirSamplerMicroface& microface, CFresnelConductor& coductor,
+				CBSDFComputeRequest& request, CSpectrumScale& R) final
+	{
+		const CSampledWI& sampledWI = ecs->getComponent<CSampledWI>(request.h);
+		const CSurfaceInteraction& si = ecs->getComponent<CSurfaceInteraction>(request.h);
+
+		CSampledBSDFPDF pdf;
+		CSampledBSDFValue bsdf = SBSDFConductorMicroface::f(microface, R, coductor, si.wo, sampledWI, pdf.p);
+		ecs->addComponent<CSampledBSDFValue>(request.h, std::move(bsdf));
+		ecs->addComponent<CSampledBSDFPDF>(request.h, std::move(pdf));
+	}
+};
+
+class JobBSDFConductorMicrofaceSample :
+	public JobParallaziblePerCompGroup<CReflectDirSamplerMicroface, CFresnelConductor, CBSDFSampleRequest, CSpectrumScale>
+{
+	void update(WECS* ecs, HEntity hEntity, CReflectDirSamplerMicroface& microface, CFresnelConductor& coductor,
+				CBSDFSampleRequest& request, CSpectrumScale& R) final
+	{
+		const CSurfaceInteraction& si = ecs->getComponent<CSurfaceInteraction>(request.h);
+		CSamples2D& samples = ecs->getComponent<CSamples2D>(request.h);
+
+		CSampledBSDFPDF pdf;
+		CSampledWI wi;
+		CSampledBSDFValue bsdf = SBSDFConductorMicroface::sample_f(microface, R, coductor, si.wo, 
+															  samples.data[samples.i++], wi ,pdf.p);
+		ecs->addComponent<CSampledBSDFValue>(request.h, std::move(bsdf));
+		ecs->addComponent<CSampledBSDFPDF>(request.h, std::move(pdf));
+		ecs->addComponent<CSampledWI>(request.h, std::move(wi));
+	}
+};
+
 
 namespace SBSDFConductorMicroface
 {

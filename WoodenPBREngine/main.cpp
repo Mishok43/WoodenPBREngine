@@ -2,7 +2,6 @@
 //
 
 #include "pch.h"
-#include "WoodenMathLibrarry/DVector.h"
 #include "MEngine.h"
 
 WPBR_USING
@@ -10,10 +9,9 @@ WPBR_USING
 int main(int argc, char* argv[])
 {
 	DOptions options = DOptions::createOptionsByCMDArguments(argv, (std::size_t)argc);
-	
 	MEngine& engine = MEngine::getInstance();
 	engine.init(options);
-	engine.loadResources();
+	//engine.loadResources();
 	engine.render();
 }
 

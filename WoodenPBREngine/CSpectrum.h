@@ -6,6 +6,11 @@
 WPBR_BEGIN
 using Spectrum = typename SampledSpectrum;
 
+struct CSpectrum: public Spectrum
+{
+	DECL_MANAGED_DENSE_COMP_DATA(Spectrum, 16)
+}; DECL_OUT_COMP_DATA(CSpectrum)
+
 void blackbody(const float* lambda, uint32_t n, float T, float* le)
 {
 	const float c = 299792458;

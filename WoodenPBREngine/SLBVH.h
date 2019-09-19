@@ -35,7 +35,6 @@ struct CLBVHTree
 	DECL_MANAGED_DENSE_COMP_DATA(CLBVHTree, 1)
 }; DECL_OUT_COMP_DATA(CLBVHTree)
 
-
 class JobProcessRayCastsResults : public JobParallazible
 {
 	constexpr static uint16_t sliceSize = 32;
@@ -77,11 +76,11 @@ class JobProcessRayCastsResults : public JobParallazible
 
 			if (tHitMin == std::numeric_limits<float>::infinity())
 			{
-				rayCast.res = false;
+				rayCast.hCollision = INVALID_HANDLE;
 			}
 			else
 			{
-				rayCast.res = true;
+				rayCast.hCollision = interactionEntity;
 				if (rayCast.bSurfInteraction)
 				{
 					ecs->addComponent<CFullInteractionRequest>(interactionEntity);
@@ -619,7 +618,7 @@ class JobBuildUpperSAH: public Job
 				count1 += bucketsCount[j];
 			}
 
-			costs[i] = 0.125 + (count0*b0.surfaceArea() + count1 * b1.surfaceArea()) / bounds.surfaceArea();
+			costs[i] = 0.125 + (count0*b0.area() + count1 * b1.area()) / bounds.area();
 		}
 
 		float costMin = costs[0];

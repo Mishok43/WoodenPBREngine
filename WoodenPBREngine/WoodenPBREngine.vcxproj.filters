@@ -195,6 +195,12 @@
     <ClInclude Include="CLightAreaSphere.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SScattering.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SIntegratorDirect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">

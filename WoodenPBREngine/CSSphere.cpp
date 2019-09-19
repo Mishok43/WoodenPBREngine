@@ -41,7 +41,7 @@ void JobProcessSphereSurfInteractionRequests::update(WECS* ecs, uint8_t iThread)
 	}, requests);
 }
 
-void JobProcessSphereSurfInteractionRequests::update(WECS* ecs, uint8_t iThread)
+void JobProcessSphereFullInteractionRequests::update(WECS* ecs, uint8_t iThread)
 {
 	uint32_t nCollisions = queryComponentsGroup<CFullInteractionRequest>().size<CFullInteractionRequest>();
 	uint32_t sliceSize = (nCollisions + nThreads - 1) / nThreads;
@@ -174,16 +174,14 @@ CTextureMappedPoint SSphere::mapUV(
 }
 
 
-uint32_t SSphere::create(CShape shape,
-					   CTransform transform,
+uint32_t SSphere::create(CTransform transform,
 					   CSphere sphere)
 {
 	MEngine& engine = MEngine::getInstance();
 	uint32_t hEntity = engine.createEntity();
-	shape.type = CShape::Type::Sphere;
-	engine.addComponent<CShape>(hEntity, std::move(shape));
 	engine.addComponent<CTransform>(hEntity, std::move(transform));
 	engine.addComponent<CSphere>(hEntity, std::move(sphere));
+	engine.addComponent<CMapUVRequests>(hEntity);
 
 	return hEntity;
 }

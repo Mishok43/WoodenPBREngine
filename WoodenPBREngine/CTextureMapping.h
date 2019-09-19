@@ -8,6 +8,12 @@
 WPBR_BEGIN
 
 
+struct CMapUVRequests
+{
+	std::vector<HEntity, AllocatorAligned<HEntity>> si;
+	DECL_MANAGED_DENSE_COMP_DATA(CMapUVRequests, 16)
+}; DECL_OUT_COMP_DATA(CMapUVRequests)
+
 struct CTextureMappedPoint
 {
 	DPoint2f p;

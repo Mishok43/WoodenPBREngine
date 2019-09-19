@@ -1,7 +1,6 @@
 #pragma once
 #include "pch.h"
 #include "DOptions.h"
-#include "DScene.h"
 #include "WoodenECS/WECS.h"
 
 WPBR_BEGIN
@@ -26,7 +25,9 @@ private:
 private:
 	const std::string DEFAULT_SCENE_FILENAME = "test.scene";
 
-	DScene scene;
+	void buildLBVH();
+	void buildScene();
+	void runCollisionSystem();
 };
 
 WPBR_END

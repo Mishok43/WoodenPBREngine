@@ -280,13 +280,6 @@ public:
 	}
 
 
-	static DVector3f toRGB(const SampledSpectrum& s)
-	{
-		DVector3f xyz = toXYZ(s);
-		DVector3f rgb = xyzToRGB(xyz);
-		return rgb;
-	}
-
 	float y() const
 	{
 		float yy = 0.0f;
@@ -298,6 +291,14 @@ public:
 		return yy * dl;
 	}
 };
+
+
+DVector3f toRGB(const SampledSpectrum& s)
+{
+	DVector3f xyz = toXYZ(s);
+	DVector3f rgb = xyzToRGB(xyz);
+	return rgb;
+}
 
 
 

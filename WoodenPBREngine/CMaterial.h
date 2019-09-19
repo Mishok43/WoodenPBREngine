@@ -3,8 +3,24 @@
 #include "CRayDifferential.h"
 #include "CSufraceInteraction.h"
 #include "CTexture.h"
+#include "WoodenECS/Job.h"
 
 WPBR_BEGIN
+
+struct CBSDFRequests
+{
+	std::vector<HEntity, AllocatorAligned<HEntity>> data;
+	DECL_MANAGED_DENSE_COMP_DATA(CBSDFRequests, 16)
+}; DECL_OUT_COMP_DATA(CBSDFRequests)
+
+class JobGenerateBSDFRequests: public JobParallaziblePerCompGroup<CSurfaceInteraction>
+{
+	void update(WECS* ecs, HEntity hEntity, CSurfaceInteraction& comps)
+	{
+		CBSDFRequests& requests =  ecs->getComponent<CBSDFRequests>(comps.hCollision);
+		requests.data.push_back(hEntity);
+	}
+};
 
 void bump(const CTextureBumpMap& bumpMap, CSurfaceInteraction& surfInter)
 {
@@ -43,9 +59,6 @@ void bump(const CTextureBumpMap& bumpMap, CSurfaceInteraction& surfInter)
 	surfInter.setShadingGeometry(dpdu, dpdv, surfInter.shading.dndu, surfInter.shading.dndv,
 						   false);
 }
-
-
-
 
 WPBR_END
 

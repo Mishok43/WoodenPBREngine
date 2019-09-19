@@ -5,13 +5,11 @@
 #include "WoodenMathLibrarry/DNormal.h"
 #include "WoodenMathLibrarry/DVector.h"
 #include "WoodenMathLibrarry/DPoint.h"
-#include "DRayDifferential.h"
-#include "CShape.h"
+#include "CRayDifferential.h"
 
 WPBR_BEGIN
 
 struct CMedium;
-struct CShape;
 
 
 struct CFullInteractionRequest: public CompDummy
@@ -29,20 +27,47 @@ struct CRayCast
 {
 	DRayf ray;
 	bool bSurfInteraction=true; 
-	bool res;
+	HEntity hCollision;
 	std::vector<HEntity, AllocatorAligned<HEntity>> interactionEntities;
 }; 
-
 
 struct CInteraction
 {
 	DPoint3f p;
 	DVector3f wo;
-	CMedium* medium;
+	HEntity hCollision;
 	float time;
 
 	DECL_MANAGED_DENSE_COMP_DATA(CInteraction, 16);
 }; DECL_OUT_COMP_DATA(CInteraction)
+
+
+class JobComputeDifferentialsForSurfInter: public JobParallazible
+{
+	constexpr static uint32_t slice = 128;
+
+	void updateNStartThreads(uint8_t nWorkThreads) override
+	{
+		nThreads = std::min(nWorkThreads, (queryComponentsGroup<CRayDifferential, CSurfaceInteraction>().size() + slice - 1) / slice);
+	}
+
+	void update(WECS* ecs, uint8_t iThread) override
+	{
+
+		uint32_t nRequests = queryComponentsGroup<CRayDifferential, CSurfaceInteraction>().size();
+		uint32_t sliceSize = (nRequests + nThreads - 1) / nThreads;
+
+		ComponentsGroupSlice<CRayDifferential, CSurfaceInteraction> differentials =
+			queryComponentsGroupSlice<CRayDifferential, CSurfaceInteraction>(Slice(iThread * sliceSize, sliceSize));
+
+		for_each([&](HEntity hEntity, 
+				 const CRayDifferential& ray,
+				 CSurfaceInteraction& si)
+		{
+			si.computeDifferentials(ray);
+		}, differentials);
+	}
+};
 
 struct CSurfaceInteraction: public CInteraction
 {
@@ -54,10 +79,10 @@ struct CSurfaceInteraction: public CInteraction
 		DVector2f uv, DVector3f wo,
 		DVector3f dpdu, DVector3f dpdv,
 		DVector3f dndu, DVector3f dndv,
-		float time):
+		float time, HEntity hCollision):
 		CInteraction{
 			std::move(p), std::move(wo),
-			DNormal3f(normalize(cross(dpdu, dpdv))), nullptr, time
+			hCollision, time
 		},
 		uv(std::move(uv)),
 		dpdu(std::move(dpdu)), dpdv(std::move(dpdv)),

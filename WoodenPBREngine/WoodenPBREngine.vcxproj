@@ -207,7 +207,9 @@
     <ClInclude Include="MicrofaceDistr.h" />
     <ClInclude Include="RGBSpectrum.h" />
     <ClInclude Include="SCollision.h" />
+    <ClInclude Include="SIntegratorDirect.h" />
     <ClInclude Include="SIntegratorSampler.h" />
+    <ClInclude Include="SScattering.h" />
     <ClInclude Include="SLBVH.h" />
     <ClInclude Include="SLighting.h" />
     <ClInclude Include="CRay.h" />

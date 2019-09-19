@@ -2,7 +2,6 @@
 
 #include "pch.h"
 #include "CSSampler.h"
-#include "CFilm.h"
 #include "WoodenECS/Job.h"
 #include "WoodenMathLibrarry/DPoint.h"
 #include "WoodenMathLibrarry/DBounds.h"
@@ -21,52 +20,84 @@ struct CHEntitySamplerStratified: public HEntity
 	DECL_MANAGED_DENSE_COMP_DATA(CHEntitySamplerStratified, 1)
 }; DECL_OUT_COMP_DATA(CHEntitySamplerStratified)
 
-class JobSamplerStratifiedGenerateSampels: public JobParallazible
+class JobSamplerStratifiedGenerateSampels1D: public JobParallazible
 {
+	static constexpr uint32_t sliceSize = 32;
+
 	virtual void updateNStartThreads(uint8_t nWorkThreads) override
 	{
-		nThreads = std::min(nWorkThreads, queryComponentsGroup<CCameraSamplesBatch>().size());
+		nThreads = std::min(nWorkThreads, (queryComponentsGroup<CSamples1D>().size()+ sliceSize -1)/ sliceSize);
 	}
 
 	virtual void update(WECS* ecs, uint8_t iThread) override
 	{
-		uint32_t sliceSize = (queryComponentsGroup<CCameraSamplesBatch, CHEntitySamplerStratified>().size() - nThreads + 1) / nThreads;
-		ComponentsGroupSlice<CCameraSamplesBatch, CHEntitySamplerStratified> tiles =
-			queryComponentsGroupSlice<CCameraSamplesBatch, CHEntitySamplerStratified>(Slice(sliceSize*iThread, sliceSize));
+		uint32_t sliceSize = 
+			(queryComponentsGroup<CSamples1D>().size()+nThreads-1)/nThreads;
+
+		ComponentsGroupSlice<CSamples1D> samples =
+			queryComponentsGroupSlice<CSamples1D>(Slice(sliceSize*iThread, sliceSize));
 
 		for_each([ecs, this](HEntity hEntity,
-				 CCameraSamplesBatch& samples,
-				 const CHEntitySamplerStratified& hEntitySampler)
-		{
-			CHEntitySamplerStratified sampler = ecs->getComponent<CHEntitySamplerStratified>(hEntitySampler);
-			
+				 CSamples1D& samples)
+		{			
 			std::random_device rd; std::mt19937 gen(rd());
 			std::uniform_real_distribution<float> uniform(0.0, 1.0);
+
+
 			
-			for (uint32_t i = 0; i < samples.samples1D.size(); i++)
+			for (uint32_t i = 0; i < samples.data.size(); i++)
 			{
-				float invNSamples = 1.0/samples.samples1D.size();
+				float invNSamples = 1.0/ samples.data.size();
 				float dt = uniform(gen);
-				samples.samples1D[i] = std::min((i + dt)*invNSamples, 1.0);
+				samples.data[i] = std::min((i + dt)*invNSamples, 1.0);
 			}
 
-			std::random_shuffle(samples.samples1D.begin(), samples.samples1D.end());
+			std::random_shuffle(samples.data.begin(), samples.data.end());
 
-			for (uint32_t i = 0; i < samples.samples2D.size(); i++)
+
+		}, samples);
+	}
+};
+
+class JobSamplerStratifiedGenerateSampels2D: public JobParallazible
+{
+	static constexpr uint32_t sliceSize = 32;
+
+	virtual void updateNStartThreads(uint8_t nWorkThreads) override
+	{
+		nThreads = std::min(nWorkThreads, (queryComponentsGroup<CSamples2D>().size()+ sliceSize -1)/ sliceSize);
+	}
+
+	virtual void update(WECS* ecs, uint8_t iThread) override
+	{
+		uint32_t sliceSize = 
+			(queryComponentsGroup<CSamples2D>().size()+nThreads-1)/nThreads;
+
+		ComponentsGroupSlice<CSamples2D> samples =
+			queryComponentsGroupSlice<CSamples2D>(Slice(sliceSize*iThread, sliceSize));
+
+		for_each([ecs, this](HEntity hEntity,
+				 CSamples2D& samples)
+		{			
+			std::random_device rd; std::mt19937 gen(rd());
+			std::uniform_real_distribution<float> uniform(0.0, 1.0);
+
+
+			for (uint32_t i = 0; i < samples.data.size(); i++)
 			{
-				for (uint32_t j = 0; j < samples.samples2D.size(); j++)
+				for (uint32_t j = 0; j < samples.data.size(); j++)
 				{
-					float invNSamples = 1.0 / samples.samples2D.size();
+					float invNSamples = 1.0 / samples.data.size();
 					float dtX = uniform(gen);
 					float dtY = uniform(gen);
-					samples.samples2D[i].x() = std::min((i + dtX)*invNSamples, 1.0);
-					samples.samples2D[i].y() = std::min((j + dtY)*invNSamples, 1.0);
+					samples.data[i].x() = std::min((i + dtX)*invNSamples, 1.0);
+					samples.data[i].y() = std::min((j + dtY)*invNSamples, 1.0);
 				}
 			}
 
-			std::random_shuffle(samples.samples2D.begin(), samples.samples2D.end());
+			std::random_shuffle(samples.data.begin(), samples.data.end());
 
-		}, tiles);
+		}, samples);
 	}
 };
 

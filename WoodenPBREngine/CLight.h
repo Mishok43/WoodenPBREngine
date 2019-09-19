@@ -8,16 +8,27 @@
 
 WPBR_BEGIN
 
+struct CLightSamplingRequests
+{
+	std::vector<HEntity, AllocatorAligned<HEntity>> data;
+
+	DECL_MANAGED_DENSE_COMP_DATA(CLightSamplingRequests, 16)
+}; DECL_OUT_COMP_DATA(CLightSamplingRequests)
+
+struct CLightComputeRequests
+{
+	std::vector<HEntity, AllocatorAligned<HEntity>> data;
+	DECL_MANAGED_DENSE_COMP_DATA(CLightComputeRequests, 16)
+}; DECL_OUT_COMP_DATA(CLightComputeRequests)
+
+
 struct CLight
 {
+	Spectrum LEmit;
 	DECL_MANAGED_DENSE_COMP_DATA(CLight, 16)
 }; DECL_OUT_COMP_DATA(CLight)
 
 
-struct CLightIntensity : public Spectrum
-{
-	DECL_MANAGED_DENSE_COMP_DATA(CLightIntensity, 16)
-}; DECL_OUT_COMP_DATA(CLightIntensity)
 
 struct CLightPosition : public DPoint3f
 {
@@ -33,8 +44,8 @@ struct CLightPoint: public CompDummy
 class JobLightPointsSample
 {
 	Spectrum sample_li(
+		const CLight& l,
 		const CLightPoint& light,
-		const CLightIntensity& lI,
 		const CLightPosition& lp,
 		const CInteraction& ref,
 		DVector3f& wi,
@@ -45,7 +56,7 @@ class JobLightPointsSample
 		float disLength2 = dis.length2();
 		wi = dis / std::sqrt(disLength2);
 		pdf = 1.0f;
-		return lI /disLength2;
+		return l.LEmit /disLength2;
 	}
 };
 
@@ -60,7 +71,7 @@ class JobLightSpotSample
 
 	Spectrum sample_li(
 		const CLightSpot& spot,
-		const CLightIntensity& lI,
+		const CLight& l,
 		const CLightPosition& lp,
 		const CTransform& lworld,
 		const CInteraction& ref,
@@ -93,7 +104,7 @@ class JobLightSpotSample
 				(spot.cosFalloffStart - spot.cosTotal);
 			falloff = (delta * delta) * (delta * delta);
 		}
-		return lI *(falloff/ disLength2);
+		return l.LEmit *(falloff/ disLength2);
 	}
 };
 
