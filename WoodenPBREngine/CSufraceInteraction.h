@@ -4,6 +4,7 @@
 #include "CRay.h"
 #include "WoodenMathLibrarry/DNormal.h"
 #include "WoodenMathLibrarry/DVector.h"
+#include "WoodenMathLibrarry/HSolver.h"
 #include "WoodenMathLibrarry/DPoint.h"
 #include "CRayDifferential.h"
 
@@ -40,34 +41,6 @@ struct CInteraction
 
 	DECL_MANAGED_DENSE_COMP_DATA(CInteraction, 16);
 }; DECL_OUT_COMP_DATA(CInteraction)
-
-
-class JobComputeDifferentialsForSurfInter: public JobParallazible
-{
-	constexpr static uint32_t slice = 128;
-
-	void updateNStartThreads(uint8_t nWorkThreads) override
-	{
-		nThreads = std::min(nWorkThreads, (queryComponentsGroup<CRayDifferential, CSurfaceInteraction>().size() + slice - 1) / slice);
-	}
-
-	void update(WECS* ecs, uint8_t iThread) override
-	{
-
-		uint32_t nRequests = queryComponentsGroup<CRayDifferential, CSurfaceInteraction>().size();
-		uint32_t sliceSize = (nRequests + nThreads - 1) / nThreads;
-
-		ComponentsGroupSlice<CRayDifferential, CSurfaceInteraction> differentials =
-			queryComponentsGroupSlice<CRayDifferential, CSurfaceInteraction>(Slice(iThread * sliceSize, sliceSize));
-
-		for_each([&](HEntity hEntity, 
-				 const CRayDifferential& ray,
-				 CSurfaceInteraction& si)
-		{
-			si.computeDifferentials(ray);
-		}, differentials);
-	}
-};
 
 struct CSurfaceInteraction: public CInteraction
 {
@@ -108,7 +81,7 @@ struct CSurfaceInteraction: public CInteraction
 	{
 		float d = dot(n, p);
 		float tx = -(dot(n, ray.difXRay.origin) - d) / dot(n, ray.difXRay.dir);
-		DPoint3f px = ray.difXRay.origin +  ray.difXRay.dir*tx;
+		DPoint3f px = ray.difXRay.origin + ray.difXRay.dir*tx;
 
 		float ty = -(dot(n, ray.difYRay.origin) - d) / dot(n, ray.difYRay.dir);
 		DPoint3f py = ray.difYRay.origin + ray.difYRay.dir*ty;
@@ -132,25 +105,25 @@ struct CSurfaceInteraction: public CInteraction
 
 		float A[2][2] = {
 			{dpdu[dim[0]], dpdv[dim[0]]},
-			{dpdu[dim[1]], dpdv[dim[2]]}
+			{dpdu[dim[1]], dpdv[dim[1]]}
 		};
 
 		float Bx[2] = {
 			px[dim[0]] - p[dim[0]],
-			px[dim[0]] - p[dim[1]]
+			px[dim[1]] - p[dim[1]]
 		};
 
 		float By[2] = {
 			py[dim[0]] - p[dim[0]],
-			py[dim[0]] - p[dim[1]]
+			py[dim[1]] - p[dim[1]]
 		};
 
-		if (!Solvers::solveLinearSystem2x2(A, Bx, dudx, dvdx))
+		if (!Solvers::solveLinearSystem2x2(A, Bx, &dudx, &dvdx))
 		{
 			dudx = dvdx = 0;
 		}
 
-		if (!Solvers::solveLinearSystem2x2(A, Bx, dudy, dvdy))
+		if (!Solvers::solveLinearSystem2x2(A, Bx, &dudy, &dvdy))
 		{
 			dudy = dvdy = 0;
 		}
@@ -205,6 +178,36 @@ struct CSurfaceInteraction: public CInteraction
 
 	DECL_MANAGED_DENSE_COMP_DATA(CSurfaceInteraction, 8);
 }; DECL_OUT_COMP_DATA(CSurfaceInteraction)
+
+
+
+
+class JobComputeDifferentialsForSurfInter : public JobParallazible
+{
+	constexpr static uint32_t slice = 128;
+
+	uint32_t updateNStartThreads(uint32_t nWorkThreads) override
+	{
+		return min(nWorkThreads, (queryComponentsGroup<CRayDifferential, CSurfaceInteraction>().size() + slice - 1) / slice);
+	}
+
+	void update(WECS* ecs, uint8_t iThread) override
+	{
+
+		uint32_t nRequests = queryComponentsGroup<CRayDifferential, CSurfaceInteraction>().size();
+		uint32_t sliceSize = (nRequests + getNumThreads() - 1) / getNumThreads();
+
+		ComponentsGroupSlice<CRayDifferential, CSurfaceInteraction> differentials =
+			queryComponentsGroupSlice<CRayDifferential, CSurfaceInteraction>(Slice(iThread * sliceSize, sliceSize));
+
+		for_each([&](HEntity hEntity,
+				 const CRayDifferential& ray,
+				 CSurfaceInteraction& si)
+		{
+			si.computeDifferentials(ray);
+		}, differentials);
+	}
+};
 
 
 

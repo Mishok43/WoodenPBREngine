@@ -3,7 +3,7 @@
 #include "CSufraceInteraction.h"
 #include "WoodenECS/Job.h"
 #include "WoodenMathLibrarry/DMatrix.h"
-#include "BXDF.h"
+#include "CBXDF.h"
 #include <algorithm>
 
 WPBR_BEGIN
@@ -80,15 +80,15 @@ struct CBSDFSampleRequest
 //
 //class JobBSDFProcessSurfaceInteractions: public JobParallazible
 //{
-//	void updateNStartThreads(uint8_t nWorkThreads) override
+//	uint32_t updateNStartThreads(uint32_t nWorkThreads) override
 //	{
-//		nThreads = std::min(nWorkThreads, queryComponentsGroup<CInteractionSurfEntities>().size());
+//		return std::min(nWorkThreads, queryComponentsGroup<CInteractionSurfEntities>().size());
 //	}
 //
 //	void update(WECS* ecs, uint8_t iThread) override
 //	{
 //		uint32_t nBSDFWithInteractions = queryComponentsGroup<CInteractionSurfEntities>().size();
-//		uint32_t sliceSize = (nBSDFWithInteractions+nThreads-1) / nThreads;
+//		uint32_t sliceSize = (nBSDFWithInteractions+nThreads-1) /getNumThreads();
 //		ComponentsGroupSlice<CInteractionSurfEntities, CBSDF>  bsdfWithInteractions =
 //			queryComponentsGroupSlice<CInteractionSurfEntities, CBSDF>(Slice(iThread*sliceSize, sliceSize));
 //

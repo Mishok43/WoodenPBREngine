@@ -29,9 +29,9 @@ class SCameraEnviroment
 
 class JobCameraEnvirGenerateRays : public JobParallazible
 {
-	void updateNStartThreads(uint8_t nWorkThreads) override
+	uint32_t updateNStartThreads(uint32_t nWorkThreads) override
 	{
-		nThreads = nWorkThreads;
+		return nWorkThreads;
 	}
 
 	void update(WECS* ecs, uint8_t iThread) override
@@ -67,9 +67,9 @@ class JobCameraEnvirGenerateRays : public JobParallazible
 
 class JobCameraEnvirGenerateRaysDifferential : public JobParallazible
 {
-	void updateNStartThreads(uint8_t nWorkThreads) override
+	uint32_t updateNStartThreads(uint32_t nWorkThreads) override
 	{
-		nThreads = nWorkThreads;
+		return nWorkThreads;
 	}
 
 	void update(WECS* ecs, uint8_t iThread) override

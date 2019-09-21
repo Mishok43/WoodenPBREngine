@@ -7,6 +7,11 @@
 
 WPBR_BEGIN
 
+struct CTriangleMeshHandle: public HEntity
+{
+	DECL_MANAGED_DENSE_COMP_DATA(CTriangleMeshHandle, 16)
+}; DECL_OUT_COMP_DATA(CTriangleMeshHandle)
+
 struct CTriangleMesh
 {
 	CTriangleMesh(uint32_t nTriangle, uint32_t nVertex,
@@ -23,7 +28,7 @@ struct CTriangleMesh
 	std::vector<DNormal3f> normals;
 	std::vector<DPoint3f> positions;
 
-	DECL_UNMANAGED_DENSE_SHARED_COMP_DATA(CTriangleMesh, 16)
+	DECL_MANAGED_DENSE_COMP_DATA(CTriangleMesh, 16)
 }; DECL_OUT_COMP_DATA(CTriangleMesh)
 
 class STriangleMesh
@@ -35,6 +40,7 @@ public:
 
 
 	void generateTriangles(MEngine& engine,
+			    HEntity hEntity,
 				const CTriangleMesh& triangleMesh);
 
 

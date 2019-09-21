@@ -81,9 +81,12 @@ struct CTextureR : public TextureBase<float>
 
 
 
+
+
 template<typename T>
 struct CTextureBindingBase
 {
+
 	std::string filename;
 	HEntity tex;
 
@@ -95,38 +98,53 @@ struct CTextureBindingBase
 
 struct CTextureBindingRGB: public CTextureBindingBase<CTextureRGB>
 {
-	//DECL_MANAGED_DENSE_COMP_DATA(CTextureBindingRGB, 16)
-}; //DECL_OUT_COMP_DATA(CTextureBindingRGB)
+	DECL_MANAGED_DENSE_COMP_DATA(CTextureBindingRGB, 16)
+}; DECL_OUT_COMP_DATA(CTextureBindingRGB)
 
 struct CTextureBindingR: public CTextureBindingBase<CTextureR>
 {
-	//DECL_MANAGED_DENSE_COMP_DATA(CTextureBindingR, 16)
-}; 
+	DECL_MANAGED_DENSE_COMP_DATA(CTextureBindingR, 16)
+}; DECL_OUT_COMP_DATA(CTextureBindingR)
 
 
-struct CTextureSpecular : public CTextureBindingR
+
+class STextureBindingRGB
 {
-	DECL_MANAGED_DENSE_COMP_DATA(CTextureSpecular, 1)
-}; DECL_OUT_COMP_DATA(CTextureSpecular)
+public:
+	static HEntity create(const std::string& filename)
+	{
+		CTextureBindingRGB tex;
+		tex.filename = filename;
 
-struct CTextureDiffuse : public CTextureBindingRGB
-{
-	DECL_MANAGED_DENSE_COMP_DATA(CTextureDiffuse, 1)
-}; DECL_OUT_COMP_DATA(CTextureDiffuse)
+		MEngine& mEngine = MEngine::getInstance();
+		HEntity h = mEngine.createEntity();
+		mEngine.addComponent<CTextureBindingRGB>(h, std::move(tex));
+	}
+};
 
-
-struct CTextureRoughness : public CTextureBindingR
-{
-	DECL_MANAGED_DENSE_COMP_DATA(CTextureRoughness, 1)
-}; DECL_OUT_COMP_DATA(CTextureRoughness)
-
-
-struct CTextureBumpMap : public CTextureBindingR
-{
-	DECL_MANAGED_DENSE_COMP_DATA(CTextureBumpMap, 1)
-}; DECL_OUT_COMP_DATA(CTextureBumpMap)
-
-
+//
+//
+//struct CTextureSpecular : public CTextureBindingR
+//{
+//	DECL_MANAGED_DENSE_COMP_DATA(CTextureSpecular, 1)
+//}; DECL_OUT_COMP_DATA(CTextureSpecular)
+//
+//struct CTextureDiffuse : public CTextureBindingRGB
+//{
+//	DECL_MANAGED_DENSE_COMP_DATA(CTextureDiffuse, 1)
+//}; DECL_OUT_COMP_DATA(CTextureDiffuse)
+//
+//
+//struct CTextureRoughness : public CTextureBindingR
+//{
+//	DECL_MANAGED_DENSE_COMP_DATA(CTextureRoughness, 1)
+//}; DECL_OUT_COMP_DATA(CTextureRoughness)
+//
+//
+//struct CTextureBumpMap : public CTextureBindingR
+//{
+//	DECL_MANAGED_DENSE_COMP_DATA(CTextureBumpMap, 1)
+//}; DECL_OUT_COMP_DATA(CTextureBumpMap)
 
 
 struct CSurfaceInteractionHandle : public HEntity
@@ -159,15 +177,15 @@ struct CFilterTableGaussing
 
 class JobFilterTableGaussing: public JobParallazible
 {
-	void updateNStartThreads(uint8_t nWorkThreads) override
+	uint32_t updateNStartThreads(uint32_t nWorkThreads) override
 	{
-		nThreads = std::min(queryComponentsGroup<CFilterTableGaussing>().size(), nWorkThreads);
+		return std::min(queryComponentsGroup<CFilterTableGaussing>().size(), nWorkThreads);
 	}
 
 	void update(WECS* ecs, uint8_t iThread) override
 	{
 		uint32_t n = queryComponentsGroup<CFilterTableGaussing>().size();
-		uint32_t sliceSize = (n + nThreads - 1) / nThreads;
+		uint32_t sliceSize = (n + getNumThreads()-1) /getNumThreads();
 		ComponentsGroupSlice comps = queryComponentsGroupSlice<CFilterTableGaussing>(Slice(iThread*sliceSize, sliceSize));
 		for_each([](HEntity hEntity, CFilterTableGaussing& table)
 		{

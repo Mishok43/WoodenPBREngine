@@ -89,11 +89,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>false</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>C:\Users\mishok43\source\repos\WoodenMath;C:\Users\mishok43\source\repos\WoodenECS;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\devmi\source\repos\WoodenAllocators;C:\Users\devmi\source\repos\WoodenMathLibrarry;C:\Users\mishok43\source\repos\WoodenMath;C:\Users\mishok43\source\repos\WoodenECS;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -106,10 +107,10 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>C:\Users\devmi\source\repos\WoodenMathLibrarry;C:\Users\devmi\source\repos\;C:\Users\devmi\source\repos\WoodenECS;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\devmi\source\repos\WoodenAllocators;C:\Users\devmi\source\repos\WoodenMathLibrarry;C:\Users\devmi\source\repos\WoodenMathLibrarry;C:\Users\devmi\source\repos\;C:\Users\devmi\source\repos\WoodenECS;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -125,10 +126,11 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>C:\Users\mishok43\source\repos\WoodenMath;C:\Users\mishok43\source\repos\WoodenECS;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\devmi\source\repos\WoodenAllocators;C:\Users\devmi\source\repos\WoodenMathLibrarry;C:\Users\mishok43\source\repos\WoodenMath;C:\Users\mishok43\source\repos\WoodenECS;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -145,10 +147,10 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>C:\Users\devmi\source\repos\WoodenMathLibrarry;C:\Users\devmi\source\repos\;C:\Users\devmi\source\repos\WoodenECS;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\devmi\source\repos\WoodenAllocators;C:\Users\devmi\source\repos\WoodenMathLibrarry;C:\Users\devmi\source\repos\WoodenMathLibrarry;C:\Users\devmi\source\repos\;C:\Users\devmi\source\repos\WoodenECS;</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -166,7 +168,6 @@
     <ClInclude Include="CBSDF.h" />
     <ClInclude Include="CDistribution.h" />
     <ClInclude Include="CFilterMitchell.h" />
-    <ClInclude Include="CLightAreaSphere.h" />
     <ClInclude Include="CMaterialMatte.h" />
     <ClInclude Include="CMaterialPlastic.h" />
     <ClInclude Include="CRayDifferential.h" />
@@ -174,11 +175,8 @@
     <ClInclude Include="CCentroid.h" />
     <ClInclude Include="CSFilm.h" />
     <ClInclude Include="CMaterial.h" />
-    <ClInclude Include="CMedium.h" />
-    <ClInclude Include="CNormal.h" />
     <ClInclude Include="CoefficientSpectrum.h" />
     <ClInclude Include="CPhaseFunction.h" />
-    <ClInclude Include="CPosition.h" />
     <ClInclude Include="CRenderTile.h" />
     <ClInclude Include="CSampler.h" />
     <ClInclude Include="CSCameraEnviroment.h" />
@@ -191,27 +189,21 @@
     <ClInclude Include="CSSampler.h" />
     <ClInclude Include="CSSamplerStratified.h" />
     <ClInclude Include="CSTriangleMesh.h" />
-    <ClInclude Include="CTangent.h" />
     <ClInclude Include="CSTriangle.h" />
     <ClInclude Include="CSpectrumSampled.h" />
     <ClInclude Include="CSSphere.h" />
     <ClInclude Include="CSufraceInteraction.h" />
     <ClInclude Include="CLight.h" />
-    <ClInclude Include="CPrimitive.h" />
     <ClInclude Include="CTexture.h" />
     <ClInclude Include="CTextureMapping.h" />
-    <ClInclude Include="CUV.h" />
-    <ClInclude Include="CVisibilityTest.h" />
     <ClInclude Include="DRayDifferential.h" />
     <ClInclude Include="CTransform.h" />
     <ClInclude Include="MicrofaceDistr.h" />
     <ClInclude Include="RGBSpectrum.h" />
-    <ClInclude Include="SCollision.h" />
     <ClInclude Include="SIntegratorDirect.h" />
     <ClInclude Include="SIntegratorSampler.h" />
     <ClInclude Include="SScattering.h" />
     <ClInclude Include="SLBVH.h" />
-    <ClInclude Include="SLighting.h" />
     <ClInclude Include="CRay.h" />
     <ClInclude Include="CScene.h" />
     <ClInclude Include="MParser.h" />
@@ -239,9 +231,14 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="DOptions.cpp" />
     <ClCompile Include="SIntergratorWhitted.cpp" />
-    <ClCompile Include="SLighting.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\WoodenAllocators\WoodenAllocators\WoodenAllocators.vcxproj">
+      <Project>{86ddad96-bac0-40bf-a401-8d5443c58056}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WoodenECS\WoodenECS\WoodenECS.vcxproj">
+      <Project>{b3596647-5db7-46dc-9d39-801b0f6a66eb}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\WoodenMathLibrarry\WoodenMathLibrarry\WoodenMathLibrarry.vcxproj">
       <Project>{8eb029a1-f5d6-47a1-87f1-6ff56b00de04}</Project>
     </ProjectReference>

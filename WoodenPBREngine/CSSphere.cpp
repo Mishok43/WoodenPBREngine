@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "CSSphere.h"
 #include "MEngine.h"
 #include "WoodenMathLibrarry/DPoint.h"
@@ -12,7 +13,7 @@ using namespace SSphere;
 void JobProcessSphereSurfInteractionRequests::update(WECS* ecs, uint8_t iThread)
 {
 	uint32_t nCollisions = queryComponentsGroup<CInteractionSphere>().size<CInteractionSphere>();
-	uint32_t sliceSize = (nCollisions + nThreads - 1) / nThreads;
+	uint32_t sliceSize = (nCollisions + getNumThreads()-1) /getNumThreads();
 	uint32_t iStart = iThread * sliceSize;
 
 	ComponentsGroupSlice<CInteractionSphere, CInteractionRequest> requests =
@@ -44,7 +45,7 @@ void JobProcessSphereSurfInteractionRequests::update(WECS* ecs, uint8_t iThread)
 void JobProcessSphereFullInteractionRequests::update(WECS* ecs, uint8_t iThread)
 {
 	uint32_t nCollisions = queryComponentsGroup<CFullInteractionRequest>().size<CFullInteractionRequest>();
-	uint32_t sliceSize = (nCollisions + nThreads - 1) / nThreads;
+	uint32_t sliceSize = (nCollisions + getNumThreads()-1) /getNumThreads();
 	uint32_t iStart = iThread * sliceSize;
 
 	ComponentsGroupSlice<CFullInteractionRequest, CInteractionSphere, CInteractionRequest> requests =
@@ -181,6 +182,8 @@ uint32_t SSphere::create(CTransform transform,
 	uint32_t hEntity = engine.createEntity();
 	engine.addComponent<CTransform>(hEntity, std::move(transform));
 	engine.addComponent<CSphere>(hEntity, std::move(sphere));
+	engine.addComponent<CBounds>(hEntity);
+	engine.addComponent<CCentroid>(hEntity);
 	engine.addComponent<CMapUVRequests>(hEntity);
 
 	return hEntity;

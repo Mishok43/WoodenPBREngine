@@ -24,9 +24,9 @@ class JobSamplerStratifiedGenerateSampels1D: public JobParallazible
 {
 	static constexpr uint32_t sliceSize = 32;
 
-	virtual void updateNStartThreads(uint8_t nWorkThreads) override
+	virtual uint32_t updateNStartThreads(uint32_t nWorkThreads) override
 	{
-		nThreads = std::min(nWorkThreads, (queryComponentsGroup<CSamples1D>().size()+ sliceSize -1)/ sliceSize);
+		return std::min(nWorkThreads, (queryComponentsGroup<CSamples1D>().size()+ sliceSize -1)/ sliceSize);
 	}
 
 	virtual void update(WECS* ecs, uint8_t iThread) override
@@ -63,9 +63,9 @@ class JobSamplerStratifiedGenerateSampels2D: public JobParallazible
 {
 	static constexpr uint32_t sliceSize = 32;
 
-	virtual void updateNStartThreads(uint8_t nWorkThreads) override
+	virtual uint32_t updateNStartThreads(uint32_t nWorkThreads) override
 	{
-		nThreads = std::min(nWorkThreads, (queryComponentsGroup<CSamples2D>().size()+ sliceSize -1)/ sliceSize);
+		return std::min(nWorkThreads, (queryComponentsGroup<CSamples2D>().size()+ sliceSize -1)/ sliceSize);
 	}
 
 	virtual void update(WECS* ecs, uint8_t iThread) override

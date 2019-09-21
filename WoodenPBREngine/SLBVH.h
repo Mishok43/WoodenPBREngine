@@ -39,17 +39,17 @@ class JobProcessRayCastsResults : public JobParallazible
 {
 	constexpr static uint16_t sliceSize = 32;
 
-	virtual void updateNStartThreads(uint8_t nWorkThreads) override
+	virtual uint32_t updateNStartThreads(uint32_t nWorkThreads) override
 	{
 		ComponentsGroup<CRayCast> rayCast = queryComponentsGroup<CRayCast>();
-		nThreads = std::min(nWorkThreads, (rays.size<CRay>()+sliceSize-1)/sliceSize);
+		return std::min(nWorkThreads, (rays.size<CRay>()+sliceSize-1)/sliceSize);
 	}
 
 	virtual void update(WECS* ecs, uint8_t iThread) override
 	{
 		uint32_t nRaysCasts = queryComponentsGroup<CRayCast>().size<CRayCast>();
 
-		uint32_t slice = (nRaysCasts + nThreads - 1) / nThreads;
+		uint32_t slice = (nRaysCasts + getNumThreads()-1) /getNumThreads();
 		uint32_t iStart = iThread * slice;
 		ComponentsGroupSlice<CRay> rayCasts = queryComponentsGroupSlice<CRay>(Slice(iStart, slice));
 		for_each([ecs](HEntity hEntity, CRayCast& rayCast)
@@ -111,17 +111,17 @@ class JobProcessRayCastsResults : public JobParallazible
 
 class JobProcessRayCasts: public JobParallazible
 {
-	virtual void updateNStartThreads(uint8_t nWorkThreads) override
+	virtual uint32_t updateNStartThreads(uint32_t nWorkThreads) override
 	{
 		ComponentsGroup<CRayCast> rayCast = queryComponentsGroup<CRayCast>();
-		nThreads = std::min(nWorkThreads, rays.size<CRay>());
+		return std::min(nWorkThreads, rays.size<CRay>());
 	}
 
 	virtual void update(WECS* ecs, uint8_t iThread) override
 	{
 		uint32_t nRays = queryComponentsGroup<CRayCast>().size<CRayCast>();
 
-		uint32_t slice = (nRays+nThreads-1) / nThreads;
+		uint32_t slice = (nRays+nThreads-1) /getNumThreads();
 		uint32_t iStart = iThread * slice;
 		ComponentsGroupSlice<CRay> rays = queryComponentsGroupSlice<CRay>(Slice(iStart, slice));
 		ComponentsGroup<CLBVHTree> trees = queryComponentsGroup<CLBVHTree>();
@@ -320,10 +320,10 @@ class JobGenerateShapesMortonCode : public JobParallazible
 		}, treeBuilderData);
 	}
 
-	virtual void updateNStartThreads(uint8_t nWorkThreads) override
+	virtual uint32_t updateNStartThreads(uint32_t nWorkThreads) override
 	{
 		ComponentsGroup<CCentroid, CBounds> shapesData = queryComponentsGroup<CCentroid, CBounds>();
-		nThreads = std::min((shapesData.size<CCentroid>()+sliceSize-1)/sliceSize, nWorkThreads);
+		return std::min((shapesData.size<CCentroid>()+sliceSize-1)/sliceSize, nWorkThreads);
 	}
 
 	uint32_t leftShift3(uint32_t x)
@@ -431,9 +431,9 @@ class JobSortsShapesByMortonCode : public Job
 
 class JobEmitLBVH : public JobParallazible
 {
-	virtual void updateNStartThreads(uint8_t nWorkThreads) override
+	virtual uint32_t updateNStartThreads(uint32_t nWorkThreads) override
 	{
-		nThreads = nWorkThreads;
+		return nWorkThreads;
 	}
 
 	void update(WECS* ecs, uint8_t iThread) override
@@ -442,7 +442,7 @@ class JobEmitLBVH : public JobParallazible
 		for_each([this, ecs, iThread](CLBVHTreeBuilder& treeBuilder)
 		{
 			uint16_t nSubTreeBuilders = treeBuilder.subTreeBuilders.size();
-			uint16_t slice = nSubTreeBuilders / nThreads;
+			uint16_t slice = nSubTreeBuilders /getNumThreads();
 
 			uint16_t iStart = iThread * slice;
 			uint16_t iEnd = std::min(iStart + slice+1, nSubTreeBuilders);

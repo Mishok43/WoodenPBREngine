@@ -22,16 +22,14 @@ class SCamera
 {
 public:
 	static HEntity create(CCamera camera,
-						   DAnimatedTransformf animatedTransform,
-						   CFilm film,
-						   CMedium medium)
+						   CTransform animatedTransform,
+						   CFilm film)
 	{
 		MEngine& ecs = MEngine::getInstance();
 		HEntity hEntity = ecs.createEntity();
 		ecs.addComponent<CCamera>(hEntity, std::move(camera));
-		ecs.addComponent<CAnimatedTransform>(hEntity, std::move(animatedTransform));
+		ecs.addComponent<CTransform>(hEntity, std::move(animatedTransform));
 		ecs.addComponent<CFilm>(hEntity, std::move(film));
-		ecs.addComponent<CMedium>(hEntity, std::move(medium));
 		return hEntity;
 	}
 };
@@ -42,9 +40,9 @@ WPBR_END
 
 //class JobGenerateRaysDifferential : public JobParallazible
 //{
-//	void updateNStartThreads(uint8_t nWorkThreads) override
+//	uint32_t updateNStartThreads(uint32_t nWorkThreads) override
 //	{
-//		nThreads = nWorkThreads;
+//		return nWorkThreads;
 //	}
 //
 //	void update(WECS* ecs, uint8_t iThread) override

@@ -30,16 +30,7 @@
     <ClInclude Include="CLight.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CPrimitive.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SLighting.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CRay.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SCollision.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CSufraceInteraction.h">
@@ -64,9 +55,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="WPBRSettings.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CMedium.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CTransform.h">
@@ -97,18 +85,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CRenderTile.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CPosition.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CNormal.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CTangent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CUV.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CSTriangle.h">
@@ -183,16 +159,10 @@
     <ClInclude Include="CTexture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CVisibilityTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CDistribution.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CBSDFConductorMicroface.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CLightAreaSphere.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SScattering.h">
@@ -219,9 +189,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DScene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SLighting.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SIntergratorWhitted.cpp">

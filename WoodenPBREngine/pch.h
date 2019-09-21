@@ -17,7 +17,9 @@
 #include "stdint.h"
 #include <string>
 #include <assert.h>
+#include <algorithm>
 #include "WoodenECS/WECS.h"
+#include "WoodenECS/Job.h"
 #include "WoodenMathLibrarry/DVector.h"
 
 //using uint32_t = typename std::uint32_t;

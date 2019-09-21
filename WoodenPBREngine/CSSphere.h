@@ -44,10 +44,10 @@ class JobProcessSphereFullInteractionRequests: public JobParallazible
 {
 	constexpr static uint32_t slice = 64;
 
-	void updateNStartThreads(uint8_t nWorkThreads) override
+	uint32_t updateNStartThreads(uint32_t nWorkThreads) override
 	{
 		ComponentsGroup<CFullInteractionRequest> collisions = queryComponentsGroup<CFullInteractionRequest>();
-		nThreads = std::min(nWorkThreads, collisions.size<CFullInteractionRequest>()/ slice);
+		return std::min(nWorkThreads, collisions.size<CFullInteractionRequest>()/ slice);
 	}
 
 	void update(WECS* ecs, uint8_t iThread) override;
@@ -57,10 +57,10 @@ class JobProcessSphereSurfInteractionRequests: public JobParallazible
 {
 	constexpr static uint32_t slice = 64;
 
-	void updateNStartThreads(uint8_t nWorkThreads) override
+	uint32_t updateNStartThreads(uint32_t nWorkThreads) override
 	{
 		ComponentsGroup<CInteractionSphere> collisions = queryComponentsGroup<CInteractionSphere>();
-		nThreads = std::min(nWorkThreads, collisions.size<CInteractionSphere>()/ slice);
+		return std::min(nWorkThreads, collisions.size<CInteractionSphere>()/ slice);
 	}
 
 	void update(WECS* ecs, uint8_t iThread) override;
@@ -71,17 +71,17 @@ class JobUpdateBoundsAndCentroidSphere : public JobParallazible
 {
 	constexpr static uint32_t slice = 64;
 
-	void updateNStartThreads(uint8_t nWorkThreads) override
+	uint32_t updateNStartThreads(uint32_t nWorkThreads) override
 	{
 		ComponentsGroup<CSphere> collisions = queryComponentsGroup<CSphere>();
-		nThreads = std::min(nWorkThreads, collisions.size<CSphere>() / slice);
+		return std::min(nWorkThreads, collisions.size<CSphere>() / slice);
 	}
 
 	void update(WECS* ecs, uint8_t iThread) override
 	{
 
 		uint32_t nCollisions = queryComponentsGroup<CSphere>().size<CSphere>();
-		uint32_t sliceSize = (nCollisions + nThreads - 1) / nThreads;
+		uint32_t sliceSize = (nCollisions + getNumThreads()-1) /getNumThreads();
 		uint32_t iStart = iThread * sliceSize;
 
 		ComponentsGroupSlice<CSphere, CTransform, CBounds, CCentroid> spheres =
@@ -101,16 +101,16 @@ class JobSphereProcessMapUVRequests: public JobParallazible
 {
 	constexpr static uint32_t slice = 64;
 
-	void updateNStartThreads(uint8_t nWorkThreads) override
+	uint32_t updateNStartThreads(uint32_t nWorkThreads) override
 	{
-		nThreads = std::min(nWorkThreads, (queryComponentsGroup<CSphere, CMapUVRequests>().size()+slice-1)/ slice);
+		return std::min(nWorkThreads, (queryComponentsGroup<CSphere, CMapUVRequests>().size()+slice-1)/ slice);
 	}
 
 	void update(WECS* ecs, uint8_t iThread) override
 	{
 
 		uint32_t nRequests = queryComponentsGroup<CSphere>().size<CSphere>();
-		uint32_t sliceSize = (nRequests + nThreads - 1) / nThreads;
+		uint32_t sliceSize = (nRequests + getNumThreads()-1) /getNumThreads();
 
 		ComponentsGroupSlice<CSphere, CTransform,  CMapUVRequests> spheres =
 			queryComponentsGroupSlice<CSphere, CTransform, CMapUVRequests>(Slice(iThread * sliceSize, sliceSize));
@@ -132,16 +132,16 @@ class JobSphereLightProcessSamplingRequests : public JobParallazible
 {
 	constexpr static uint32_t slice = 64;
 
-	void updateNStartThreads(uint8_t nWorkThreads) override
+	uint32_t updateNStartThreads(uint32_t nWorkThreads) override
 	{
-		nThreads = std::min(nWorkThreads, (queryComponentsGroup<CSphere, CLightSamplingRequests>().size() + slice - 1) / slice);
+		return std::min(nWorkThreads, (queryComponentsGroup<CSphere, CLightSamplingRequests>().size() + slice - 1) / slice);
 	}
 
 	void update(WECS* ecs, uint8_t iThread) override
 	{
 
 		uint32_t nRequests = queryComponentsGroup<CSphere>().size<CSphere>();
-		uint32_t sliceSize = (nRequests + nThreads - 1) / nThreads;
+		uint32_t sliceSize = (nRequests + getNumThreads()-1) /getNumThreads();
 
 		ComponentsGroupSlice<CSphere, CTransform, CLightSamplingRequests, CLight> spheres =
 			queryComponentsGroupSlice<CSphere, CTransform, CLightSamplingRequests, CLight>(Slice(iThread * sliceSize, sliceSize));
@@ -177,16 +177,16 @@ class JobSphereLightProcessComputeRequests : public JobParallazible
 {
 	constexpr static uint32_t slice = 64;
 
-	void updateNStartThreads(uint8_t nWorkThreads) override
+	uint32_t updateNStartThreads(uint32_t nWorkThreads) override
 	{
-		nThreads = std::min(nWorkThreads, (queryComponentsGroup<CSphere, CLightComputeRequests>().size() + slice - 1) / slice);
+		return std::min(nWorkThreads, (queryComponentsGroup<CSphere, CLightComputeRequests>().size() + slice - 1) / slice);
 	}
 
 	void update(WECS* ecs, uint8_t iThread) override
 	{
 
 		uint32_t nRequests = queryComponentsGroup<CSphere>().size<CSphere>();
-		uint32_t sliceSize = (nRequests + nThreads - 1) / nThreads;
+		uint32_t sliceSize = (nRequests + getNumThreads()-1) /getNumThreads();
 
 		ComponentsGroupSlice<CSphere, CTransform, CLightComputeRequests, CLight> spheres =
 			queryComponentsGroupSlice<CSphere, CTransform, CLightComputeRequests, CLight>(Slice(iThread * sliceSize, sliceSize));

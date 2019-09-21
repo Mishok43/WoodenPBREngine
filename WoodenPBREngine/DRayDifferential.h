@@ -19,11 +19,11 @@ public:
 
 	void scaleDifferentials(T s)
 	{	
-		difXRay.origin = mad(difXRay.origin - origin, s, origin);
-		difXRay.dir = mad(difXRay.dir - dir, s, dir);
+		difXRay.origin = mad(difXRay.origin - this->origin, s, this->origin);
+		difXRay.dir = mad(difXRay.dir - this->dir, s, this->dir);
 
-		difYRay.origin = mad(difYRay.origin - origin, s, origin);
-		difYRay.dir = mad(difYRay.dir - dir, s, dir);
+		difYRay.origin = mad(difYRay.origin - this->origin, s, this->origin);
+		difYRay.dir = mad(difYRay.dir - this->dir, s, this->dir);
 	}
 
 	DRay<T> difXRay;

@@ -21,16 +21,14 @@ class SCameraProjective
 public:
 	static HEntity create(CCamera camera,
 						   CCameraProjective cameraProj,
-						   DAnimatedTransformf world,
-						   DTransformf cameraScreen,
-						   CFilm film,
-						   CMedium medium)
+						   CTransform world,
+						   CTransform cameraScreen,
+						   CFilm film)
 	{
 		MEngine& ecs = MEngine::getInstance();
 		HEntity hEntity = SCamera::create(std::move(camera),
 										  std::move(world),
-										  std::move(film), 
-										  std::move(medium));
+										  std::move(film));
 		ecs.addComponent<CCameraProjective>(hEntity, std::move(cameraProj));		
 		ecs.addComponent<CTransformCameraScreen>(hEntity, std::move(cameraScreen));
 

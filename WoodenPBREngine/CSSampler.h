@@ -48,15 +48,15 @@ struct CHEntitySampler: public HEntity
 class JobSamplerUpdateCameraSamples : public JobParallazible
 {
 	static constexpr  uint32_t sliceSize = 1024;
-	virtual void updateNStartThreads(uint8_t nWorkThreads) override
+	virtual uint32_t updateNStartThreads(uint32_t nWorkThreads) override
 	{
-		nThreads = std::min(nWorkThreads, 
+		return std::min(nWorkThreads, 
 			(queryComponentsGroup<CCameraSample, CSamples1D, CSamples2D>().size()+ sliceSize-1)/sliceSize);
 	}
 
 	virtual void update(WECS* ecs, uint8_t iThread) override
 	{
-		uint32_t sliceSize = (queryComponentsGroup<CCameraSample, CSamples1D, CSamples2D>().size() - nThreads + 1) / nThreads;
+		uint32_t sliceSize = (queryComponentsGroup<CCameraSample, CSamples1D, CSamples2D>().size() - nThreads + 1) /getNumThreads();
 		ComponentsGroupSlice<CCameraSample, CSamples1D, CSamples2D> tiles =
 			queryComponentsGroupSlice<CCameraSample, CSamples1D, CSamples2D>(Slice(sliceSize*iThread, sliceSize));
 

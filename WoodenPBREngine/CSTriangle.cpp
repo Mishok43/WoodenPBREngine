@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "CSTriangle.h" 
 WPBR_BEGIN
 
@@ -5,7 +6,7 @@ WPBR_BEGIN
 void JobProcessTriangleFullInteractionRequests::update(WECS* ecs, uint8_t iThread)
 {
 	uint32_t nCollisions = queryComponentsGroup<CInteractionTriangle>().size<CInteractionTriangle>();
-	uint32_t sliceSize = (nCollisions + nThreads - 1) / nThreads;
+	uint32_t sliceSize = (nCollisions + getNumThreads()-1) /getNumThreads();
 	uint32_t iStart = iThread * sliceSize;
 
 	ComponentsGroupSlice<CFullInteractionRequest, CInteractionTriangle, CInteractionRequest> requests =
@@ -175,7 +176,7 @@ void JobProcessTriangleFullInteractionRequests::update(WECS* ecs, uint8_t iThrea
 void JobProcessTriangleInteractionRequests::update(WECS* ecs, uint8_t iThread)
 {
 	uint32_t nCollisions = queryComponentsGroup<CInteractionTriangle>().size<CInteractionTriangle>();
-	uint32_t sliceSize = (nCollisions + nThreads - 1) / nThreads;
+	uint32_t sliceSize = (nCollisions + getNumThreads()-1) /getNumThreads();
 	uint32_t iStart = iThread * sliceSize;
 
 	ComponentsGroupSlice<CInteractionTriangle, CInteractionRequest> requests =
@@ -204,7 +205,7 @@ void JobProcessTriangleInteractionRequests::update(WECS* ecs, uint8_t iThread)
 		};
 
 
-		DVector3u8 iPermutation;
+		DVector3u iPermutation;
 		iPermutation.z() = maxDimension(abs(ray.dir));
 		iPermutation.x() = (iPermutation.z() == 2) ? 0 : iPermutation.z() + 1;
 		iPermutation.y() = (iPermutation.z() == 1) ? 0 : iPermutation.z() + 2;

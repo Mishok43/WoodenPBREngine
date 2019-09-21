@@ -38,9 +38,35 @@ struct CSampledLightPDF
 
 struct CSampledBSDF
 {
+	CSampledBSDF(HEntity h) : h(h)
+	{
+	};
 	HEntity h;
-};
 
+	DECL_MANAGED_DENSE_COMP_DATA(CSampledBSDF, 16)
+}; DECL_OUT_COMP_DATA(CSampledBSDF)
+
+class JobScatteringAccumulateEmittedLight: public Job
+{
+	void update(WECS* ecs)
+	{
+		ComponentsGroup<CSurfaceInteraction, CSpectrum> sis = queryComponentsGroup<CSurfaceInteraction, CSpectrum>();
+		std::vector<HEntity> deleteList;
+		for_each([&](HEntity hEntity, CSurfaceInteraction& si, CSpectrum& sp)
+		{
+			if (si.hCollision.hasComponent<CLight>())
+			{
+				sp += si.hCollision.getComponent<CLight>().LEmit;
+			}
+			deleteList.push_back(hEntity);
+		}, sis);
+
+		for (uint32_t i = 0; i < deleteList.size(); i++)
+		{
+			ecs->removeComponent<CSurfaceInteraction>(deleteList[i]);
+		}
+	}
+};
 
 class JobScatteringSampleLight : public JobParallaziblePerCompGroup<CSurfaceInteraction>
 {

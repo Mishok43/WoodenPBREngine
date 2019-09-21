@@ -15,30 +15,54 @@ struct CMaterialMatte: public CompDummy
 	DECL_MANAGED_DENSE_COMP_DATA(CMaterialMatte, 1)
 }; DECL_OUT_COMP_DATA(CMaterialMatte)
 
+class CSMaterialMatte
+{
+public:
+	static HEntity create(const std::string& texDiffFile, const std::string& texRoughnessFile)
+	{
+		MEngine& engine = MEngine::getInstance();
+		HEntity h = engine.createEntity();
+			
+		CTextureBindings texs;
+		texs.resize(2);
+		texs[0] = STextureBindingRGB::create(texDiffFile);
+		texs[1] = STextureBindingRGB::create(texRoughnessFile);
+
+		engine.addComponent<CTextureBindings>(h, std::move(texs));
+		engine.addComponent<CMaterialMatte>(h);
+		engine.addComponent<CBSDFRequests>(h);
+
+		return h;
+	}
+
+};
+
 class JobGenerateBSDFMaterialMatte : public JobParallazible
 {
-	void updateNStartThreads(uint8_t nWorkThreads) override
+	uint32_t updateNStartThreads(uint32_t nWorkThreads) override
 	{
-		nThreads = nWorkThreads;
+		return nWorkThreads;
 	}
 
 	void update(WECS* ecs, uint8_t iThread) override
 	{
 
 		uint32_t nRequests = queryComponentsGroup<CMaterialMatte, CBSDFRequests>().size();
-		uint32_t sliceSize = (nRequests + nThreads - 1) / nThreads;
+		uint32_t sliceSize = (nRequests + getNumThreads()-1) /getNumThreads();
 
-		ComponentsGroupSlice<CMaterialMatte, CTextureDiffuse, CTextureRoughness, CBSDFRequests> requests =
-			queryComponentsGroupSlice<CMaterialMatte, CTextureDiffuse, CTextureRoughness, CBSDFRequests>(Slice(iThread * sliceSize, sliceSize));
+		ComponentsGroupSlice<CMaterialMatte, CTextureBindings, CBSDFRequests> requests =
+			queryComponentsGroupSlice<CMaterialMatte, CTextureBindings, CBSDFRequests>(Slice(iThread * sliceSize, sliceSize));
 
-		for_each([&](HEntity hEntity, const CMaterialMatte& material, const CTextureDiffuse& kd,
-				 const CTextureRoughness& sigma, CBSDFRequests& requests)
+		for_each([&](HEntity hEntity, const CMaterialMatte& material, const CTextureBindings& texs, CBSDFRequests& requests)
 		{
 			for (uint32_t i = 0; i < requests.data.size(); i++)
 			{
 				HEntity h = requests.data[i];
 				const CSurfaceInteraction& si = ecs->getComponent<CSurfaceInteraction>(h);
 				const CTextureMappedPoint& mp = ecs->getComponent<CTextureMappedPoint>(h);
+
+				const CTextureBindingRGB& kd = ecs->getComponent<CTextureBindingRGB>(texs[0]);
+				const CTextureBindingRGB& sigma = ecs->getComponent<CTextureBindingRGB>(texs[1]);
 
 				CTextureSamplerAnistropic anistropic16x;
 				anistropic16x.maxAnisotropy = 16;
@@ -63,7 +87,7 @@ class JobGenerateBSDFMaterialMatte : public JobParallazible
 				ecs->addComponent<CReflectDirSamplerMicroface>(hBSDF, std::move(microfaceDistr));
 				ecs->addComponent<CSpectrumScale>(hBSDF, std::move(R));
 				ecs->addComponent<CFresnelConductor>(hBSDF, std::move(conductor));
-				ecs->addComponent<CSampledBSDFValue>(hEntity, { hBSDF });
+				ecs->addComponent<CSampledBSDF>(hEntity, hBSDF);
 			}
 			requests.data.clear();
 		}, requests);

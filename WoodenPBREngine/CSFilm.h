@@ -13,10 +13,9 @@ WPBR_BEGIN
 
 struct alignas(alignof(DBounds2i)) CFilm
 {
-	DBounds2i pixelBounds;
+	DPoint2i resolution;
 	std::vector<uint8_t> rgbOutput;
 	std::string outFile;
-	uint32_t nTiles;
 	uint32_t nProcessedTiles = 0;
 };
 
@@ -51,8 +50,9 @@ class JobGenerateFilmTiles : public JobParallaziblePerCompGroup<CFilm>
 	{
 		uint32_t tileSize = 16;
 		uint32_t nPixelsInTile = tileSize * tileSize;
-		uint32_t maxConcurrentProcessTiles = std::min(1, film.nTiles-film.nProcessedTiles);
-		DPoint2i nTiles = film.pixelBounds.diagonal() / tileSize;
+		uint32_t nAbsTiles = film.resolution.x() / tileSize * film.resolution.y() / tileSize;
+		uint32_t maxConcurrentProcessTiles = std::min(1, nAbsTiles -film.nProcessedTiles);
+		DPoint2i nTiles = film.resolution/ tileSize;
 		for (uint32_t i = 0; i < maxConcurrentProcessTiles; i++)
 		{
 			DPoint2i p = DPoint2i(film.nProcessedTiles % nTiles.x(), film.nProcessedTiles / nTiles.x());
@@ -103,14 +103,14 @@ public:
 
 class JobCreateCameraSamples : public JobParallazible
 {
-	void updateNStartThreads(uint8_t nWorkThreads) override
+	uint32_t updateNStartThreads(uint32_t nWorkThreads) override
 	{
-		nThreads = nWorkThreads;
+		return nWorkThreads;
 	}
 
 	void update(WECS* ecs, uint8_t iThread) override
 	{
-		uint32_t sliceSize = (queryComponentsGroup<CFilmTile>().size() - nThreads + 1) / nThreads;
+		uint32_t sliceSize = (queryComponentsGroup<CFilmTile>().size() - nThreads + 1) /getNumThreads();
 		ComponentsGroupSlice<CFilmTile> tiles =
 			queryComponentsGroupSlice<CFilmTile>(Slice(sliceSize*iThread, sliceSize));
 
@@ -143,14 +143,14 @@ class JobCreateCameraSamples : public JobParallazible
 
 class JobAccumalateLIFromSamples : public JobParallazible
 {
-	void updateNStartThreads(uint8_t nWorkThreads) override
+	uint32_t updateNStartThreads(uint32_t nWorkThreads) override
 	{
-		nThreads = nWorkThreads;
+		return nWorkThreads;
 	}
 
 	void update(WECS* ecs, uint8_t iThread) override
 	{
-		uint32_t sliceSize = (queryComponentsGroup<CFilmTile>().size() - nThreads + 1) / nThreads;
+		uint32_t sliceSize = (queryComponentsGroup<CFilmTile>().size() - nThreads + 1) /getNumThreads();
 		ComponentsGroupSlice<CFilmTile> samples =
 		queryComponentsGroupSlice<CFilmTile>(Slice(sliceSize*iThread, sliceSize));
 
@@ -188,14 +188,14 @@ class JobAccumalateLIFromSamples : public JobParallazible
 
 class JobOutputFilmTitles : public JobParallazible
 {
-	void updateNStartThreads(uint8_t nWorkThreads) override
+	uint32_t updateNStartThreads(uint32_t nWorkThreads) override
 	{
-		nThreads = nWorkThreads;
+		return nWorkThreads;
 	}
 
 	void update(WECS* ecs, uint8_t iThread) override
 	{
-		uint32_t sliceSize = (queryComponentsGroup<CFilmTile>().size() - nThreads + 1) / nThreads;
+		uint32_t sliceSize = (queryComponentsGroup<CFilmTile>().size() - nThreads + 1) /getNumThreads();
 		ComponentsGroupSlice<CFilmTile> samples =
 		queryComponentsGroupSlice<CFilmTile>(Slice(sliceSize*iThread, sliceSize));
 
@@ -220,16 +220,16 @@ class JobOutputFilm : public JobParallaziblePerCompGroup<CFilm>
 		uint32_t tileSize = 16;
 
 		std::vector<uint8_t> data;
-		data.resize(film.pixelBounds.area() * 3);
+		data.resize(film.resolution.x()*film.resolution.y() * 3);
 		uint32_t tileRowSize = tileSize * 3;
 		uint32_t tileSize = tileSize * tileSize * 3;
 		uint32_t tileRowSizeBytes = tileRowSize * 1;
 		uint32_t tileSizeBytes = tileSize*1;
-		DPoint2i filmSize = film.pixelBounds.diagonal();
+		DPoint2i filmSize = film.resolution;
 		uint8_t* mergeArr = data.data();
-
-		DPoint2i nTiles = film.pixelBounds.diagonal() / tileSize;
-		for (uint32_t i = 0; i < film.nTiles; i++)
+		uint32_t nAbsTiles = film.resolution.x() / tileSize * film.resolution.y() / tileSize;
+		DPoint2i nTiles = film.resolution/ tileSize;
+		for (uint32_t i = 0; i < nAbsTiles; i++)
 		{
 			DPoint2i iP = DPoint2i(i % nTiles.x(), i/ nTiles.x());
 

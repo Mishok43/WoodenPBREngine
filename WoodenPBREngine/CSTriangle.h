@@ -36,10 +36,10 @@ class JobProcessTriangleFullInteractionRequests : public JobParallazible
 {
 	constexpr static uint32_t slice = 64;
 
-	void updateNStartThreads(uint8_t nWorkThreads) override
+	uint32_t updateNStartThreads(uint32_t nWorkThreads) override
 	{
 		ComponentsGroup<CInteractionTriangle> collisions = queryComponentsGroup<CInteractionTriangle>();
-		nThreads = std::min(nWorkThreads, collisions.size<CInteractionTriangle>() / slice);
+		return std::min(nWorkThreads, collisions.size<CInteractionTriangle>() / slice);
 	}
 
 	void update(WECS* ecs, uint8_t iThread) override;
@@ -49,10 +49,10 @@ class JobProcessTriangleInteractionRequests: public JobParallazible
 {
 	constexpr static uint32_t slice = 64;
 
-	void updateNStartThreads(uint8_t nWorkThreads) override
+	uint32_t updateNStartThreads(uint32_t nWorkThreads) override
 	{
 		ComponentsGroup<CInteractionTriangle> collisions = queryComponentsGroup<CInteractionTriangle>();
-		nThreads = std::min(nWorkThreads, collisions.size<CInteractionTriangle>()/ slice);
+		return std::min(nWorkThreads, collisions.size<CInteractionTriangle>()/ slice);
 	}
 
 	void update(WECS* ecs, uint8_t iThread) override;
@@ -63,17 +63,17 @@ class JobUpdateBoundsAndCentroidTriangle : public JobParallazible
 {
 	constexpr static uint32_t slice = 64;
 
-	void updateNStartThreads(uint8_t nWorkThreads) override
+	uint32_t updateNStartThreads(uint32_t nWorkThreads) override
 	{
 		ComponentsGroup<CTriangle> collisions = queryComponentsGroup<CTriangle>();
-		nThreads = std::min(nWorkThreads, collisions.size<CTriangle>() / slice);
+		return std::min(nWorkThreads, collisions.size<CTriangle>() / slice);
 	}
 
 	void update(WECS* ecs, uint8_t iThread) override
 	{
 
 		uint32_t nCollisions = queryComponentsGroup<CTriangle>().size<CTriangle>();
-		uint32_t sliceSize = (nCollisions + nThreads - 1) / nThreads;
+		uint32_t sliceSize = (nCollisions + getNumThreads()-1) /getNumThreads();
 		uint32_t iStart = iThread * sliceSize;
 
 		ComponentsGroupSlice<CTriangle, CTriangleMesh, CBounds, CCentroid> triangles =

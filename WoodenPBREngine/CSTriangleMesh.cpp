@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "CSTriangleMesh.h"
 #include "CSTriangle.h"
 #include "CPosition.h"
@@ -38,6 +39,7 @@ uint32_t STriangleMesh::create(
 
 
 void STriangleMesh::generateTriangles(MEngine& engine,
+							HEntity hEntity,
 						   const CTriangleMesh& triangleMesh)
 {
 	for (uint32_t i = 0; i < triangleMesh.nTriangles; i++)
@@ -45,6 +47,7 @@ void STriangleMesh::generateTriangles(MEngine& engine,
 		
 		HEntity hEntity = engine.createEntity();
 		engine.addComponent<CTriangle>(hEntity, CTriangle{ i });
+		engine.addComponent<CTriangleMeshHandle>(hEntity, CTriangleMeshHandle(hEntity));
 	}
 }
 

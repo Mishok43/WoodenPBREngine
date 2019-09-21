@@ -1,6 +1,6 @@
-//#pragma once
-//
-//#include "pch.h"
+#pragma once
+
+#include "pch.h"
 //#include "CBXDF.h"
 //#include "CMaterial.h"
 //#include "CSpectrum.h"

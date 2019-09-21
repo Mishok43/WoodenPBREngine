@@ -18,6 +18,8 @@ public:
 
 	using base::operator ();
 
+	CTransform() = default;
+
 	CTransform(const Vector& trans, const Vector& scale, const Quaternion& rotation):
 		DTransform(trans, scale, rotation)
 	{ }

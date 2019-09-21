@@ -25,8 +25,10 @@ private:
 private:
 	const std::string DEFAULT_SCENE_FILENAME = "test.scene";
 
+	void buildCameraAndFilm();
 	void buildLBVH();
 	void buildScene();
+	void buildMaterials();
 	void runCollisionSystem();
 };
 

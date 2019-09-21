@@ -12,7 +12,7 @@ struct CBounds : public DBounds3f
 		DBounds3f(std::move(bounds))
 	{}
 
-	DECL_UNMANAGED_FLAT_SHARED_COMP_DATA(CBounds, 16);
+	DECL_MANAGED_FLAT_COMP_DATA(CBounds, 16);
 }; DECL_OUT_COMP_DATA(CBounds)
 
 WPBR_END

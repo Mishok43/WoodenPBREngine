@@ -9,31 +9,28 @@ WPBR_BEGIN
 struct CCameraPerspective
 {
 	DVector3f dxCamera, dyCamera;
-	float a;
 };
 
 
 class SCameraPerspective
 {
+public:
 	static HEntity create(CCamera camera,
 						  CCameraProjective cameraProj,
-						   CCameraPerspective cameraPerspective,
-						   DAnimatedTransformf world,
-						   DTransformf cameraScreen,
-						   CFilm film,
-						   CMedium medium)
+						   CTransform world,
+						   CTransform cameraScreen,
+						   CFilm film)
 	{
 		HEntity hEntity = SCameraProjective::create(std::move(camera), std::move(cameraProj),
-													std::move(world), std::move(cameraScreen), std::move(film),
-													std::move(medium));
+													std::move(world), std::move(cameraScreen), std::move(film));
 
 		MEngine& engine = MEngine::getInstance();
 
 		const CTransformRasterCamera& rasterCamera = engine.getComponent<CTransformRasterCamera>(hEntity);
-		CCameraPerspective cameraOrthographic;
-		cameraOrthographic.dxCamera = rasterCamera(DVector3f(1, 0, 0)) - rasterCamera(DVector3f(0, 0, 0));
-		cameraOrthographic.dyCamera = rasterCamera(DVector3f(0.0, 1.0, 0.0)) - rasterCamera(DVector3f(0, 0, 0));
-		engine.addComponent<CTransformRasterCamera>(hEntity, std::move(cameraOrthographic));
+		CCameraPerspective cameraPersp;
+		cameraPersp.dxCamera = rasterCamera(DVector3f(1, 0, 0)) - rasterCamera(DVector3f(0, 0, 0));
+		cameraPersp.dyCamera = rasterCamera(DVector3f(0.0, 1.0, 0.0)) - rasterCamera(DVector3f(0, 0, 0));
+		engine.addComponent<CCameraPerspective>(hEntity, std::move(cameraPersp));
 
 		return hEntity;
 	}
@@ -42,25 +39,25 @@ class SCameraPerspective
 class JobCameraPerspGenerateRays : public JobParallazible
 {
 	static constexpr uint32_t sliceSize = 256;
-	void updateNStartThreads(uint8_t nWorkThreads) override
+	uint32_t updateNStartThreads(uint32_t nWorkThreads) override
 	{
-		nThreads = min(nWorkThreads, (queryComponentsGroup<CCameraSample>().size()-sliceSize+1)/sliceSize);
+		return min(nWorkThreads, (queryComponentsGroup<CCameraSample>().size()-sliceSize+1)/sliceSize);
 	}
 
 	void update(WECS* ecs, uint8_t iThread) override
 	{
-		ComponentsGroup<CCameraPerspective, CCamera, CAnimatedTransform, CTransformRasterCamera> cameras =
-			queryComponentsGroup<CCameraPerspective, CCamera, CAnimatedTransform, CTransformRasterCamera>();
+		ComponentsGroup<CCameraPerspective, CCamera, CTransform, CTransformRasterCamera> cameras =
+			queryComponentsGroup<CCameraPerspective, CCamera, CTransform, CTransformRasterCamera>();
 
 		assert(cameras.size() == 1);
 
 		for_each([this, ecs, iThread](HEntity,
 				 const CCameraPerspective& cameraPerspe,
 				 const CCamera& camera,
-				 const CAnimatedTransform& world,
+				 const CTransform& world,
 				 const CTransformRasterCamera& rasterCamera)
 		{
-			uint32_t sliceSize = (queryComponentsGroup<CCameraSample>().size() - nThreads + 1) / nThreads;
+			uint32_t sliceSize = (queryComponentsGroup<CCameraSample>().size() - nThreads + 1) /getNumThreads();
 			ComponentsGroupSlice<CCameraSample> samples =
 				queryComponentsGroupSlice<CCameraSample>(Slice(sliceSize*iThread, sliceSize));
 
@@ -87,25 +84,25 @@ class JobCameraPerspGenerateRays : public JobParallazible
 
 class JobCameraPerspGenerateRaysDifferential : public JobParallazible
 {
-	void updateNStartThreads(uint8_t nWorkThreads) override
+	uint32_t updateNStartThreads(uint32_t nWorkThreads) override
 	{
-		nThreads = nWorkThreads;
+		return nWorkThreads;
 	}
 
 	void update(WECS* ecs, uint8_t iThread) override
 	{
-		ComponentsGroup<CCameraPerspective, CCamera, CAnimatedTransform, CTransformRasterCamera> cameras =
-			queryComponentsGroup<CCameraPerspective, CCamera, CAnimatedTransform, CTransformRasterCamera>();
+		ComponentsGroup<CCameraPerspective, CCamera, CTransform, CTransformRasterCamera> cameras =
+			queryComponentsGroup<CCameraPerspective, CCamera, CTransform, CTransformRasterCamera>();
 
 		assert(cameras.size() == 1);
 
 		for_each([this, ecs, iThread](HEntity,
 				 const CCameraPerspective& cameraPerspe,
 				 const CCamera& camera,
-				 const CAnimatedTransform& world,
+				 const CTransform& world,
 				 const CTransformRasterCamera& rasterCamera)
 		{
-			uint32_t sliceSize = (queryComponentsGroup<CCameraSample>().size() - nThreads + 1) / nThreads;
+			uint32_t sliceSize = (queryComponentsGroup<CCameraSample>().size() - nThreads + 1) /getNumThreads();
 			ComponentsGroupSlice<CCameraSample> samples =
 				queryComponentsGroupSlice<CCameraSample>(Slice(sliceSize*iThread, sliceSize));
 
@@ -116,7 +113,7 @@ class JobCameraPerspGenerateRaysDifferential : public JobParallazible
 					DPoint3f pFilm = DPoint3f(sPFilm.x(), sPFilm.y(), 0);
 					DPoint3f pCamera = rasterCamera(pFilm);
 
-					DRayDifferentialf ray = DRayDifferentialf(DPoint3f(0.0, 0.0, 0.0), normalize(DVector3f(pCamera));
+					DRayDifferentialf ray = DRayDifferentialf(DPoint3f(0.0, 0.0, 0.0), normalize(DVector3f(pCamera)));
 					ray.difXRay.origin = ray.difYRay.origin = ray.origin;
 					ray.difXRay.dir = normalize(DVector3f(pCamera) + cameraPerspe.dxCamera);
 					ray.difYRay.dir = normalize(DVector3f(pCamera) + cameraPerspe.dyCamera);
