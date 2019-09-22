@@ -1,10 +1,6 @@
 #include "pch.h"
 #include "CSTriangleMesh.h"
 #include "CSTriangle.h"
-#include "CPosition.h"
-#include "CNormal.h"
-#include "CUV.h"
-#include "CTangent.h"
 #include "MEngine.h"
 
 WPBR_BEGIN

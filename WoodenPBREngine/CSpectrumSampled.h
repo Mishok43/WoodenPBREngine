@@ -18,7 +18,14 @@ public:
 		CoefficientSpectrum(v)
 	{}
 
-	SampledSpectrum(const CoefficientSpectrum& r):
+
+	template<uint32_t n> 
+	SampledSpectrum(CoefficientSpectrum<n>&& r) :
+		CoefficientSpectrum(r)
+	{}
+
+	template<uint32_t n>
+	SampledSpectrum(const CoefficientSpectrum<n>& r):
 		CoefficientSpectrum(r)
 	{}
 
@@ -66,9 +73,9 @@ public:
 
 		for (; j + 1 < n && waveLength1 >= lambda[j]; j++)
 		{
-			float segWaveLength0 = std::max(waveLength0, lambda[i]);
-			float segWaveLength1 = std::min(waveLength1, lambda[i + 1]);
-			sumSamples += (interp(segWaveLength0, i) + interp(segWaveLength1, i)) *
+			float segWaveLength0 = max(waveLength0, lambda[j]);
+			float segWaveLength1 = min(waveLength1, lambda[j + 1]);
+			sumSamples += (interp(segWaveLength0, j) + interp(segWaveLength1, j)) *
 				(segWaveLength1 - segWaveLength0)*0.5;
 		}
 		return sumSamples / (waveLength1 - waveLength0);
@@ -264,20 +271,7 @@ public:
 		}
 	}
 
-	static DVector3f toXYZ(const SampledSpectrum& s) 
-	{
-		DVector3f xyz;
-		for (uint32_t i = 0; i < nSpectralSamples/8; i++)
-		{
-			xyz[0] += dot(s.c[i],X.c[i]);
-			xyz[1] += dot(s.c[i],Y.c[i]);
-			xyz[2] += dot(s.c[i],Z.c[i]);
-		}
 
-		float dl = (sampledLambdaEnd - sampledLambdaStart) / float(nSpectralSamples);
-		xyz *= dl;
-		return xyz;
-	}
 
 
 	float y() const
@@ -293,6 +287,21 @@ public:
 };
 
 
+DVector3f toXYZ(const SampledSpectrum& s)
+{
+	DVector3f xyz;
+	for (uint32_t i = 0; i < nSpectralSamples / 8; i++)
+	{
+		xyz[0] += dot(s.c[i], SampledSpectrum::X.c[i]);
+		xyz[1] += dot(s.c[i], SampledSpectrum::Y.c[i]);
+		xyz[2] += dot(s.c[i], SampledSpectrum::Z.c[i]);
+	}
+
+	float dl = (sampledLambdaEnd - sampledLambdaStart) / float(nSpectralSamples);
+	xyz *= dl;
+	return xyz;
+}
+
 DVector3f toRGB(const SampledSpectrum& s)
 {
 	DVector3f xyz = toXYZ(s);
@@ -302,26 +311,6 @@ DVector3f toRGB(const SampledSpectrum& s)
 
 
 
-template<uint8_t nSamplesGroups>
-CoefficientSpectrum<nSamplesGroups> clamp(const CoefficientSpectrum<nSamplesGroups>& s, float low = 0, float high = std::numeric_limits<float>::infinity())
-{
-	CoefficientSpectrum ret = s;
-	for (uint32_t i = 0; i < nSamplesGroups; i++)
-	{
-		ret.c[i] = clamp(s.c[i], low, high);
-	}
-	return ret;
-}
-
-template<uint8_t nSamplesGroups>
-CoefficientSpectrum<nSamplesGroups> sqrt(const CoefficientSpectrum<nSamplesGroups>& s)
-{
-	CoefficientSpectrum ret;
-	for (uint32_t i = 0; i < nSamplesGroups; i++)
-	{
-		ret.c[i] = sqrt(s.c[i]);
-	}
-}
 
 WPBR_END
 

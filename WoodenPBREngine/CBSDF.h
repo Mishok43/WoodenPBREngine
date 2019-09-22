@@ -82,7 +82,7 @@ struct CBSDFSampleRequest
 //{
 //	uint32_t updateNStartThreads(uint32_t nWorkThreads) override
 //	{
-//		return std::min(nWorkThreads, queryComponentsGroup<CInteractionSurfEntities>().size());
+//		return min(nWorkThreads, queryComponentsGroup<CInteractionSurfEntities>().size());
 //	}
 //
 //	void update(WECS* ecs, uint8_t iThread) override

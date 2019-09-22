@@ -33,12 +33,12 @@ public:
 		ecs.addComponent<CTransformCameraScreen>(hEntity, std::move(cameraScreen));
 
 		DTransformf screenRaster = 
-			DTransformf.makeScale(film.fullResolution.x(),
-								  film.fullResolution.y(), 1)*
-			DTransformf.makeScale(1.0 / (cameraProj.screenWindow.pMax.x() - cameraProj.screenWindow.pMin.x()),
+			DTransformf::makeScale(film.resolution.x(),
+								  film.resolution.y(), 1)*
+			DTransformf::makeScale(1.0 / (cameraProj.screenWindow.pMax.x() - cameraProj.screenWindow.pMin.x()),
 								  1.0 / (cameraProj.screenWindow.pMax.y() - cameraProj.screenWindow.pMin.y()),
 								  1.0) *
-			DTransformf.makeTranslate(-cameraProj.screenWindow.pMin.x(),
+			DTransformf::makeTranslate(-cameraProj.screenWindow.pMin.x(),
 									  -cameraProj.screenWindow.pMin.y(),
 									  0);
 		ecs.addComponent<CTransformScreenRaster>(hEntity, std::move(screenRaster));

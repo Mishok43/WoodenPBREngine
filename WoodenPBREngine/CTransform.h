@@ -20,6 +20,10 @@ public:
 
 	CTransform() = default;
 
+	CTransform(DTransform&& t):
+		DTransform(std::move(t))
+	{ }
+
 	CTransform(const Vector& trans, const Vector& scale, const Quaternion& rotation):
 		DTransform(trans, scale, rotation)
 	{ }
@@ -27,6 +31,7 @@ public:
 	CTransform(Matrix m, Matrix mInv) :
 		DTransform(std::move(m), std::move(mInv))
 	{}
+
 
 	inline CSurfaceInteraction operator()(const CSurfaceInteraction& surfInter) const
 	{

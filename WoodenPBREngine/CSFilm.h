@@ -1,47 +1,15 @@
 #pragma once
 #include "pch.h"
-#include "WoodenMathLibrarry/DBounds.h"
-#include "WoodenECS/Job.h"
-#include "CSpectrum.h"
-#include "CSCamera.h"
-#include <algorithm>
+#include "CFilm.h"
+#include "CCamera.h"
+#include "CSampler.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 
 WPBR_BEGIN
 
 
-struct alignas(alignof(DBounds2i)) CFilm
-{
-	DPoint2i resolution;
-	std::vector<uint8_t> rgbOutput;
-	std::string outFile;
-	uint32_t nProcessedTiles = 0;
-};
-
-struct alignas(alignof(DBounds2i)) CFilmTile
-{
-	DBounds2i pixelBounds;
-	std::vector<Spectrum, AllocatorAligned<Spectrum>> pixLiAccumulated;
-	std::vector<float, AllocatorAligned<float>> pixFilterWeightAccumulated;
-	std::vector<HEntity> samples;
-	uint8_t* rgbOutput;
-	uint32_t nSamplesPerPixel;
-
-	uint32_t nSamples1DPerCameraSample;
-	uint32_t nSamples2DPerCameraSample;
-	bool bAccumulated = false;
-
-	uint32_t getPixelIndex(const DPoint2i& p)
-	{
-		assert(p >= pixelBounds.pMin);
-		assert(p <= pixelBounds.pMax);
-
-		DPoint2i d = p - pixelBounds.pMin;
-
-		return d.x() + d.y()*pixelBounds.diagonal().x();
-	}
-};
 
 
 class JobGenerateFilmTiles : public JobParallaziblePerCompGroup<CFilm>
@@ -51,7 +19,7 @@ class JobGenerateFilmTiles : public JobParallaziblePerCompGroup<CFilm>
 		uint32_t tileSize = 16;
 		uint32_t nPixelsInTile = tileSize * tileSize;
 		uint32_t nAbsTiles = film.resolution.x() / tileSize * film.resolution.y() / tileSize;
-		uint32_t maxConcurrentProcessTiles = std::min(1, nAbsTiles -film.nProcessedTiles);
+		uint32_t maxConcurrentProcessTiles = min(1, nAbsTiles -film.nProcessedTiles);
 		DPoint2i nTiles = film.resolution/ tileSize;
 		for (uint32_t i = 0; i < maxConcurrentProcessTiles; i++)
 		{
@@ -121,7 +89,7 @@ class JobCreateCameraSamples : public JobParallazible
 			{
 			  HEntity hSample =	ecs->createEntity();
 			  CCameraSample camera;
-			  camera.pFilm = p;
+			  camera.pFilm = (DPoint2f)p;
 
 			  CSamples1D samples1D;
 			  samples1D.data.resize(tile.nSamples1DPerCameraSample);

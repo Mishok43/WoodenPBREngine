@@ -2,19 +2,12 @@
 #include "pch.h"
 #include "MEngine.h"
 #include "CAnimatedTransform.h"
-#include "CSFilm.h"
-#include "CMedium.h"
+#include "CFilm.h"
 #include "CRayDifferential.h"
 #include "WoodenECS/Job.h"
+#include "CCamera.h"
 
 WPBR_BEGIN
-struct CCamera
-{
-	float shutterOpenTime, shutterCloseTime;
-
-	DECL_MANAGED_DENSE_COMP_DATA(CCamera, 1)
-}; DECL_OUT_COMP_DATA(CCamera)
-
 
 
 

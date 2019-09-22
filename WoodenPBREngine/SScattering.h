@@ -4,6 +4,7 @@
 #include "WoodenECS/Job.h"
 #include "WoodenMathLibrarry/DVector.h"
 #include "CBSDF.h"
+#include "CLight.h"
 WPBR_BEGIN
 
 struct CSampledLight

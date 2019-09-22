@@ -26,7 +26,7 @@ class JobSamplerStratifiedGenerateSampels1D: public JobParallazible
 
 	virtual uint32_t updateNStartThreads(uint32_t nWorkThreads) override
 	{
-		return std::min(nWorkThreads, (queryComponentsGroup<CSamples1D>().size()+ sliceSize -1)/ sliceSize);
+		return min(nWorkThreads, (queryComponentsGroup<CSamples1D>().size()+ sliceSize -1)/ sliceSize);
 	}
 
 	virtual void update(WECS* ecs, uint8_t iThread) override
@@ -49,10 +49,11 @@ class JobSamplerStratifiedGenerateSampels1D: public JobParallazible
 			{
 				float invNSamples = 1.0/ samples.data.size();
 				float dt = uniform(gen);
-				samples.data[i] = std::min((i + dt)*invNSamples, 1.0);
+				samples.data[i] = min((i + dt)*invNSamples, 1.0);
 			}
 
-			std::random_shuffle(samples.data.begin(), samples.data.end());
+
+			std::shuffle(samples.data.begin(), samples.data.end(), gen);
 
 
 		}, samples);
@@ -65,7 +66,7 @@ class JobSamplerStratifiedGenerateSampels2D: public JobParallazible
 
 	virtual uint32_t updateNStartThreads(uint32_t nWorkThreads) override
 	{
-		return std::min(nWorkThreads, (queryComponentsGroup<CSamples2D>().size()+ sliceSize -1)/ sliceSize);
+		return min(nWorkThreads, (queryComponentsGroup<CSamples2D>().size()+ sliceSize -1)/ sliceSize);
 	}
 
 	virtual void update(WECS* ecs, uint8_t iThread) override
@@ -90,12 +91,13 @@ class JobSamplerStratifiedGenerateSampels2D: public JobParallazible
 					float invNSamples = 1.0 / samples.data.size();
 					float dtX = uniform(gen);
 					float dtY = uniform(gen);
-					samples.data[i].x() = std::min((i + dtX)*invNSamples, 1.0);
-					samples.data[i].y() = std::min((j + dtY)*invNSamples, 1.0);
+					samples.data[i].x() = min((i + dtX)*invNSamples, 1.0);
+					samples.data[i].y() = min((j + dtY)*invNSamples, 1.0);
 				}
 			}
 
-			std::random_shuffle(samples.data.begin(), samples.data.end());
+
+			std::shuffle(samples.data.begin(), samples.data.end(), gen);
 
 		}, samples);
 	}

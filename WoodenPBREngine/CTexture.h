@@ -179,7 +179,7 @@ class JobFilterTableGaussing: public JobParallazible
 {
 	uint32_t updateNStartThreads(uint32_t nWorkThreads) override
 	{
-		return std::min(queryComponentsGroup<CFilterTableGaussing>().size(), nWorkThreads);
+		return min(queryComponentsGroup<CFilterTableGaussing>().size(), nWorkThreads);
 	}
 
 	void update(WECS* ecs, uint8_t iThread) override
@@ -256,7 +256,7 @@ public:
 
 
 		uint32_t nLevels = tex.mips.size();
-		float lod = std::max(0.0f, nLevels - 1.0f + log2(minorLength));
+		float lod = max(0.0f, nLevels - 1.0f + log2(minorLength));
 		int ilod = std::floor(lod);
 		return wml::lerp(ewa(st, tex, filterTable, ilod),
 						 ewa(st, tex, filterTable, ilod + 1), lod - ilod);
@@ -322,7 +322,7 @@ public:
 				float r2 = A * ss * ss + B * ss * tt + C * tt * tt;
 				if (r2 < 1)
 				{
-					int index = std::min((int)(r2 * filter.size),
+					int index = min((int)(r2 * filter.size),
 										 filter.size - 1);
 					float weight = filter.weights[index];
 					sum += tex.texel(is, it, mip) * weight;
@@ -347,11 +347,11 @@ public:
 		   const CTextureMappedPoint& st,
 		   const TextureBase<T>& tex) 
 	{
-		float width = 2 * std::max(std::max(st.dstdx[0], st.dstdx[1]),
-								   std::max(st.dstdy[0], st.dstdy[1]));
+		float width = 2 * max(max(st.dstdx[0], st.dstdx[1]),
+								   max(st.dstdy[0], st.dstdy[1]));
 
 		uint32_t nLevels = tex.mips.size();
-		float level = nLevels - 1 + log2(std::max(width, 0));
+		float level = nLevels - 1 + log2(max(width, 0));
 		if (level < 0)
 		{
 			return STextureSampler::triangle(st.p, tex, 0);
@@ -409,7 +409,7 @@ public:
 
 	CTextureRGB generateMIPs(std::vector<RGBSpectrum, AllocatorAligned<RGBSpectrum>> texels, DPoint2i resolution)
 	{
-		uint16_t nLevels = 1 + log2(std::max(resolution[0], resolution[1]));
+		uint16_t nLevels = 1 + log2(max(resolution[0], resolution[1]));
 		CTextureRGB tex;
 		tex.resolutions.resize(nLevels);
 		tex.mips.resize(nLevels);
@@ -477,6 +477,10 @@ public:
 		return std::pow((value + 0.055f) * 1.f / 1.055f, 2.4f);
 	}
 
+	static unsigned int  lodepng_decode24_file(unsigned char** rgb, unsigned* w, unsigned* h, const char* name)
+	{
+		static_assert(false || "Not implemented yet");
+	}
 
 	static std::vector<RGBSpectrum, AllocatorAligned<RGBSpectrum>> readImagePNG(const std::string &name, DPoint2i& resolution)
 	{
@@ -484,16 +488,16 @@ public:
 		unsigned w, h;
 		unsigned int error = lodepng_decode24_file(&rgb, &w, &h, name.c_str());
 		assert(error == 0);
-		resolution.x = w;
-		resolution.y = h;
+		resolution.x() = w;
+		resolution.y() = h;
 
-		std::vector<RGBSpectrum, AllocatorAligned<RGBSpectrum>> ret(resolution.x*resolution.y);
+		std::vector<RGBSpectrum, AllocatorAligned<RGBSpectrum>> ret(resolution.x()*resolution.y());
 		unsigned char *src = rgb;
 		for (unsigned int y = 0; y < h; ++y)
 		{
 			for (unsigned int x = 0; x < w; ++x, src += 3)
 			{
-				ret[y * resolution.x + x] = DVector3f(src[0], src[1], src[2]) / 255.0f;
+				ret[y * resolution.x() + x] = DVector3f(src[0], src[1], src[2]) / 255.0f;
 			}
 		}
 

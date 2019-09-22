@@ -71,11 +71,11 @@ class JobGenerateBSDFMaterialMatte : public JobParallazible
 				RGBSpectrum diffuse = STextureSampleAnisotropic::sample(mp, anistropic16x, filterTable, kd.getTex(ecs));
 				RGBSpectrum roughness = STextureSamplerIsotropic::sample(mp, sigma.getTex(ecs));
 				float s = roughness.x();
-				float sigma = wml::clamp(s, 0, 90);
+				float sigmaV = wml::clamp(s, 0, 90);
 
 				CReflectDirSamplerMicroface microfaceDistr;
-				microfaceDistr.alphax = CReflectDirSamplerMicroface::roughnessToAlpha(s);
-				microfaceDistr.alphay = CReflectDirSamplerMicroface::roughnessToAlpha(s);
+				microfaceDistr.alphax = CReflectDirSamplerMicroface::roughnessToAlpha(sigmaV);
+				microfaceDistr.alphay = CReflectDirSamplerMicroface::roughnessToAlpha(sigmaV);
 
 				CSpectrumScale R = Spectrum(1.0f);
 				CFresnelConductor conductor;

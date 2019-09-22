@@ -37,14 +37,14 @@ struct CFresnelDielectric
 			cosThetaI = std::abs(cosThetaI);
 		}
 
-		float sinThetaI = std::sqrt(std::max(0.0f, 1.0 - cosThetaI * cosThetaI));
+		float sinThetaI = std::sqrt(max(0.0f, 1.0 - cosThetaI * cosThetaI));
 		float sinThetaT = etaItmp / etaTtmp * sinThetaI;
 		if (sinThetaT >= 1.0)
 		{
 			return 1.0;
 		}
 
-		float cosThetaT = std::sqrt(std::max(0.0f, 1.0 - sinThetaT * sinThetaT));
+		float cosThetaT = std::sqrt(max(0.0f, 1.0 - sinThetaT * sinThetaT));
 
 		float Rparl = ((etaTtmp * cosThetaI) - (etaItmp * cosThetaT)) /
 			((etaTtmp * cosThetaI) + (etaItmp * cosThetaT));
@@ -58,7 +58,7 @@ struct CFresnelDielectric
 bool refract(const DVector3f& wi, const DNormal3f& n, float eta, DVector3f& wt)
 {
 	float cosThetaI = dot(n, wi);
-	float sin2ThetaI = std::max(0.f, 1.f - cosThetaI * cosThetaI);
+	float sin2ThetaI = max(0.f, 1.f - cosThetaI * cosThetaI);
 	float sin2ThetaT = eta * eta * sin2ThetaI;
 	if (sin2ThetaT >= 1)
 	{
@@ -112,7 +112,7 @@ struct CBXDFOreanNayar
 			float sinPhiI = sinPhi(wi), cosPhiI = cosPhi(wi);
 			float sinPhiO = sinPhi(wo), cosPhiO = cosPhi(wo);
 			float dCos = cosPhiI * cosPhiO + sinPhiI * sinPhiO;
-			maxCos = std::max(0.0f, dCos);
+			maxCos = max(0.0f, dCos);
 		}
 
 		float sinAlpha, tanBeta;
@@ -127,7 +127,7 @@ struct CBXDFOreanNayar
 			tanBeta = sinThetaO / absCosTheta(wo);
 		}
 
-		return 1.0 / PI * (A + B * maxCos*sinAlpha*tanBeta);
+		return Spectrum(1.0f) / PI * (A + B * maxCos*sinAlpha*tanBeta);
 	}
 };
 
@@ -205,8 +205,10 @@ struct CFresnelConductor
 		Spectrum etak2 = etak * etak;
 
 		Spectrum t0 = eta2 - etak2 - sinThetaI2;
-		Spectrum a2plusb2 = sqrt(t0 * t0 + eta2 * etak2 * 4);
+		Spectrum a2plusb22 = t0 * t0 + eta2 * etak2 * 4;
+		Spectrum a2plusb2 = sqrt(a2plusb22);
 		Spectrum t1 = a2plusb2 + cosThetaI2;
+		Spectrum a2 = (a2plusb2 + t0)*0.5;
 		Spectrum a = sqrt((a2plusb2 + t0)*0.5);
 		Spectrum t2 = a * cosThetaI*2.0f;
 		Spectrum Rs = (t1 - t2) / (t1 + t2);

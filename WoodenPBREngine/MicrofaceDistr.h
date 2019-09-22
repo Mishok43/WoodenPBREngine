@@ -17,7 +17,7 @@ struct CReflectDirSamplerMicroface
 	
 	static inline float roughnessToAlpha(float roughness)
 	{
-		roughness = std::max(roughness, 1e-3f);
+		roughness = max(roughness, 1e-3f);
 		float x = std::log(roughness);
 		return 1.62142f + 0.819955f * x + 0.1734f * x * x + 0.0171201f * x * x * x +
 			0.000640711f * x * x * x * x;
@@ -75,7 +75,7 @@ struct CReflectDirSamplerMicroface
 			float tanTheta2 = alpha2 * u[0] / (1 - u[0]);
 			cosTheta = 1 / std::sqrt(1 + tanTheta2);
 		}
-		float sinTheta = std::sqrt(std::max(0.f, 1.f - cosTheta * cosTheta));
+		float sinTheta = std::sqrt(max(0.f, 1.f - cosTheta * cosTheta));
 		DVector3f wh = sphericalToCasterian(sinTheta, cosTheta, phi);
 		if (!isSameHemisphere(wo, wh))
 		{
@@ -104,7 +104,7 @@ struct CReflectDirSamplerCosSin
 		wi = sampleHemisphereCosSin(u);
 		if (wo.z() < 0)
 		{
-			wi.z *= -1;
+			wi.z() *= -1;
 		}
 
 		pdf = p(wo, wi);

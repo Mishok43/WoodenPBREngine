@@ -41,8 +41,7 @@ class JobProcessRayCastsResults : public JobParallazible
 
 	virtual uint32_t updateNStartThreads(uint32_t nWorkThreads) override
 	{
-		ComponentsGroup<CRayCast> rayCast = queryComponentsGroup<CRayCast>();
-		return std::min(nWorkThreads, (rays.size<CRay>()+sliceSize-1)/sliceSize);
+		return min(nWorkThreads, (queryComponentsGroup<CRayCast>().size()+sliceSize-1)/sliceSize);
 	}
 
 	virtual void update(WECS* ecs, uint8_t iThread) override
@@ -113,8 +112,7 @@ class JobProcessRayCasts: public JobParallazible
 {
 	virtual uint32_t updateNStartThreads(uint32_t nWorkThreads) override
 	{
-		ComponentsGroup<CRayCast> rayCast = queryComponentsGroup<CRayCast>();
-		return std::min(nWorkThreads, rays.size<CRay>());
+		return min(nWorkThreads, queryComponentsGroup<CRayCast>().size());
 	}
 
 	virtual void update(WECS* ecs, uint8_t iThread) override
@@ -234,6 +232,15 @@ struct CentroidMortonCode
 	uint16_t index;
 };
 
+struct LBVHSubTreeBuilder : public BVHBuildNode
+{
+	BVHBuildNode* nodes;
+	DBounds3f* nodesBounds;
+	uint16_t nNodes;
+	uint8_t iBucket;
+};
+
+
 struct CLBVHTreeBuilder
 {
 	CLBVHTreeBuilder() = default;
@@ -252,14 +259,6 @@ struct CLBVHTreeBuilder
 	uint32_t nSubTreeNodesTotal;
 	DECL_MANAGED_DENSE_COMP_DATA(CLBVHTreeBuilder, 1)
 }; DECL_OUT_COMP_DATA(CLBVHTreeBuilder)
-
-struct LBVHSubTreeBuilder : public BVHBuildNode
-{
-	BVHBuildNode* nodes;
-	DBounds3f* nodesBounds;
-	uint16_t nNodes;
-	uint8_t iBucket;
-};
 
 class JobGenerateShapesCentroidBound: public Job
 {
@@ -304,9 +303,9 @@ class JobGenerateShapesMortonCode : public JobParallazible
 				constexpr int32_t mortonScale = 1 << mortonBits;
 				DPoint3f centroidN = treeBuilder.boundsCentroid.getLerpFactors(eCentroid);
 				uint32_t mortonCode = 
-					(leftShift3(centroidN.z) << 2) |
-					(leftShift3(centroidN.y) << 1) |
-					leftShift3(centroidN.x);
+					(leftShift3(centroidN.z()) << 2) |
+					(leftShift3(centroidN.y()) << 1) |
+					leftShift3(centroidN.x());
 
 				CentroidMortonCode code;
 				code.value = mortonCode;
@@ -323,7 +322,7 @@ class JobGenerateShapesMortonCode : public JobParallazible
 	virtual uint32_t updateNStartThreads(uint32_t nWorkThreads) override
 	{
 		ComponentsGroup<CCentroid, CBounds> shapesData = queryComponentsGroup<CCentroid, CBounds>();
-		return std::min((shapesData.size<CCentroid>()+sliceSize-1)/sliceSize, nWorkThreads);
+		return min((shapesData.size<CCentroid>()+sliceSize-1)/sliceSize, nWorkThreads);
 	}
 
 	uint32_t leftShift3(uint32_t x)
@@ -445,10 +444,10 @@ class JobEmitLBVH : public JobParallazible
 			uint16_t slice = nSubTreeBuilders /getNumThreads();
 
 			uint16_t iStart = iThread * slice;
-			uint16_t iEnd = std::min(iStart + slice+1, nSubTreeBuilders);
+			uint16_t iEnd = min(iStart + slice+1, nSubTreeBuilders);
 			for (uint16_t i = iStart; i < iEnd; i++)
 			{
-				LBVHSubTreeBuilder* subTreeBuilder = treeBuilder.subTreeBuilders[i];
+				LBVHSubTreeBuilder* subTreeBuilder = &treeBuilder.subTreeBuilders[i];
 
 				const int firstBitIndex = 30 - 12-1;
 
@@ -569,10 +568,10 @@ class JobBuildUpperSAH: public Job
 		for (uint16_t i = iStart; i <= iLast; i++)
 		{
 			treeBuilder.nSubTreeNodesTotal += treeBuilder.subTreeBuilders[i].nNodes;
-			DBounds3f* rootNodeBounds = treeBuilder.subTreeBuilders[i].nodes[0]->bounds;
-			bounds = DBounds3f(bounds, *rootNodeBounds);
+			const DBounds3f& rootNodeBounds = *treeBuilder.subTreeBuilders[i].nodes[0].bounds;
+			bounds = DBounds3f(bounds, rootNodeBounds);
 
-			DPoint3f centroid = (rootNodeBounds->pMin + rootNodeBounds->pMax)*0.5;
+			DPoint3f centroid = (rootNodeBounds.pMin + rootNodeBounds.pMax)*0.5;
 			centroidsBounds = DBounds3f(centroidsBounds, centroid);
 		}
 		uint8_t splitDim = centroidsBounds.maxExtent();
@@ -585,7 +584,7 @@ class JobBuildUpperSAH: public Job
 
 		for (uint16_t i = iStart; i <= iLast; i++)
 		{
-			DBounds3f* rootNodeBounds = treeBuilder.subTreeBuilders[i].nodes[0]->bounds;
+			DBounds3f* rootNodeBounds = treeBuilder.subTreeBuilders[i].nodes[0].bounds;
 			float centroid = (rootNodeBounds->pMin[splitDim] + rootNodeBounds->pMax[splitDim])*0.5;
 			uint8_t iBucket = nBuckets * ((centroid - centroidsBounds.pMin[splitDim]) /
 				(centroidsBounds.pMax[splitDim] - centroidsBounds.pMax[splitDim]));
@@ -634,10 +633,10 @@ class JobBuildUpperSAH: public Job
 
 
 		
-		LBVHSubTreeBuilder** split = std::partition(&treeBuilder.subTreeBuilders[iStart], &treeBuilder.subTreeBuilders[iLast],
-													[iBucketMinCost](const LBVHSubTreeBuilder* builder)
+		LBVHSubTreeBuilder* split = std::partition(&treeBuilder.subTreeBuilders[iStart], &treeBuilder.subTreeBuilders[iLast],
+													[iBucketMinCost](const LBVHSubTreeBuilder& builder)
 		{
-			return builder->iBucket <= iBucketMinCost;
+			return builder.iBucket <= iBucketMinCost;
 		});
 
 		uint16_t mid = split - &treeBuilder.subTreeBuilders[iStart];

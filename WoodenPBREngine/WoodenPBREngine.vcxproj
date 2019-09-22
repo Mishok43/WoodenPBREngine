@@ -166,10 +166,13 @@
     <ClInclude Include="CAnimatedTransform.h" />
     <ClInclude Include="CBounds.h" />
     <ClInclude Include="CBSDF.h" />
+    <ClInclude Include="CCamera.h" />
     <ClInclude Include="CDistribution.h" />
+    <ClInclude Include="CFilm.h" />
     <ClInclude Include="CFilterMitchell.h" />
     <ClInclude Include="CMaterialMatte.h" />
     <ClInclude Include="CMaterialPlastic.h" />
+    <ClInclude Include="CNormal.h" />
     <ClInclude Include="CRayDifferential.h" />
     <ClInclude Include="CSCamera.h" />
     <ClInclude Include="CCentroid.h" />
@@ -201,7 +204,6 @@
     <ClInclude Include="MicrofaceDistr.h" />
     <ClInclude Include="RGBSpectrum.h" />
     <ClInclude Include="SIntegratorDirect.h" />
-    <ClInclude Include="SIntegratorSampler.h" />
     <ClInclude Include="SScattering.h" />
     <ClInclude Include="SLBVH.h" />
     <ClInclude Include="CRay.h" />
@@ -210,7 +212,6 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="MEngine.h" />
     <ClInclude Include="DOptions.h" />
-    <ClInclude Include="SIntergratorWhitted.h" />
     <ClInclude Include="SShapeSphere.h" />
     <ClInclude Include="WPBRSettings.h" />
   </ItemGroup>
@@ -219,7 +220,6 @@
     <ClCompile Include="CSSphere.cpp" />
     <ClCompile Include="CSTriangle.cpp" />
     <ClCompile Include="CSTriangleMesh.cpp" />
-    <ClCompile Include="DScene.cpp" />
     <ClCompile Include="MEngine.cpp" />
     <ClCompile Include="MParser.cpp" />
     <ClCompile Include="pch.cpp">
@@ -230,7 +230,6 @@
     </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="DOptions.cpp" />
-    <ClCompile Include="SIntergratorWhitted.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\WoodenAllocators\WoodenAllocators\WoodenAllocators.vcxproj">

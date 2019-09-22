@@ -9,6 +9,8 @@ WPBR_BEGIN
 
 struct CTriangleMeshHandle: public HEntity
 {
+	CTriangleMeshHandle(HEntity h): HEntity(h){ }
+
 	DECL_MANAGED_DENSE_COMP_DATA(CTriangleMeshHandle, 16)
 }; DECL_OUT_COMP_DATA(CTriangleMeshHandle)
 

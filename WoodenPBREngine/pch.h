@@ -21,6 +21,7 @@
 #include "WoodenECS/WECS.h"
 #include "WoodenECS/Job.h"
 #include "WoodenMathLibrarry/DVector.h"
+#include "WoodenMathLibrarry/Utils.h"
 
 //using uint32_t = typename std::uint32_t;
 

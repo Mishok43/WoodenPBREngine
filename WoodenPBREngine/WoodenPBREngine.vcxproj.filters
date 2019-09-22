@@ -42,12 +42,6 @@
     <ClInclude Include="CSampler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SIntegratorSampler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SIntergratorWhitted.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="DRayDifferential.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -171,6 +165,15 @@
     <ClInclude Include="SIntegratorDirect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CFilm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CCamera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CNormal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -186,12 +189,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MParser.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DScene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SIntergratorWhitted.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CSSphere.cpp">

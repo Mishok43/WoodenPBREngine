@@ -4,7 +4,7 @@
 #include "CMaterial.h"
 #include "CMaterialMatte.h"
 #include "CSSphere.h"
-#include "CSCameraProjective.h"
+#include "CSCameraPerspective.h"
 #include "CSSamplerStratified.h"
 #include "CTexture.h"
 #include "SLBVH.h"
@@ -39,17 +39,15 @@ bool MEngine::init(const DOptions& options)
 void MEngine::buildCameraAndFilm()
 {
 	CFilm film;
-	film.resolution = DBounds2i(DPoint2i(0, 0), DPoint2i(256, 256));
-	film.rgbOutput.resize(film.resolution.area() * 3);
+	film.resolution = DPoint2i(256, 256);
+	film.rgbOutput.resize(film.resolution.x()*film.resolution.y()* 3);
 	film.outFile = "test.png";
 	film.nProcessedTiles = 0;
 
 	CCamera camera; camera.shutterCloseTime = 1.0f; camera.shutterOpenTime = 0.0f;
 	CCameraProjective cameraProj; cameraProj.screenWindow = DBounds2f(DPoint2f(0.0f, 0.0f), DPoint2f(1.0, 1.0));
 	CTransform world;
-	CTransform perp = DTransform::makePerspective(45.0, 1.0, 1000.0);
-
-	HEntity hCamera = SCameraPerspective::create(std::move(camera), std::move(cameraProj), std::move(world), std::move(perp), std::move(film));
+	HEntity hCamera = SCameraPerspective::create(std::move(camera), std::move(cameraProj), std::move(world), DTransformf::makePerspective(45.0, 1.0, 1000.0), std::move(film));
 }
 
 void MEngine::buildMaterials()

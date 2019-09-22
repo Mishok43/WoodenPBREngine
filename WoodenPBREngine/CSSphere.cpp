@@ -142,9 +142,9 @@ CSurfaceInteraction SSphere::computeSurfInteraction(
 	dpdv *= PI;
 
 
-	DVector3f d2Pduu = DVector3f(pHit.x, pHit.y, 0)*(-2 * PI * 2 * PI);
-	DVector3f d2Pduv = DVector3f(-phiSin, phiCos, 0.)*PI* pHit.z * 2 * PI;
-	DVector3f d2Pdvv = DVector3f(pHit.x, pHit.y, pHit.z)*-PI * PI;
+	DVector3f d2Pduu = DVector3f(pHit.x(), pHit.y(), 0)*(-2 * PI * 2 * PI);
+	DVector3f d2Pduv = DVector3f(-phiSin, phiCos, 0.0f)*PI* pHit.z() * 2 * PI;
+	DVector3f d2Pdvv = DVector3f(pHit.x(), pHit.y(), pHit.z())*-PI * PI;
 
 	float E = dot(dpdu, dpdu);
 	float F = dot(dpdu, dpdv);
@@ -161,7 +161,7 @@ CSurfaceInteraction SSphere::computeSurfInteraction(
 							   dpdv * ((f * F - g * E) * invEGF2));
 
 	return world(CSurfaceInteraction(pHit, DVector2f(u, v), -rayL.dir,
-									 dpdu, dpdv, dndu, dndv, rayL.t));
+									 dpdu, dpdv, dndu, dndv, rayL.t, interactionSphere.hSphere));
 }
 
 CTextureMappedPoint SSphere::mapUV(
@@ -203,7 +203,7 @@ float SSphere::pdf(
 {
 	DPoint3f pCenteroidW = world(DPoint3f(0.0, 0.0, 0.0));
 	float sinThetaMax2 = sphere.radius * sphere.radius / (inter.p, pCenteroidW).length2();
-	float cosThetaMax = std::sqrt(std::max(0.0f, 1 - sinThetaMax2));
+	float cosThetaMax = std::sqrt(max(0.0f, 1 - sinThetaMax2));
 	return coneUniformPDF(cosThetaMax);
 	/*DRayf ray;
 	ray.origin = inter.p;
@@ -235,19 +235,20 @@ DPoint3f SSphere::sample(
 	DVector3f wcX, wcY;
 	makeBasisByVector(wc, wcX, wcY);
 
+	const float& radius = sphere.radius;
 	float sinThetaMax2 = sphere.radius*sphere.radius / (interac.p - pCenteroidW).length2();
-	float cosThetaMax = std::sqrt(std::max(0.0f, 1.0 - sinThetaMax2));
+	float cosThetaMax = std::sqrt(max(0.0f, 1.0 - sinThetaMax2));
 	float cosTheta = (1 - u[0]) + u[0] * cosThetaMax;
-	float sinTheta = std::sqrt(std::max(0.0f, 1.0 - cosTheta * cosTheta));
+	float sinTheta = std::sqrt(max(0.0f, 1.0 - cosTheta * cosTheta));
 	float phi = u[1] * 2 * PI;
 
 	float dc = (interac.p, pCenteroidW).length();
 	float ds = dc * cosTheta -
-		std::sqrt(std::max(0.0f,
+		std::sqrt(max(0.0f,
 				  radius * radius - dc * dc * sinTheta * sinTheta));
 	float cosAlpha = (dc * dc + radius * radius - ds * ds) /
 		(2 * dc * radius);
-	float sinAlpha = std::sqrt(std::max(0.0f, 1 - cosAlpha * cosAlpha));
+	float sinAlpha = std::sqrt(max(0.0f, 1 - cosAlpha * cosAlpha));
 
 	
 	DVector3f nL = sphericalToCasterian(sinAlpha, cosAlpha, phi, -wcX, -wcY, -wc);

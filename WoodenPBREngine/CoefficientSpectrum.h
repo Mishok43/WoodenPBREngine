@@ -8,6 +8,7 @@ extern const float CIE_X[nCIESamples];
 extern const float CIE_Y[nCIESamples];
 extern const float CIE_Z[nCIESamples];
 extern const float CIE_lambda[nCIESamples];
+extern const float CIE_Y_integral[nCIESamples];
 
 static const int nRGB2SpectSamples = 32;
 extern const float RGB2SpectLambda[nRGB2SpectSamples];
@@ -166,6 +167,18 @@ CoefficientSpectrum<nSamples> sqrt(const CoefficientSpectrum<nSamples>& s)
 		r.c[i] = sqrt(s.c[i]);
 	}
 	return s;
+}
+
+
+template<uint8_t nSamplesGroups>
+CoefficientSpectrum<nSamplesGroups> clamp(const CoefficientSpectrum<nSamplesGroups>& s, float low = 0, float high = std::numeric_limits<float>::infinity())
+{
+	CoefficientSpectrum ret = s;
+	for (uint32_t i = 0; i < nSamplesGroups; i++)
+	{
+		ret.c[i] = clamp(s.c[i], low, high);
+	}
+	return ret;
 }
 
 WPBR_END

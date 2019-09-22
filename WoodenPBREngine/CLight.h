@@ -89,7 +89,7 @@ class JobLightSpotSample
 
 		float falloff;
 
-		float cosTheta = wil.z;
+		float cosTheta = wil.z();
 		if (cosTheta < spot.cosTotal)
 		{
 			falloff = 0;
