@@ -10,11 +10,11 @@ class alignas(alignment) DRayDifferential: public DRay<T>
 public:
 	DRayDifferential() = default;
 	DRayDifferential(DPoint3f o, DVector3f dir):
-		DRay(std::move(o), std::move(dir))
+		DRay<T>(std::move(o), std::move(dir))
 	{}
 
 	DRayDifferential(DRay<T> ray) :
-		DRay(std::move(ray))
+		DRay<T>(std::move(ray))
 	{}
 
 	void scaleDifferentials(T s)

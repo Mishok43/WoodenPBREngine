@@ -4,6 +4,12 @@
 #include "MEngine.h"
 
 WPBR_BEGIN
+
+
+DECL_OUT_COMP_DATA(CTriangleMeshHandle)
+DECL_OUT_COMP_DATA(CTriangleMesh)
+
+
 uint32_t STriangleMesh::create(
 						 CTransform world,
 						 CTriangleMesh mesh)

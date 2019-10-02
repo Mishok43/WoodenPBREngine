@@ -20,6 +20,11 @@ public:
 
 	CTransform() = default;
 
+	CTransform(const DTransform& t) :
+		DTransform(t)
+	{
+	}
+
 	CTransform(DTransform&& t):
 		DTransform(std::move(t))
 	{ }
@@ -36,10 +41,15 @@ public:
 	inline CSurfaceInteraction operator()(const CSurfaceInteraction& surfInter) const
 	{
 		CSurfaceInteraction res;
+		res.hCollision = surfInter.hCollision;
+		res.time = surfInter.time;
 		res.dndu = (*this)(surfInter.dndu);
 		res.dndv = (*this)(surfInter.dndv);
 		res.dpdu = (*this)(surfInter.dpdu); 
 		res.dpdv = (*this)(surfInter.dpdv);
+		res.p = (*this)(surfInter.p);
+		res.dpdx = (*this)(surfInter.dpdx);
+		res.dpdy = (*this)(surfInter.dpdx);
 		
 		//res.uv = (*this)(surfInter.uv);
 		res.n = (*this)(surfInter.n);
@@ -66,30 +76,35 @@ public:
 	}
 
 	DECL_MANAGED_DENSE_COMP_DATA(CTransform, 1024)
-}; DECL_OUT_COMP_DATA(CTransform)
+}; 
 
 
 struct CTransformCameraScreen : public CTransform
 {
-	using base = typename CTransform;
-	using base::operator ();
+	
+	CTransformCameraScreen(CTransform&& c):
+		CTransform(std::move(c)){ }
+
 	DECL_MANAGED_DENSE_COMP_DATA(CTransformCameraScreen, 1)
-}; DECL_OUT_COMP_DATA(CTransformCameraScreen)
+};
 
 struct CTransformRasterCamera : public CTransform
 {
-	using base = typename CTransform;
-	using base::operator ();
-
+		CTransformRasterCamera(CTransform&& c) :
+			CTransform(std::move(c))
+		{
+		}
 	DECL_MANAGED_DENSE_COMP_DATA(CTransformRasterCamera, 1)
-}; DECL_OUT_COMP_DATA(CTransformRasterCamera)
+}; 
 
 struct CTransformScreenRaster : public CTransform
 {
-	using base = typename CTransform;
-	using base::operator ();
+		CTransformScreenRaster(CTransform&& c) :
+			CTransform(std::move(c))
+		{
+		}
 	DECL_MANAGED_DENSE_COMP_DATA(CTransformScreenRaster, 1)
-}; DECL_OUT_COMP_DATA(CTransformScreenRaster)
+}; 
 
 
 //using CTransformf = typename CTransform<float>;

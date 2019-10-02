@@ -8,10 +8,10 @@ using Spectrum = typename SampledSpectrum;
 
 struct CSpectrum: public Spectrum
 {
-	DECL_MANAGED_DENSE_COMP_DATA(Spectrum, 16)
-}; DECL_OUT_COMP_DATA(CSpectrum)
+	DECL_MANAGED_DENSE_COMP_DATA(CSpectrum, 16)
+};
 
-void blackbody(const float* lambda, uint32_t n, float T, float* le)
+inline void blackbody(const float* lambda, uint32_t n, float T, float* le)
 {
 	const float c = 299792458;
 	const float h = 6.62606957e-34;
@@ -26,14 +26,19 @@ void blackbody(const float* lambda, uint32_t n, float T, float* le)
 	}
 }
 
-void blackbodyNormalized(const float* lambda, uint32_t n, float T, float* le)
+inline void blackbodyNormalized(const float* lambda, uint32_t n, float T, float* le)
 {
 	blackbody(lambda, n, T, le);
-	float lambdaMax = 2.8977721e-3 / T * 1e9;	float maxL;	blackbody(&lambdaMax, 1, T, &maxL);	for (uint32_t i = 0; i < n; i++)	{		le[i] /= maxL;	}}
-
-Spectrum lerp(const Spectrum& s0, const Spectrum& s1, float t)
-{
-	return s0 * (1 - t) + s1 * t;
+	float lambdaMax = 2.8977721e-3 / T * 1e9;
+	float maxL;
+	blackbody(&lambdaMax, 1, T, &maxL);
+	for (uint32_t i = 0; i < n; i++)
+	{
+		le[i] /= maxL;
+	}
 }
+
+
+inline Spectrum lerp(const Spectrum& s0, const Spectrum& s1, float t);
 
 WPBR_END

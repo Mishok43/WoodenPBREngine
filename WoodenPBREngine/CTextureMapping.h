@@ -10,17 +10,23 @@ WPBR_BEGIN
 
 struct CMapUVRequests
 {
-	std::vector<HEntity, AllocatorAligned<HEntity>> si;
+	std::vector<HEntity, AllocatorAligned2<HEntity>> si;
 	DECL_MANAGED_DENSE_COMP_DATA(CMapUVRequests, 16)
-}; DECL_OUT_COMP_DATA(CMapUVRequests)
+}; 
 
 struct CTextureMappedPoint
 {
 	DPoint2f p;
 	DVector2f dstdx;
 	DVector2f dstdy;
+	DECL_MANAGED_DENSE_COMP_DATA(CTextureMappedPoint, 16)
 };
 
+
+class JobMapUVRequestsGenerate : public JobParallaziblePerCompGroup<CSurfaceInteraction>
+{
+	void update(WECS* ecs, HEntity hEntity, CSurfaceInteraction& si) override;
+};
 
 class TextureMappingUV
 {

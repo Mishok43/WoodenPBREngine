@@ -5,12 +5,17 @@
 #include "WoodenMathLibrarry/DVector.h"
 #include "CBSDF.h"
 #include "CLight.h"
+#include "CSufraceInteraction.h"
+#include "CSampler.h"
 WPBR_BEGIN
 
 struct CSampledLight
 {
 	HEntity h;
+
+	DECL_MANAGED_DENSE_COMP_DATA(CSampledLight, 16)
 };
+
 
 struct CSampledWI: public DVector3f
 {
@@ -20,7 +25,7 @@ struct CSampledWI: public DVector3f
 		DVector3f(std::move(v)) {}
 
 	DECL_MANAGED_DENSE_COMP_DATA(CSampledWI, 16)
-}; DECL_OUT_COMP_DATA(CSampledWI)
+};
 
 struct CSampledLightLI: public Spectrum
 {
@@ -30,11 +35,12 @@ struct CSampledLightLI: public Spectrum
 		Spectrum(std::move(s)) {}
 
 	DECL_MANAGED_DENSE_COMP_DATA(CSampledLightLI, 16)
-}; DECL_OUT_COMP_DATA(CSampledLightLI)
+};
 
 struct CSampledLightPDF
 {
 	float p;
+	DECL_MANAGED_DENSE_COMP_DATA(CSampledLightPDF, 16)
 };
 
 struct CSampledBSDF
@@ -45,121 +51,52 @@ struct CSampledBSDF
 	HEntity h;
 
 	DECL_MANAGED_DENSE_COMP_DATA(CSampledBSDF, 16)
-}; DECL_OUT_COMP_DATA(CSampledBSDF)
+}; 
 
 class JobScatteringAccumulateEmittedLight: public Job
 {
-	void update(WECS* ecs)
-	{
-		ComponentsGroup<CSurfaceInteraction, CSpectrum> sis = queryComponentsGroup<CSurfaceInteraction, CSpectrum>();
-		std::vector<HEntity> deleteList;
-		for_each([&](HEntity hEntity, CSurfaceInteraction& si, CSpectrum& sp)
-		{
-			if (si.hCollision.hasComponent<CLight>())
-			{
-				sp += si.hCollision.getComponent<CLight>().LEmit;
-			}
-			deleteList.push_back(hEntity);
-		}, sis);
-
-		for (uint32_t i = 0; i < deleteList.size(); i++)
-		{
-			ecs->removeComponent<CSurfaceInteraction>(deleteList[i]);
-		}
-	}
+	void update(WECS* ecs) override;
+	void finish(WECS* ecs) override;
 };
 
-class JobScatteringSampleLight : public JobParallaziblePerCompGroup<CSurfaceInteraction>
+class JobScatteringSampleLight : public JobParallaziblePerCompGroup<CSurfaceInteraction, CSamples1D>
 {
-	void update(WECS* ecs, HEntity hEntity, CSurfaceInteraction& si, CSamples1D& samples)
-	{
-		ComponentsGroup<CLight> lights = queryComponentsGroup<CLight>();
-		uint32_t u = samples.data[samples.i++]* (lights.size() - 1);
-		HEntity hLight = lights.getEntity(u);
-		ecs->addComponent<CSampledLight>(hEntity, CSampledLight{ hLight });
-	}
+	void update(WECS* ecs, HEntity hEntity, CSurfaceInteraction& si, CSamples1D& samples) override;
 };
 
 class JobScatteringSampleLightLI: public JobParallaziblePerCompGroup<CSurfaceInteraction, CSampledLight>
 {
-	void update(WECS* ecs, HEntity hEntity, CSurfaceInteraction& si, CSampledLight& sl) final
-	{
-		CLightSamplingRequests& requests = ecs->getComponent<CLightSamplingRequests>(sl.h);
-		requests.data.push_back(hEntity);
-	}
+	void update(WECS* ecs, HEntity hEntity, CSurfaceInteraction& si, CSampledLight& sl) final;
 };
 
 class JobScatteringCastShadowRays : public 
 	JobParallaziblePerCompGroup<CSurfaceInteraction, CSampledWI>
 {
 	void update(WECS* ecs, HEntity hEntity,
-				CSurfaceInteraction& si, CSampledWI& wi) final
-	{
-		CRayCast rayCast;
-		rayCast.bSurfInteraction = false;
-		rayCast.ray.origin = si.p;
-		rayCast.ray.dir = wi;
-		ecs->addComponent<CRayCast>(hEntity, std::move(rayCast));
-	}
+				CSurfaceInteraction& si, CSampledWI& wi) final;
 };
 
 class JobScatteringProcessShadowRay :
-	public JobParallaziblePerCompGroup<CSampledLight, CRayCast, CSampledBSDF>
+	public JobParallaziblePerCompGroup<CSampledLight, CInteraction, CSampledBSDF>
 {
 	void update(WECS* ecs, HEntity hEntity,
-				CSampledLight& si, CRayCast& sl, CSampledBSDF& bsdf) final
-	{
-		if (sl.hCollision == si.h)
-		{
-			ecs->addComponent<CBSDFComputeRequest>(bsdf.h, CBSDFComputeRequest{ hEntity });
-		}	
-	}
-
-	void finish(WECS* ecs) final
-	{
-		ecs->clearComponents<CRayCast>();
-		ecs->clearComponents<CInteraction>();
-	}
+				CSampledLight& si, CInteraction& sl, CSampledBSDF& bsdf) final;
+	void finish(WECS* ecs) final;
 };
 
 class JobScatteringIntegrateImportanceLight : 
 	public JobParallaziblePerCompGroup<CSampledLightLI, CSampledLightPDF, CSampledBSDFValue, CSampledBSDFPDF, CSpectrum>
 {
-	void update(WECS* ecs, HEntity hEntity, CSampledLightLI& li, CSampledLightPDF& liPDF, 
-				CSampledBSDFValue& bsdf, CSampledBSDFPDF& bsdfPDF, CSpectrum& accumulatedLI) final
-	{
-		if (li.isBlack())
-		{
-			return;
-		}
+	void update(WECS* ecs, HEntity hEntity, CSampledLightLI& li, CSampledLightPDF& liPDF,
+				CSampledBSDFValue& bsdf, CSampledBSDFPDF& bsdfPDF, CSpectrum& accumulatedLI) final;
 
-		float weight = PowerHeuristic(1,  liPDF.p, 1, bsdfPDF.p);
-		accumulatedLI += li * bsdf*(weight / liPDF.p);
-	}
-
-	void finish(WECS* ecs) final
-	{
-		ecs->clearComponents<CSampledLightLI>();
-		ecs->clearComponents<CSampledLightPDF>();
-		ecs->clearComponents<CBSDFComputeRequest>();
-		ecs->clearComponents<CSampledBSDFValue>();
-		ecs->clearComponents<CSampledBSDFPDF>();
-		ecs->clearComponents<CSampledWI>();
-	}
-
-	inline float PowerHeuristic(int nf, float fPdf, int ng, float gPdf)
-	{
-		float f = nf * fPdf, g = ng * gPdf;
-		return (f * f) / (f * f + g * g);
-	}
+	void finish(WECS* ecs) final;
+	inline float PowerHeuristic(int nf, float fPdf, int ng, float gPdf);
 };
 
 class JobScatteringSampleBSDF : public JobParallaziblePerCompGroup<CSurfaceInteraction, CSampledBSDF>
 {
-	void update(WECS* ecs, HEntity hEntity, CSurfaceInteraction& si, CSampledBSDF& sbsdf) final
-	{
-		ecs->addComponent<CBSDFSampleRequest>(sbsdf.h, CBSDFSampleRequest{ hEntity });
-	}
+	void update(WECS* ecs, HEntity hEntity, CSurfaceInteraction& si, CSampledBSDF& sbsdf) final;
 };
 
 
@@ -167,66 +104,34 @@ class JobScatteringCastShadowRaysWithInteraction : public
 	JobParallaziblePerCompGroup<CSurfaceInteraction, CSampledWI>
 {
 	void update(WECS* ecs, HEntity hEntity,
-				CSurfaceInteraction& si, CSampledWI& wi) final
-	{
-		CRayCast rayCast;
-		rayCast.bSurfInteraction = false;
-		rayCast.ray.origin = si.p;
-		rayCast.ray.dir = wi;
-		ecs->addComponent<CRayCast>(hEntity, std::move(rayCast));
-	}
+				CSurfaceInteraction& si, CSampledWI& wi) final;
 };
 
 
 class JobScatteringProcessShadowRayWithInteraction :
-	public JobParallaziblePerCompGroup<CSampledLight, CRayCast>
+	public JobParallaziblePerCompGroup<CSampledLight, CInteraction>
 {
 	void update(WECS* ecs, HEntity hEntity,
-				CSampledLight& si, CRayCast& sl) final
-	{
-		if (sl.hCollision == si.h)
-		{
-			CLightComputeRequests& requests = ecs->getComponent<CLightComputeRequests>(si.h);
-			requests.data.push_back(hEntity);
-		}
-	}
+				CSampledLight& si, CInteraction& sl) final;
 
-	void finish(WECS* ecs) final
-	{
-		ecs->clearComponents<CRayCast>();
-	}
+	void finish(WECS* ecs) final;
 };
 
 class JobScatteringIntegrateImportanceBSDF :
 	public JobParallaziblePerCompGroup<CSampledLightLI, CSampledLightPDF, CSampledBSDFValue, CSampledBSDFPDF, CSpectrum>
 {
 	void update(WECS* ecs, HEntity hEntity, CSampledLightLI& li, CSampledLightPDF& liPDF,
-				CSampledBSDFValue& bsdf, CSampledBSDFPDF& bsdfPDF, CSpectrum& accumulatedLI) final
-	{
-		if (li.isBlack())
-		{
-			return;
-		}
+				CSampledBSDFValue& bsdf, CSampledBSDFPDF& bsdfPDF, CSpectrum& accumulatedLI) final;
 
-		float weight = PowerHeuristic(1, bsdfPDF.p, 1, liPDF.p);
-		accumulatedLI += li * bsdf*(weight / bsdfPDF.p);
-	}
+	void finish(WECS* ecs) final;
 
-	void finish(WECS* ecs) final
-	{
-		ecs->clearComponents<CSampledLightLI>();
-		ecs->clearComponents<CSampledLightPDF>();
-		ecs->clearComponents<CBSDFComputeRequest>();
-		ecs->clearComponents<CSampledBSDFValue>();
-		ecs->clearComponents<CSampledBSDFPDF>();
-		ecs->clearComponents<CSampledWI>();
-	}
+	inline float PowerHeuristic(int nf, float fPdf, int ng, float gPdf);
+};
 
-	inline float PowerHeuristic(int nf, float fPdf, int ng, float gPdf)
-	{
-		float f = nf * fPdf, g = ng * gPdf;
-		return (f * f) / (f * f + g * g);
-	}
+class JobScatteringFinish: public Job
+{
+	void update(WECS* ecs) override;
+	void finish(WECS* ecs) override;
 };
 
 WPBR_END

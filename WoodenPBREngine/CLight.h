@@ -10,36 +10,33 @@ WPBR_BEGIN
 
 struct CLightSamplingRequests
 {
-	std::vector<HEntity, AllocatorAligned<HEntity>> data;
+	std::vector<HEntity, AllocatorAligned2<HEntity>> data;
 
 	DECL_MANAGED_DENSE_COMP_DATA(CLightSamplingRequests, 16)
-}; DECL_OUT_COMP_DATA(CLightSamplingRequests)
-
+}; 
 struct CLightComputeRequests
 {
-	std::vector<HEntity, AllocatorAligned<HEntity>> data;
+	std::vector<HEntity, AllocatorAligned2<HEntity>> data;
 	DECL_MANAGED_DENSE_COMP_DATA(CLightComputeRequests, 16)
-}; DECL_OUT_COMP_DATA(CLightComputeRequests)
-
+};
 
 struct CLight
 {
 	Spectrum LEmit;
 	DECL_MANAGED_DENSE_COMP_DATA(CLight, 16)
-}; DECL_OUT_COMP_DATA(CLight)
-
+}; 
 
 
 struct CLightPosition : public DPoint3f
 {
 	DECL_MANAGED_DENSE_COMP_DATA(CLightPosition, 16)
-}; DECL_OUT_COMP_DATA(CLightPosition)
+}; 
 
 
 struct CLightPoint: public CompDummy
 {
 	DECL_MANAGED_DENSE_COMP_DATA(CLightPoint, 16)
-}; DECL_OUT_COMP_DATA(CLightPoint)
+};
 
 class JobLightPointsSample
 {

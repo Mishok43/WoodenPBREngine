@@ -9,19 +9,22 @@ WPBR_BEGIN
 
 struct CMaterialHandle: public HEntity
 {
+	CMaterialHandle(HEntity hEntity):
+		HEntity(std::move(hEntity)){ }
+
 	DECL_MANAGED_DENSE_COMP_DATA(CMaterialHandle, 16)
-}; DECL_OUT_COMP_DATA(CMaterialHandle)
+}; 
 
 struct CBSDFRequests
 {
-	std::vector<HEntity, AllocatorAligned<HEntity>> data;
+	std::vector<HEntity, AllocatorAligned2<HEntity>> data;
 	DECL_MANAGED_DENSE_COMP_DATA(CBSDFRequests, 16)
-}; DECL_OUT_COMP_DATA(CBSDFRequests)
+}; 
 
-struct CTextureBindings: public std::vector<HEntity, AllocatorAligned<HEntity>>
+struct CTextureBindings: public std::vector<HEntity, AllocatorAligned2<HEntity>>
 {
 	DECL_MANAGED_DENSE_COMP_DATA(CTextureBindings, 2)
-}; DECL_OUT_COMP_DATA(CTextureBindings)
+};
 
 class JobGenerateBSDFRequests: public JobParallaziblePerCompGroup<CSurfaceInteraction>
 {

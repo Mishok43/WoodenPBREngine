@@ -226,7 +226,7 @@ public:
 
 	static void init()
 	{
-		for (uint16_t i = 0; i < nSpectralSamples; i++)
+		for (int16_t i = 0; i < nSpectralSamples; i++)
 		{
 			float wl0 = wml::lerp(sampledLambdaStart, sampledLambdaEnd, float(i) / float(nSpectralSamples));
 			float wl1 = wml::lerp(sampledLambdaStart, sampledLambdaEnd, float(i+1) / float(nSpectralSamples));
@@ -287,30 +287,9 @@ public:
 };
 
 
-DVector3f toXYZ(const SampledSpectrum& s)
-{
-	DVector3f xyz;
-	for (uint32_t i = 0; i < nSpectralSamples / 8; i++)
-	{
-		xyz[0] += dot(s.c[i], SampledSpectrum::X.c[i]);
-		xyz[1] += dot(s.c[i], SampledSpectrum::Y.c[i]);
-		xyz[2] += dot(s.c[i], SampledSpectrum::Z.c[i]);
-	}
+DVector3f toXYZ(const SampledSpectrum& s);
 
-	float dl = (sampledLambdaEnd - sampledLambdaStart) / float(nSpectralSamples);
-	xyz *= dl;
-	return xyz;
-}
-
-DVector3f toRGB(const SampledSpectrum& s)
-{
-	DVector3f xyz = toXYZ(s);
-	DVector3f rgb = xyzToRGB(xyz);
-	return rgb;
-}
-
-
-
+DVector3f toRGB(const SampledSpectrum& s);
 
 WPBR_END
 

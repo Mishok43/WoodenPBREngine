@@ -16,21 +16,23 @@ struct CMedium;
 struct CFullInteractionRequest: public CompDummy
 {
 	DECL_MANAGED_DENSE_COMP_DATA(CFullInteractionRequest, 16)
-}; DECL_OUT_COMP_DATA(CFullInteractionRequest)
+};
 
 struct CInteractionRequest
 {
-	HEntity rayCastEntity;
 	float tHitResult;
+	HEntity rayCastEntity;
+	HEntity hShape;
+	DECL_MANAGED_DENSE_COMP_DATA(CInteractionRequest, 16)
 };
 
 struct CRayCast
 {
+	std::vector<HEntity, AllocatorAligned2<HEntity>> interactionEntities;
 	DRayf ray;
-	bool bSurfInteraction=true; 
-	HEntity hCollision;
-	std::vector<HEntity, AllocatorAligned<HEntity>> interactionEntities;
-}; 
+	bool bSurfInteraction;
+	DECL_MANAGED_DENSE_COMP_DATA(CRayCast, 16)
+};
 
 struct CInteraction
 {
@@ -40,7 +42,7 @@ struct CInteraction
 	float time;
 
 	DECL_MANAGED_DENSE_COMP_DATA(CInteraction, 16);
-}; DECL_OUT_COMP_DATA(CInteraction)
+}; 
 
 struct CSurfaceInteraction: public CInteraction
 {
@@ -177,7 +179,7 @@ struct CSurfaceInteraction: public CInteraction
 	}
 
 	DECL_MANAGED_DENSE_COMP_DATA(CSurfaceInteraction, 8);
-}; DECL_OUT_COMP_DATA(CSurfaceInteraction)
+};
 
 
 

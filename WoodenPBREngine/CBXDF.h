@@ -55,7 +55,7 @@ struct CFresnelDielectric
 };
 
 
-bool refract(const DVector3f& wi, const DNormal3f& n, float eta, DVector3f& wt)
+inline bool refract(const DVector3f& wi, const DNormal3f& n, float eta, DVector3f& wt)
 {
 	float cosThetaI = dot(n, wi);
 	float sin2ThetaI = max(0.f, 1.f - cosThetaI * cosThetaI);
@@ -78,7 +78,7 @@ struct CSpectrumScale : public Spectrum
 	}
 
 	DECL_MANAGED_DENSE_COMP_DATA(CSpectrumScale, 1)
-}; DECL_OUT_COMP_DATA(CSpectrumScale)
+}; 
 
 struct CBXDF
 {
@@ -219,6 +219,9 @@ struct CFresnelConductor
 
 		return (Rp + Rs)*0.5;
 	}
+
+
+	DECL_MANAGED_DENSE_COMP_DATA(CFresnelConductor, 2)
 };
 
 

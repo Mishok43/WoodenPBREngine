@@ -10,6 +10,9 @@ WPBR_BEGIN
 
 using namespace SSphere;
 
+DECL_OUT_COMP_DATA(CInteractionSphere)
+DECL_OUT_COMP_DATA(CSphere)
+
 void JobProcessSphereSurfInteractionRequests::update(WECS* ecs, uint8_t iThread)
 {
 	uint32_t nCollisions = queryComponentsGroup<CInteractionSphere>().size<CInteractionSphere>();
@@ -26,9 +29,9 @@ void JobProcessSphereSurfInteractionRequests::update(WECS* ecs, uint8_t iThread)
 		const CRayCast& rayCast = ecs->getComponent<CRayCast>(interactionRequest.rayCastEntity);
 		const DRayf& rayW = rayCast.ray;
 
-		const CSphere& sphere = ecs->getComponent<CSphere>(interactionSphere.hSphere);
+		const CSphere& sphere = ecs->getComponent<CSphere>(interactionRequest.hShape);
 		float eRadius = sphere.radius;
-		const CTransform& eWorld = ecs->getComponent<CTransform>(interactionSphere.hSphere);
+		const CTransform& eWorld = ecs->getComponent<CTransform>(interactionRequest.hShape);
 		
 		float tHit;
 		if (intersect(rayW, sphere, eWorld, interactionSphere, tHit))
@@ -57,12 +60,17 @@ void JobProcessSphereFullInteractionRequests::update(WECS* ecs, uint8_t iThread)
 			 const CInteractionRequest& interactionRequest)
 	{
 
-		const CSphere& sphere = ecs->getComponent<CSphere>(interactionSphere.hSphere);
-		const CTransform& eWorld = ecs->getComponent<CTransform>(interactionSphere.hSphere);
+		const CSphere& sphere = ecs->getComponent<CSphere>(interactionRequest.hShape);
+		const CTransform& eWorld = ecs->getComponent<CTransform>(interactionRequest.hShape);
 
-		CSurfaceInteraction si = computeSurfInteraction(sphere, eWorld, interactionSphere);
+		CSurfaceInteraction si = computeSurfInteraction(interactionRequest.hShape, sphere, eWorld, interactionSphere);
 		ecs->addComponent<CSurfaceInteraction>(interactionRequest.rayCastEntity, std::move(si));
 	}, requests);
+}
+
+void JobProcessSphereFullInteractionRequests::finish(WECS* ecs)
+{
+	ecs->clearComponents<CInteractionSphere>();
 }
 
 bool SSphere::intersect(
@@ -73,7 +81,7 @@ bool SSphere::intersect(
 	float& tHit)
 {
 	const float& radius = sphere.radius;
-	DRayf rayL = world(rayW, INV_TRANFORM);
+ 	DRayf rayL = world(rayW, INV_TRANFORM);
 
 	float a = rayL.dir.length2();
 	float b = 2 * (dot(rayL.dir, rayL.origin));
@@ -85,7 +93,7 @@ bool SSphere::intersect(
 		return false;
 	}
 
-	if (t0 > rayL.tMax || t1 <= 0)
+	if (t1 <= 0)
 	{
 		return false;
 	}
@@ -95,18 +103,17 @@ bool SSphere::intersect(
 	if (tHit <= 0)
 	{
 		tHit = t1;
-		if (tHit > rayL.tMax)
-		{
-			return false;
-		}
 	}
 
 	DPoint3f pHitL = rayL(tHit);
+	rayL.t = tHit;
 	interactionSphere.pHitL = pHitL;
 	interactionSphere.rayL = rayL;
+	return true;
 }
 
 CSurfaceInteraction SSphere::computeSurfInteraction(
+	HEntity hSphere,
 	const CSphere& sphere, 
 	const CTransform& world, 
 	const CInteractionSphere& interactionSphere)
@@ -127,7 +134,7 @@ CSurfaceInteraction SSphere::computeSurfInteraction(
 		phi += 2 * PI;
 	}
 
-	float u = phi / 2 * PI;
+	float u = phi /( 2 * PI);
 	float theta = std::acos(pHit.z() / radius);
 	float v = theta / PI;
 
@@ -160,8 +167,12 @@ CSurfaceInteraction SSphere::computeSurfInteraction(
 	DNormal3f dndv = DNormal3f(dpdu*((g * F - f * G) * invEGF2) +
 							   dpdv * ((f * F - g * E) * invEGF2));
 
-	return world(CSurfaceInteraction(pHit, DVector2f(u, v), -rayL.dir,
-									 dpdu, dpdv, dndu, dndv, rayL.t, interactionSphere.hSphere));
+	auto res = CSurfaceInteraction(pHit, DVector2f(u, v), -rayL.dir,
+									 dpdu, dpdv, dndu, dndv, rayL.t, hSphere);
+
+	res.n = res.shading.n = DNormal3f(-rayL.dir);
+
+	return world(res);
 }
 
 CTextureMappedPoint SSphere::mapUV(
@@ -238,11 +249,11 @@ DPoint3f SSphere::sample(
 	const float& radius = sphere.radius;
 	float sinThetaMax2 = sphere.radius*sphere.radius / (interac.p - pCenteroidW).length2();
 	float cosThetaMax = std::sqrt(max(0.0f, 1.0 - sinThetaMax2));
-	float cosTheta = (1 - u[0]) + u[0] * cosThetaMax;
+	float cosTheta = u[0]*(1.0 - cosThetaMax)+cosThetaMax;
 	float sinTheta = std::sqrt(max(0.0f, 1.0 - cosTheta * cosTheta));
 	float phi = u[1] * 2 * PI;
 
-	float dc = (interac.p, pCenteroidW).length();
+	float dc = (interac.p- pCenteroidW).length();
 	float ds = dc * cosTheta -
 		std::sqrt(max(0.0f,
 				  radius * radius - dc * dc * sinTheta * sinTheta));

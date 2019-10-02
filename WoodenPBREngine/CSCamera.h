@@ -1,11 +1,9 @@
 #pragma once
 #include "pch.h"
 #include "MEngine.h"
-#include "CAnimatedTransform.h"
-#include "CFilm.h"
-#include "CRayDifferential.h"
-#include "WoodenECS/Job.h"
 #include "CCamera.h"
+#include "CTransform.h"
+#include "CFilm.h"
 
 WPBR_BEGIN
 
@@ -15,13 +13,13 @@ class SCamera
 {
 public:
 	static HEntity create(CCamera camera,
-						   CTransform animatedTransform,
+						   CTransform world,
 						   CFilm film)
 	{
 		MEngine& ecs = MEngine::getInstance();
 		HEntity hEntity = ecs.createEntity();
 		ecs.addComponent<CCamera>(hEntity, std::move(camera));
-		ecs.addComponent<CTransform>(hEntity, std::move(animatedTransform));
+		ecs.addComponent<CTransform>(hEntity, std::move(world));
 		ecs.addComponent<CFilm>(hEntity, std::move(film));
 		return hEntity;
 	}

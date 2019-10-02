@@ -1,37 +1,9 @@
 #pragma once
 #include "pch.h"
+#include "SpectrumData.h"
+#include "WoodenMathLibrarry/DMatrix.h"
 
 WPBR_BEGIN
-
-static const int nCIESamples = 471;
-extern const float CIE_X[nCIESamples];
-extern const float CIE_Y[nCIESamples];
-extern const float CIE_Z[nCIESamples];
-extern const float CIE_lambda[nCIESamples];
-extern const float CIE_Y_integral[nCIESamples];
-
-static const int nRGB2SpectSamples = 32;
-extern const float RGB2SpectLambda[nRGB2SpectSamples];
-extern const float RGBRefl2SpectWhite[nRGB2SpectSamples];
-extern const float RGBRefl2SpectCyan[nRGB2SpectSamples];
-extern const float RGBRefl2SpectMagenta[nRGB2SpectSamples];
-extern const float RGBRefl2SpectYellow[nRGB2SpectSamples];
-extern const float RGBRefl2SpectRed[nRGB2SpectSamples];
-extern const float RGBRefl2SpectGreen[nRGB2SpectSamples];
-extern const float RGBRefl2SpectBlue[nRGB2SpectSamples];
-
-extern const float RGBIllum2SpectWhite[nRGB2SpectSamples];
-extern const float RGBIllum2SpectCyan[nRGB2SpectSamples];
-extern const float RGBIllum2SpectMagenta[nRGB2SpectSamples];
-extern const float RGBIllum2SpectYellow[nRGB2SpectSamples];
-extern const float RGBIllum2SpectRed[nRGB2SpectSamples];
-extern const float RGBIllum2SpectGreen[nRGB2SpectSamples];
-extern const float RGBIllum2SpectBlue[nRGB2SpectSamples];
-
-
-static const uint32_t sampledLambdaStart = 400;
-static const uint32_t sampledLambdaEnd = 700;
-static const uint32_t nSpectralSamples = 64;
 
 enum class SpectrumType
 {
@@ -39,7 +11,7 @@ enum class SpectrumType
 	Illuminant
 };
 
-DVector3f xyzToRGB(const DVector3f& xyz)
+inline DVector3f xyzToRGB(const DVector3f& xyz)
 {
 	DMatrixf transform = DMatrixf(
 		3.240479f, -0.969256f, 0.041556f, 0,
@@ -51,7 +23,7 @@ DVector3f xyzToRGB(const DVector3f& xyz)
 	return rgb;
 }
 
-DVector3f rgbToXYZ(const DVector3f& rgb)
+inline DVector3f rgbToXYZ(const DVector3f& rgb)
 {
 	DMatrixf transform = DMatrixf(
 		0.412453f, 0.212671f, 0.019334f, 0,
@@ -63,8 +35,10 @@ DVector3f rgbToXYZ(const DVector3f& rgb)
 	return xyz;
 }
 
+
+
 template<uint8_t nSamplesGroups>
-class CoefficientSpectrum
+class alignas(alignof(DVector8f)) CoefficientSpectrum
 {
 public:
 	std::array<DVector8f, nSamplesGroups> c;
@@ -73,7 +47,7 @@ public:
 	{
 		for (uint32_t i = 0; i < nSamplesGroups; i++)
 		{
-			c[i] = DVector8f(i);
+			c[i] = DVector8f(v);
 		}
 	}
 
@@ -86,7 +60,17 @@ public:
 		return *this;
 	}
 
-	CoefficientSpectrum& operator+(const CoefficientSpectrum& s2) const
+	CoefficientSpectrum &operator-=(const CoefficientSpectrum& s2)
+	{
+		for (uint32_t i = 0; i < nSamplesGroups; i++)
+		{
+			c[i] -= s2.c[i];
+		}
+		return *this;
+	}
+
+
+	CoefficientSpectrum operator+(const CoefficientSpectrum& s2) const
 	{
 		CoefficientSpectrum s1 = *this;
 		for (uint32_t i = 0; i < nSamplesGroups; i++)
@@ -96,7 +80,7 @@ public:
 		return s1;
 	}
 
-	CoefficientSpectrum& operator-(const CoefficientSpectrum& s2) const
+	CoefficientSpectrum operator-(const CoefficientSpectrum& s2) const
 	{
 		CoefficientSpectrum s1 = *this;
 		for (uint32_t i = 0; i < nSamplesGroups; i++)
@@ -159,19 +143,19 @@ public:
 
 
 template<uint8_t nSamples>
-CoefficientSpectrum<nSamples> sqrt(const CoefficientSpectrum<nSamples>& s)
+inline CoefficientSpectrum<nSamples> sqrt(const CoefficientSpectrum<nSamples>& s)
 {
-	CoefficientSpectrum r;
+	CoefficientSpectrum<nSamples> r;
 	for (uint8_t i = 0; i < nSamples; i++)
 	{
 		r.c[i] = sqrt(s.c[i]);
 	}
-	return s;
+	return r;
 }
 
 
 template<uint8_t nSamplesGroups>
-CoefficientSpectrum<nSamplesGroups> clamp(const CoefficientSpectrum<nSamplesGroups>& s, float low = 0, float high = std::numeric_limits<float>::infinity())
+inline CoefficientSpectrum<nSamplesGroups> clamp(const CoefficientSpectrum<nSamplesGroups>& s, float low = 0, float high = std::numeric_limits<float>::infinity())
 {
 	CoefficientSpectrum ret = s;
 	for (uint32_t i = 0; i < nSamplesGroups; i++)
@@ -180,5 +164,7 @@ CoefficientSpectrum<nSamplesGroups> clamp(const CoefficientSpectrum<nSamplesGrou
 	}
 	return ret;
 }
+
+
 
 WPBR_END

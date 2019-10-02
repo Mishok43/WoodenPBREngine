@@ -13,7 +13,7 @@ struct CCameraProjective
 	float lensr, focald;
 
 	DECL_MANAGED_DENSE_COMP_DATA(CCameraProjective, 1)
-}; DECL_OUT_COMP_DATA(CCameraProjective)
+}; 
 
 
 class SCameraProjective
@@ -30,19 +30,23 @@ public:
 										  std::move(world),
 										  std::move(film));
 		ecs.addComponent<CCameraProjective>(hEntity, std::move(cameraProj));		
-		ecs.addComponent<CTransformCameraScreen>(hEntity, std::move(cameraScreen));
+		ecs.addComponent<CTransformCameraScreen>(hEntity, CTransform(cameraScreen));
 
 		DTransformf screenRaster = 
-			DTransformf::makeScale(film.resolution.x(),
-								  film.resolution.y(), 1)*
-			DTransformf::makeScale(1.0 / (cameraProj.screenWindow.pMax.x() - cameraProj.screenWindow.pMin.x()),
-								  1.0 / (cameraProj.screenWindow.pMax.y() - cameraProj.screenWindow.pMin.y()),
-								  1.0) *
 			DTransformf::makeTranslate(-cameraProj.screenWindow.pMin.x(),
 									  -cameraProj.screenWindow.pMin.y(),
-									  0);
-		ecs.addComponent<CTransformScreenRaster>(hEntity, std::move(screenRaster));
-		DTransformf rasterCamera = inverse(screenRaster) * inverse(cameraScreen);
+									  0)*
+			DTransformf::makeScale(1.0 / (cameraProj.screenWindow.pMax.x() - cameraProj.screenWindow.pMin.x()),
+								   1.0 / (cameraProj.screenWindow.pMax.y() - cameraProj.screenWindow.pMin.y()),
+								   1.0) *
+			DTransformf::makeScale(film.resolution.x(),
+								   film.resolution.y(), 1);
+		ecs.addComponent<CTransformScreenRaster>(hEntity, CTransform(screenRaster));
+		DTransformf rasterScreen = inverse(screenRaster);
+		DTransformf screenCamera = inverse(cameraScreen);
+		DTransformf rasterCamera = rasterScreen  * screenCamera;
+
+		auto m = inverse(rasterCamera.m());
 		ecs.addComponent<CTransformRasterCamera>(hEntity, std::move(rasterCamera));
 		return hEntity;
 	}

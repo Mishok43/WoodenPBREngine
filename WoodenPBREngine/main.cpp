@@ -8,10 +8,10 @@ WPBR_USING
 
 int main(int argc, char* argv[])
 {
-	DOptions options = DOptions::createOptionsByCMDArguments(argv, (std::size_t)argc);
+//	DOptions options = DOptions::createOptionsByCMDArguments(argv, (std::size_t)argc);
 	MEngine& engine = MEngine::getInstance();
-	engine.init(options);
-	//engine.loadResources();
+	//engine.init(options);
+ 	engine.loadResources();
 	engine.render();
 }
 

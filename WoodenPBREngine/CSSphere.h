@@ -22,10 +22,9 @@ struct CInteractionSphere
 {
 	DRayf rayL;
 	DPoint3f pHitL;
-	HEntity hSphere;
 
 	DECL_MANAGED_DENSE_COMP_DATA(CInteractionSphere, 16)
-}; DECL_OUT_COMP_DATA(CInteractionSphere)
+};
 
 struct CSphere
 {
@@ -36,7 +35,7 @@ struct CSphere
 	float radius;
 	
 	DECL_MANAGED_DENSE_COMP_DATA(CSphere, 16)
-}; DECL_OUT_COMP_DATA(CSphere)
+}; 
 
 
 namespace SSphere
@@ -75,6 +74,7 @@ namespace SSphere
 			float& tHit);
 
 		CSurfaceInteraction computeSurfInteraction(
+			HEntity hSphere,
 			const CSphere& sphere,
 			const CTransform& world,
 			const CInteractionSphere& interactionSphere);
@@ -92,7 +92,6 @@ namespace SSphere
 	};
 
 
-
 class JobProcessSphereFullInteractionRequests: public JobParallazible
 {
 	constexpr static uint32_t slice = 64;
@@ -104,6 +103,8 @@ class JobProcessSphereFullInteractionRequests: public JobParallazible
 	}
 
 	void update(WECS* ecs, uint8_t iThread) override;
+
+	void finish(WECS* ecs) override;
 };
 
 class JobProcessSphereSurfInteractionRequests: public JobParallazible
@@ -174,7 +175,7 @@ class JobSphereProcessMapUVRequests: public JobParallazible
 			{
 				const CSurfaceInteraction& si = ecs->getComponent<CSurfaceInteraction>(requests.si[i]);
 				CTextureMappedPoint mp = SSphere::mapUV(sphere, world, si);
-				ecs->addComponent<CTextureMappedPoint>(requests.si[i]);
+				ecs->addComponent<CTextureMappedPoint>(requests.si[i], mp);
 			}
 			requests.si.clear();
 		}, spheres);
@@ -216,8 +217,8 @@ class JobSphereLightProcessSamplingRequests : public JobParallazible
 				li = light.LEmit;
 				pdf.p = pdfWi;
 
-				CSampledWI wi = normalize(si.p- sP);
-				ecs->addComponent<CSampledWI>(hRequest, std::move(pdf));
+				CSampledWI wi = normalize(sP - si.p);
+				ecs->addComponent<CSampledWI>(hRequest, std::move(wi));
 				ecs->addComponent<CSampledLightPDF>(hRequest, std::move(pdf));
 				ecs->addComponent<CSampledLightLI>(hRequest, std::move(li));
 			}

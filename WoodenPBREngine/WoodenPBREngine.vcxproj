@@ -103,7 +103,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
@@ -172,7 +172,6 @@
     <ClInclude Include="CFilterMitchell.h" />
     <ClInclude Include="CMaterialMatte.h" />
     <ClInclude Include="CMaterialPlastic.h" />
-    <ClInclude Include="CNormal.h" />
     <ClInclude Include="CRayDifferential.h" />
     <ClInclude Include="CSCamera.h" />
     <ClInclude Include="CCentroid.h" />
@@ -180,14 +179,12 @@
     <ClInclude Include="CMaterial.h" />
     <ClInclude Include="CoefficientSpectrum.h" />
     <ClInclude Include="CPhaseFunction.h" />
-    <ClInclude Include="CRenderTile.h" />
     <ClInclude Include="CSampler.h" />
     <ClInclude Include="CSCameraEnviroment.h" />
     <ClInclude Include="CSCameraOrthographic.h" />
     <ClInclude Include="CSCameraPerspective.h" />
     <ClInclude Include="CSCameraProjective.h" />
     <ClInclude Include="CSCylinder.h" />
-    <ClInclude Include="CShape.h" />
     <ClInclude Include="CSpectrum.h" />
     <ClInclude Include="CSSampler.h" />
     <ClInclude Include="CSSamplerStratified.h" />
@@ -201,26 +198,54 @@
     <ClInclude Include="CTextureMapping.h" />
     <ClInclude Include="DRayDifferential.h" />
     <ClInclude Include="CTransform.h" />
+    <ClInclude Include="lodepng.h" />
     <ClInclude Include="MicrofaceDistr.h" />
     <ClInclude Include="RGBSpectrum.h" />
     <ClInclude Include="SIntegratorDirect.h" />
+    <ClInclude Include="SpectrumData.h" />
     <ClInclude Include="SScattering.h" />
     <ClInclude Include="SLBVH.h" />
     <ClInclude Include="CRay.h" />
-    <ClInclude Include="CScene.h" />
     <ClInclude Include="MParser.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="MEngine.h" />
     <ClInclude Include="DOptions.h" />
     <ClInclude Include="SShapeSphere.h" />
-    <ClInclude Include="WPBRSettings.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CAnimatedTransform.cpp" />
+    <ClCompile Include="CBounds.cpp" />
+    <ClCompile Include="CBSDF.cpp" />
+    <ClCompile Include="CBSDFConductorMicroface.cpp" />
+    <ClCompile Include="CBXDF.cpp" />
+    <ClCompile Include="CCamera.cpp" />
+    <ClCompile Include="CCentroid.cpp" />
+    <ClCompile Include="CFilm.cpp" />
+    <ClCompile Include="CLight.cpp" />
+    <ClCompile Include="CMaterial.cpp" />
+    <ClCompile Include="CMaterialMatte.cpp" />
+    <ClCompile Include="CoefficientSpectrum.cpp" />
+    <ClCompile Include="CRay.cpp" />
+    <ClCompile Include="CRayDifferential.cpp" />
+    <ClCompile Include="CSampler.cpp" />
+    <ClCompile Include="CSCameraPerspective.cpp" />
+    <ClCompile Include="CSCameraProjective.cpp" />
     <ClCompile Include="CSCylinder.cpp" />
+    <ClCompile Include="CSFilm.cpp" />
+    <ClCompile Include="CSpectrum.cpp" />
+    <ClCompile Include="CSpectrumSampled.cpp" />
+    <ClCompile Include="CSSampler.cpp" />
+    <ClCompile Include="CSSamplerStratified.cpp" />
     <ClCompile Include="CSSphere.cpp" />
     <ClCompile Include="CSTriangle.cpp" />
     <ClCompile Include="CSTriangleMesh.cpp" />
+    <ClCompile Include="CSufraceInteraction.cpp" />
+    <ClCompile Include="CTexture.cpp" />
+    <ClCompile Include="CTextureMapping.cpp" />
+    <ClCompile Include="CTransform.cpp" />
+    <ClCompile Include="lodepng.cpp" />
     <ClCompile Include="MEngine.cpp" />
+    <ClCompile Include="MicrofaceDistr.cpp" />
     <ClCompile Include="MParser.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -230,6 +255,8 @@
     </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="DOptions.cpp" />
+    <ClCompile Include="SLBVH.cpp" />
+    <ClCompile Include="SScattering.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\WoodenAllocators\WoodenAllocators\WoodenAllocators.vcxproj">

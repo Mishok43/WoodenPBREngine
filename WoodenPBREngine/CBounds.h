@@ -13,7 +13,7 @@ struct CBounds : public DBounds3f
 	{}
 
 	DECL_MANAGED_FLAT_COMP_DATA(CBounds, 16);
-}; DECL_OUT_COMP_DATA(CBounds)
+};
 
 WPBR_END
 

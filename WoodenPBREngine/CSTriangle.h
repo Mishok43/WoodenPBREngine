@@ -22,14 +22,14 @@ struct CInteractionTriangle
 	HEntity hTriangle;
 	float tHit;
 	DECL_MANAGED_DENSE_COMP_DATA(CInteractionTriangle, 16)
-}; DECL_OUT_COMP_DATA(CInteractionTriangle)
+};
 
 struct CTriangle
 {
 	uint32_t index;
 
 	DECL_MANAGED_DENSE_COMP_DATA(CTriangle, 16)
-}; DECL_OUT_COMP_DATA(CTriangle) 
+};
 
 
 class JobProcessTriangleFullInteractionRequests : public JobParallazible

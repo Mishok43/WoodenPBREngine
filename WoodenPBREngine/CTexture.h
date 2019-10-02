@@ -4,6 +4,7 @@
 #include <map>
 
 #include <algorithm>
+#include "lodepng.h"
 #include "CTextureMapping.h"
 #include "WoodenAllocators/Allocator.h"
 #include "CSufraceInteraction.h"
@@ -11,6 +12,7 @@
 #include "WoodenMathLibrarry/DPoint.h"
 #include "WoodenMathLibrarry/Utils.h"
 #include "RGBSpectrum.h"
+#include "MEngine.h"
 
 WPBR_BEGIN
 
@@ -29,9 +31,9 @@ template<typename T>
 struct TextureBase
 {
 	std::string filename;
-	std::vector<std::vector<T, AllocatorAligned<T>>> mips;
-	std::vector<DPoint2i, AllocatorAligned<DPoint2i>> resolutions;
-	std::vector<DPoint2i, DPoint2i> mipNBlocks;
+	std::vector<std::vector<T, AllocatorAligned2<T>>> mips;
+	std::vector<DPoint2i, AllocatorAligned2<DPoint2i>> resolutions;
+	std::vector<DPoint2i, AllocatorAligned2<DPoint2i>> mipNBlocks;
 
 	static constexpr uint8_t blockSize = 4;
 	uint32_t iTexel(const DPoint2i& p, uint8_t mip) const
@@ -71,13 +73,13 @@ struct TextureBase
 struct CTextureRGB : public TextureBase<RGBSpectrum>
 {
 	DECL_MANAGED_DENSE_COMP_DATA(CTextureRGB, 16)
-}; DECL_OUT_COMP_DATA(CTextureRGB)
+}; 
 
 struct CTextureR : public TextureBase<float>
 {
 
 	DECL_MANAGED_DENSE_COMP_DATA(CTextureR, 16)
-}; DECL_OUT_COMP_DATA(CTextureR)
+};
 
 
 
@@ -99,12 +101,12 @@ struct CTextureBindingBase
 struct CTextureBindingRGB: public CTextureBindingBase<CTextureRGB>
 {
 	DECL_MANAGED_DENSE_COMP_DATA(CTextureBindingRGB, 16)
-}; DECL_OUT_COMP_DATA(CTextureBindingRGB)
+}; 
 
 struct CTextureBindingR: public CTextureBindingBase<CTextureR>
 {
 	DECL_MANAGED_DENSE_COMP_DATA(CTextureBindingR, 16)
-}; DECL_OUT_COMP_DATA(CTextureBindingR)
+};
 
 
 
@@ -119,6 +121,7 @@ public:
 		MEngine& mEngine = MEngine::getInstance();
 		HEntity h = mEngine.createEntity();
 		mEngine.addComponent<CTextureBindingRGB>(h, std::move(tex));
+		return h;
 	}
 };
 
@@ -154,25 +157,26 @@ struct CSurfaceInteractionHandle : public HEntity
 	{}
 
 	DECL_MANAGED_DENSE_COMP_DATA(CSurfaceInteractionHandle, 16)
-}; DECL_OUT_COMP_DATA(CSurfaceInteractionHandle)
+}; 
 
 
 struct CTextureSamplerIsotropic
 {	 
 	DECL_MANAGED_DENSE_COMP_DATA(CTextureSamplerIsotropic, 1)
-}; DECL_OUT_COMP_DATA(CTextureSamplerIsotropic)
+};
 
 struct CTextureSamplerAnistropic
 {
 	float maxAnisotropy;
 	HEntity filterTable;
 	DECL_MANAGED_DENSE_COMP_DATA(CTextureSamplerAnistropic, 1)
-}; DECL_OUT_COMP_DATA(CTextureSamplerAnistropic)
+};
 
 struct CFilterTableGaussing
 {
-	std::vector<float, AllocatorAligned<float>> weights;
+	std::vector<float, AllocatorAligned2<float>> weights;
 	uint32_t size;
+	DECL_MANAGED_DENSE_COMP_DATA(CFilterTableGaussing, 1)
 };
 
 class JobFilterTableGaussing: public JobParallazible
@@ -182,22 +186,7 @@ class JobFilterTableGaussing: public JobParallazible
 		return min(queryComponentsGroup<CFilterTableGaussing>().size(), nWorkThreads);
 	}
 
-	void update(WECS* ecs, uint8_t iThread) override
-	{
-		uint32_t n = queryComponentsGroup<CFilterTableGaussing>().size();
-		uint32_t sliceSize = (n + getNumThreads()-1) /getNumThreads();
-		ComponentsGroupSlice comps = queryComponentsGroupSlice<CFilterTableGaussing>(Slice(iThread*sliceSize, sliceSize));
-		for_each([](HEntity hEntity, CFilterTableGaussing& table)
-		{
-			for (int i = 0; i < table.size; ++i)
-			{
-				float alpha = 2;
-				float r2 = float(i) / float(table.size - 1);
-				table.weights[i] = std::exp(-alpha * r2) - std::exp(-alpha);
-			}
-		
-		}, comps);
-	}
+	void update(WECS* ecs, uint8_t iThread) override;
 };
 
 
@@ -216,10 +205,13 @@ public:
 		float t = st[1] * tex.resolutions[mip].y() - 0.5f;
 		int s0 = std::floor(s), t0 = std::floor(t);
 		float ds = s - s0, dt = t - t0;
+
+		int s0n = min(s0 + 1, tex.resolutions[mip].x()-1);
+		int t0n = min(t0 + 1, tex.resolutions[mip].y() - 1);
 		return	tex.texel(s0, t0, mip)*(1 - ds) * (1 - dt) +
-			tex.texel(s0, t0 + 1, mip)*(1 - ds) * dt +
-			tex.texel(s0 + 1, t0, mip)*ds * (1 - dt) +
-			tex.texel(s0 + 1, t0 + 1, mip)*ds * dt;
+			tex.texel(s0, t0n, mip)*(1 - ds) * dt +
+			tex.texel(s0n, t0, mip)*ds * (1 - dt) +
+			tex.texel(s0n, t0n, mip)*ds * dt;
 	}
 };
 
@@ -233,8 +225,8 @@ public:
 		const CFilterTableGaussing& filterTable,
 		const TextureBase<T>& tex)
 	{
-		DVector2f& dst0 = st.dstdx;
-		DVector2f& dst1 = st.dstdy;
+		DVector2f dst0 = st.dstdx;
+		DVector2f dst1 = st.dstdy;
 		const float& maxAnisotropy = sampler.maxAnisotropy;
 
 		if (st.dstdx.length2() < st.dstdx.length2())
@@ -251,15 +243,22 @@ public:
 
 		if (minorLength == 0)
 		{
-			return triangle(st.p, tex, 0);
+			return STextureSampler::triangle(st.p, tex, 0);
 		}
 
 
 		uint32_t nLevels = tex.mips.size();
-		float lod = max(0.0f, nLevels - 1.0f + log2(minorLength));
+		float lod = max(0.0f, (nLevels-1) - max(log2(minorLength) - 2, 0.0));
 		int ilod = std::floor(lod);
-		return wml::lerp(ewa(st, tex, filterTable, ilod),
-						 ewa(st, tex, filterTable, ilod + 1), lod - ilod);
+		if (ilod == nLevels - 1)
+		{
+			return ewa(st, tex, filterTable, ilod);
+		}
+		else
+		{
+			return wml::lerp(ewa(st, tex, filterTable, ilod),
+							 ewa(st, tex, filterTable, ilod + 1), lod - ilod);
+		}
 	}
 
 	template<typename T>
@@ -275,7 +274,7 @@ public:
 		DVector2f dst1 = p.dstdy;
 
 
-		st = tex.resolutions[mip] * st - 0.5f;
+		st = st*tex.resolutions[mip] - 0.5f;
 		dst0 *= tex.resolutions[mip];
 		dst1 *= tex.resolutions[mip];
 
@@ -301,8 +300,8 @@ public:
 		uvSqrt = sqrt(uvSqrt);
 		uvSqrt *= 2 * invDet;
 
-		DVector2f st0 = st - uvSqrt;
-		DVector2f st1 = st + uvSqrt;
+		DVector2f st0 = clamp(st - uvSqrt, 0.0, tex.resolutions[mip].x()-1.0);
+		DVector2f st1 = clamp(st + uvSqrt, 0.0, tex.resolutions[mip].x() - 1.0);
 
 		int s0 = std::ceil(st0[0]);
 		int t0 = std::ceil(st0[1]);
@@ -373,91 +372,10 @@ class JobLoadTextureRGB: public Job
 {
 public:
 	static std::map<std::string, HEntity> textures;
-	virtual void update(WECS* ecs) override
-	{
-		ComponentsGroup<CTextureBindingRGB> texInfos = queryComponentsGroup<CTextureBindingRGB>();
-		for_each([&](HEntity hEntity, CTextureBindingRGB& textureInfo)
-		{
-			std::map<std::string, HEntity>::const_iterator it = textures.find(textureInfo.filename);
-			if (it != textures.cend())
-			{
-				textureInfo.tex = it->second;
-				return;
-			}
+	void update(WECS* ecs) override;
 
-
-			DPoint2i resolutions;
-			std::vector<RGBSpectrum, AllocatorAligned<RGBSpectrum>> texels = readImagePNG(textureInfo.filename, resolutions);
-
-			assert(!texels.empty());
-
-			for (uint32_t i = 0; i < texels.size(); i++)
-			{
-				for (uint8_t j = 0; j < 3; j++)
-				{
-					texels[i][j] = gammaCorrectInv(texels[i][j]);
-				}
-			}
-
-			HEntity hTexture = ecs->createEntity();
-			ecs->addComponent<CTextureRGB>(hTexture, std::move(texels));
-
-			textureInfo.tex = hTexture;
-			textures[textureInfo.filename] = hTexture;
-		}, texInfos);
-	}
-
-	CTextureRGB generateMIPs(std::vector<RGBSpectrum, AllocatorAligned<RGBSpectrum>> texels, DPoint2i resolution)
-	{
-		uint16_t nLevels = 1 + log2(max(resolution[0], resolution[1]));
-		CTextureRGB tex;
-		tex.resolutions.resize(nLevels);
-		tex.mips.resize(nLevels);
-		tex.mipNBlocks.resize(nLevels);
-
-		tex.resolutions[0] = std::move(resolution);
-		tex.mipNBlocks[0] = tex.resolutions[0] / CTextureRGB::blockSize;
-		for (uint32_t y = 0; y < tex.resolutions[0].y(); y++)
-		{
-			for (uint32_t x = 0; x < tex.resolutions[0].x(); x++)
-			{
-				tex.texel(x, y, 0) = std::move(texels[x + y * tex.resolutions[0].x()]);
-			}
-		}
-
-		tex.mips[0] = std::move(texels);
-		tex.resolutions[0] = std::move(resolution);
-
-		for (uint16_t i = 1; i < nLevels; i++)
-		{
-			DPoint2i res = maxv(DPoint2i(1, 1), tex.resolutions[i - 1] / 2);
-			tex.mips[i].resize(res.x()*res.y());
-			tex.resolutions[i] = res;
-			tex.mipNBlocks[i] = res / CTextureRGB::blockSize;
-
-			std::vector<RGBSpectrum, AllocatorAligned<RGBSpectrum>>& mip = tex.mips[i];	
-			for (uint32_t y = 0; y < res.y()-1; y++)
-			{
-				for (uint32_t x = 0; x < res.x()-1; x++)
-				{
-					tex.texel(x, y, i) = (tex.texel(2 * x, 2 * y) + tex.texel(2 * x + 1, 2 * y) +
-											 tex.texel(2 * x, 2 * y + 1) + tex.texel(2 * x + 1, 2 * y + 1))*0.25;
-				}
-
-				tex.texel(res.x()-1, y, i) = (tex.texel(tex.resolutions[i-1].x()-1, 2 * y) +
-										 tex.texel(tex.resolutions[i-1].x()-1, 2 * y + 1))*0.5;
-			}
-
-			for (uint32_t x = 0; x < res.x() - 1; x++)
-			{
-				tex.texel(x, res.y()-1, i) = (tex.texel(2 * x, tex.resolutions[i - 1].y()-1) + 
-												 tex.texel(2 * x + 1, tex.resolutions[i - 1].y() - 1))*0.5;
-			}
-
-			tex.texel(res.x() - 1, res.y() - 1, i) = tex.texel(tex.resolutions[i - 1].x() - 1, tex.resolutions[i - 1].y() - 1);
-		}
-	}
-
+	CTextureRGB generateMIPs(std::vector<RGBSpectrum, AllocatorAligned2<RGBSpectrum>> texels, DPoint2i resolution);
+	
 	float gammaCorrect(float value)
 	{
 		if (value <= 0.0031308f)
@@ -477,33 +395,12 @@ public:
 		return std::pow((value + 0.055f) * 1.f / 1.055f, 2.4f);
 	}
 
-	static unsigned int  lodepng_decode24_file(unsigned char** rgb, unsigned* w, unsigned* h, const char* name)
-	{
-		static_assert(false || "Not implemented yet");
-	}
+	//static unsigned int  lodepng_decode24_file(unsigned char** rgb, unsigned* w, unsigned* h, const char* name)
+	//{
+	//	static_assert(false || "Not implemented yet");
+	//}
 
-	static std::vector<RGBSpectrum, AllocatorAligned<RGBSpectrum>> readImagePNG(const std::string &name, DPoint2i& resolution)
-	{
-		unsigned char *rgb;
-		unsigned w, h;
-		unsigned int error = lodepng_decode24_file(&rgb, &w, &h, name.c_str());
-		assert(error == 0);
-		resolution.x() = w;
-		resolution.y() = h;
-
-		std::vector<RGBSpectrum, AllocatorAligned<RGBSpectrum>> ret(resolution.x()*resolution.y());
-		unsigned char *src = rgb;
-		for (unsigned int y = 0; y < h; ++y)
-		{
-			for (unsigned int x = 0; x < w; ++x, src += 3)
-			{
-				ret[y * resolution.x() + x] = DVector3f(src[0], src[1], src[2]) / 255.0f;
-			}
-		}
-
-		free(rgb);
-		return ret;
-	}
+	static std::vector<RGBSpectrum, AllocatorAligned2<RGBSpectrum>> readImagePNG(const std::string &name, DPoint2i& resolution);
 };
 
 

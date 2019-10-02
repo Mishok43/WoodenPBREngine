@@ -12,8 +12,7 @@ struct CTriangleMeshHandle: public HEntity
 	CTriangleMeshHandle(HEntity h): HEntity(h){ }
 
 	DECL_MANAGED_DENSE_COMP_DATA(CTriangleMeshHandle, 16)
-}; DECL_OUT_COMP_DATA(CTriangleMeshHandle)
-
+}; 
 struct CTriangleMesh
 {
 	CTriangleMesh(uint32_t nTriangle, uint32_t nVertex,
@@ -31,7 +30,7 @@ struct CTriangleMesh
 	std::vector<DPoint3f> positions;
 
 	DECL_MANAGED_DENSE_COMP_DATA(CTriangleMesh, 16)
-}; DECL_OUT_COMP_DATA(CTriangleMesh)
+};
 
 class STriangleMesh
 {

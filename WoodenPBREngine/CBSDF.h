@@ -1,18 +1,12 @@
 #pragma once
 #include "pch.h"
-#include "CSufraceInteraction.h"
-#include "WoodenECS/Job.h"
-#include "WoodenMathLibrarry/DMatrix.h"
-#include "CBXDF.h"
-#include <algorithm>
+#include "CSpectrum.h"
 
 WPBR_BEGIN
-
-
-
 struct CSampledBSDFPDF
 {
 	float p;
+	DECL_MANAGED_DENSE_COMP_DATA(CSampledBSDFPDF, 16)
 };
 
 struct CSampledBSDFValue : public Spectrum
@@ -25,20 +19,20 @@ struct CSampledBSDFValue : public Spectrum
 	}
 
 	DECL_MANAGED_DENSE_COMP_DATA(CSampledBSDFValue, 16)
-}; DECL_OUT_COMP_DATA(CSampledBSDFValue)
+};
 
 
 struct CBSDFComputeRequest
 {
 	HEntity h;
 	DECL_MANAGED_DENSE_COMP_DATA(CBSDFComputeRequest, 16)
-}; DECL_OUT_COMP_DATA(CBSDFComputeRequest)
+};
 
 struct CBSDFSampleRequest
 {
 	HEntity h;
 	DECL_MANAGED_DENSE_COMP_DATA(CBSDFSampleRequest, 16)
-}; DECL_OUT_COMP_DATA(CBSDFSampleRequest)
+};
 
 //struct alignas(16) CBSDF
 //{
@@ -73,7 +67,7 @@ struct CBSDFSampleRequest
 //
 //
 
-//struct CInteractionSurfEntities: public std::vector<HEntity, AllocatorAligned<HEntity>>
+//struct CInteractionSurfEntities: public std::vector<HEntity, AllocatorAligned2<HEntity>>
 //{
 //	DECL_MANAGED_DENSE_COMP_DATA(CInteractionSurfEntities, 16)
 //}; DECL_OUT_COMP_DATA(CInteractionSurfEntities)

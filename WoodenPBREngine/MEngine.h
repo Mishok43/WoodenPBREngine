@@ -14,7 +14,6 @@ public:
 		return engine;
 	}
 
-	bool init(const DOptions& options);
 	void loadResources();
 	void render();
 private:

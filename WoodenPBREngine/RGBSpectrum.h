@@ -58,7 +58,7 @@ public:
 		}
 
 		float scale = (CIE_lambda[nCIESamples - 1] - CIE_lambda[0]) / 
-			float(CIE_Y_integral* nCIESamples);
+			float(CIE_Y_integral*nCIESamples);
 
 		xyz *= scale;
 		return fromXYZ(xyz);

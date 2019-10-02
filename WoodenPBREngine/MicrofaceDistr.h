@@ -87,7 +87,7 @@ struct CReflectDirSamplerMicroface
 	}
 
 	DECL_MANAGED_DENSE_COMP_DATA(CReflectDirSamplerMicroface, 1)
-}; DECL_OUT_COMP_DATA(CReflectDirSamplerMicroface)
+};
 
 struct CReflectDirSamplerCosSin
 {

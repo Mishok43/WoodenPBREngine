@@ -16,6 +16,6 @@ struct CRayDifferential : public DRayDifferentialf
 	{}
 
 	DECL_MANAGED_DENSE_COMP_DATA(CRayDifferential, 16)
-}; DECL_OUT_COMP_DATA(CRayDifferential)
+}; 
 
 WPBR_END
