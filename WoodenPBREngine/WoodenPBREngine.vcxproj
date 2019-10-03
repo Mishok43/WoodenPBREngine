@@ -172,6 +172,7 @@
     <ClInclude Include="CFilterMitchell.h" />
     <ClInclude Include="CMaterialMatte.h" />
     <ClInclude Include="CMaterialPlastic.h" />
+    <ClInclude Include="CPhaseFunctionHG.h" />
     <ClInclude Include="CRayDifferential.h" />
     <ClInclude Include="CSCamera.h" />
     <ClInclude Include="CCentroid.h" />
@@ -225,6 +226,8 @@
     <ClCompile Include="CMaterial.cpp" />
     <ClCompile Include="CMaterialMatte.cpp" />
     <ClCompile Include="CoefficientSpectrum.cpp" />
+    <ClCompile Include="CPhaseFunction.cpp" />
+    <ClCompile Include="CPhaseFunctionHG.cpp" />
     <ClCompile Include="CRay.cpp" />
     <ClCompile Include="CRayDifferential.cpp" />
     <ClCompile Include="CSampler.cpp" />
