@@ -1,0 +1,10 @@
+#include "pch.h"
+#include "CBSDF.h"
+
+WPBR_BEGIN
+DECL_OUT_COMP_DATA(CSampledBSDFPDF)
+DECL_OUT_COMP_DATA(CSampledBSDFValue)
+DECL_OUT_COMP_DATA(CBSDFComputeRequest)
+DECL_OUT_COMP_DATA(CBSDFSampleRequest)
+WPBR_END
+

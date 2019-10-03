@@ -4,10 +4,16 @@
 #include "WoodenMathLibrarry/DBounds.h"
 
 WPBR_BEGIN
-struct CBounds3f: public DBounds<float, 3>
+struct CBounds : public DBounds3f
 {
-	DECL_MANAGED_DENSE_COMP_DATA(CBounds3f, 1024);
-}; DECL_OUT_COMP_DATA(CBounds3f)
+	CBounds() = default;
+
+	CBounds(DBounds3f bounds):
+		DBounds3f(std::move(bounds))
+	{}
+
+	DECL_MANAGED_FLAT_COMP_DATA(CBounds, 16);
+};
 
 WPBR_END
 

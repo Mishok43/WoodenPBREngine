@@ -14,15 +14,24 @@
 #define WPBR_END }
 
 #include <cstddef>
+#include "stdint.h"
 #include <string>
 #include <assert.h>
+#include <algorithm>
+#include <vector>
 #include "WoodenECS/WECS.h"
+#include "WoodenECS/Job.h"
 #include "WoodenMathLibrarry/DVector.h"
+#include "WoodenMathLibrarry/Utils.h"
+#include "WoodenAllocators/Allocator.h"
+
+//using uint32_t = typename std::uint32_t;
+
+#define PI 3.14
 
 using namespace wml;
+using namespace wal;
 using namespace wecs;
-
-using efloat = typename float;
 
 // TODO: add headers that you want to pre-compile here
 

@@ -11,13 +11,13 @@ public:
 	using base = typename DRay<float>;
 	using base::operator();
 
-	CRay(DVector<float, 3> o, DVector<float, 3> d):
-		DRay(std::move(o), std::move(d))
-	{ }
 
+
+	CRay(DRayf&& r):
+		DRayf(std::move(r)){ }
 
 	DECL_MANAGED_DENSE_COMP_DATA(CRay, 32);
-}; DECL_OUT_COMP_DATA(CRay)
+}; 
 
 WPBR_END
 

@@ -1,7 +1,6 @@
 #pragma once
 #include "pch.h"
 #include "DOptions.h"
-#include "DScene.h"
 #include "WoodenECS/WECS.h"
 
 WPBR_BEGIN
@@ -15,7 +14,6 @@ public:
 		return engine;
 	}
 
-	bool init(const DOptions& options);
 	void loadResources();
 	void render();
 private:
@@ -26,7 +24,11 @@ private:
 private:
 	const std::string DEFAULT_SCENE_FILENAME = "test.scene";
 
-	DScene scene;
+	void buildCameraAndFilm();
+	void buildLBVH();
+	void buildScene();
+	void buildMaterials();
+	void runCollisionSystem();
 };
 
 WPBR_END
