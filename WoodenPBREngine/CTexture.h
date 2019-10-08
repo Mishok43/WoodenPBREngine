@@ -204,10 +204,16 @@ public:
 		float s = st[0] * tex.resolutions[mip].x() - 0.5f;
 		float t = st[1] * tex.resolutions[mip].y() - 0.5f;
 		int s0 = std::floor(s), t0 = std::floor(t);
+		s0 = max(s0, 0);
+		t0 = max(t0, 0);
+
+
 		float ds = s - s0, dt = t - t0;
 
 		int s0n = min(s0 + 1, tex.resolutions[mip].x()-1);
 		int t0n = min(t0 + 1, tex.resolutions[mip].y() - 1);
+		s0n = max(s0n, 0);
+		t0n = max(t0n, 0);
 		return	tex.texel(s0, t0, mip)*(1 - ds) * (1 - dt) +
 			tex.texel(s0, t0n, mip)*(1 - ds) * dt +
 			tex.texel(s0n, t0, mip)*ds * (1 - dt) +
@@ -248,11 +254,12 @@ public:
 
 
 		uint32_t nLevels = tex.mips.size();
-		float lod = max(0.0f, (nLevels-1) - max(log2(minorLength) - 2, 0.0));
+	//	float lod = max(0.0f, (nLevels-1) - max(log2(minorLength*tex.resolutions[0].x()) - 2, 0.0));
+		float lod = max(0.0f, nLevels - 1 + log2(max(minorLength, 0)));
 		int ilod = std::floor(lod);
-		if (ilod == nLevels - 1)
+		if (ilod >= nLevels - 1)
 		{
-			return ewa(st, tex, filterTable, ilod);
+			return ewa(st, tex, filterTable, nLevels - 1);
 		}
 		else
 		{

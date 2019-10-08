@@ -35,7 +35,7 @@ struct alignas(alignof(DBounds2i)) CFilmTile
 
 		DPoint2i d = p - pixelBounds.pMin;
 
-		return d.x() + d.y()*pixelBounds.diagonal().x();
+		return d.x() + d.y()*(pixelBounds.diagonal().x()+1);
 	}
 	DECL_MANAGED_DENSE_COMP_DATA(CFilmTile, 16)
 }; 

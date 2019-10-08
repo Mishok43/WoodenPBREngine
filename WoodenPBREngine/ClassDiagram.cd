@@ -1,0 +1,2531 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="aiColor4t&lt;TReal&gt;" Collapsed="true">
+    <Position X="26.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAAAAAAAAAAAQAAAAEAAAAoAQAhQAAAAAA=</HashCode>
+      <FileName>assimp\color4.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DeadlyImportError" Collapsed="true">
+    <Position X="14.5" Y="17.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\Exceptional.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="aiMatrix3x3t&lt;TReal&gt;" Collapsed="true">
+    <Position X="28" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIIACgAIAAQAAAAHABiAAAAFgAQgANAA=</HashCode>
+      <FileName>assimp\matrix3x3.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="aiMatrix4x4t&lt;TReal&gt;" Collapsed="true">
+    <Position X="29.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>sAQBCQAAAAEAAoACgAIACQAAAAPAEiAAAAFgCQiANAA=</HashCode>
+      <FileName>assimp\matrix4x4.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="aiQuaterniont&lt;TReal&gt;" Collapsed="true">
+    <Position X="31.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAACAAAAAkAAACQQAEAAAAAAAAAhgAQAAAAA=</HashCode>
+      <FileName>assimp\quaternion.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="aiVector2t&lt;TReal&gt;" Collapsed="true">
+    <Position X="33.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAABAAAABAAAkAAAAQBAAAEAAAAAAIBgAAAIAAA=</HashCode>
+      <FileName>assimp\vector2.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="aiVector3t&lt;TReal&gt;" Collapsed="true">
+    <Position X="35" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAABAAAABAAAkAAAAQBAAAEAAIAAAIBgAQAIAAA=</HashCode>
+      <FileName>assimp\vector3.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobBSDFConductorMicrofaceCompute" Collapsed="true">
+    <Position X="42" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>CBSDFConductorMicroface.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobBSDFConductorMicrofaceSample" Collapsed="true">
+    <Position X="43.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>CBSDFConductorMicroface.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobBSDFDielectricMicrofaceCompute" Collapsed="true">
+    <Position X="45.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>CBSDFDielectricMicroface.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobBSDFDielectricMicrofaceSample" Collapsed="true">
+    <Position X="47.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>CBSDFDielectricMicroface.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobBSDFSpecularReflectionCompute" Collapsed="true">
+    <Position X="26.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>CBSDFSpecularReflectance.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobBSDFSpecularReflectionSample" Collapsed="true">
+    <Position X="28" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>CBSDFSpecularReflectance.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SBXDFSpecularReflectance" Collapsed="true">
+    <Position X="33.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAAAAAAAAAEAAAAAAAAQAABAAAAAAAA=</HashCode>
+      <FileName>CBSDFSpecularReflectance.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CAnimatedTransform" Collapsed="true">
+    <Position X="42" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CAnimatedTransform.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobBSDFComputeTransform" Collapsed="true">
+    <Position X="40.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>CBSDF.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CSMaterialDielectric" Collapsed="true">
+    <Position X="26.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>CMaterialDielectric.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobGenerateBSDFMaterialDielectric" Collapsed="true">
+    <Position X="43.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAEAAA=</HashCode>
+      <FileName>CMaterialDielectric.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMaterialPerfectGlass" Collapsed="true">
+    <Position X="45.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>CMaterialPerfectGlass.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobGenerateBSDFMaterialPerfectGlass" Collapsed="true">
+    <Position X="47.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAEAAA=</HashCode>
+      <FileName>CMaterialPerfectGlass.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CSMaterialMetal" Collapsed="true">
+    <Position X="28" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>CMaterialMetal.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobGenerateBSDFMaterialMetal" Collapsed="true">
+    <Position X="45.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAEAAA=</HashCode>
+      <FileName>CMaterialMetal.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SCamera" Collapsed="true">
+    <Position X="35" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>CSCamera.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobGenerateFilmTiles" Collapsed="true">
+    <Position X="28" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>CSFilm.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobCreateCameraSamples" Collapsed="true">
+    <Position X="38.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAEAAA=</HashCode>
+      <FileName>CSFilm.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobAccumalateLIFromSamples" Collapsed="true">
+    <Position X="38.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAACAAEAAA=</HashCode>
+      <FileName>CSFilm.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobOutputFilmTitles" Collapsed="true">
+    <Position X="42" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAACAAEAAA=</HashCode>
+      <FileName>CSFilm.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobOutputFilm" Collapsed="true">
+    <Position X="40.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>CSFilm.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobGenerateBSDFRequests" Collapsed="true">
+    <Position X="26.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>CMaterial.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CoefficientSpectrum&lt;nSamplesGroups&gt;" Collapsed="true">
+    <Position X="8.5" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAQAAAAEAAADAAAAgAAAAAAA=</HashCode>
+      <FileName>CoefficientSpectrum.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SCameraPerspective" Collapsed="true">
+    <Position X="36.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>CSCameraPerspective.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobCameraPerspGenerateRays" Collapsed="true">
+    <Position X="31.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAAAIAAAAAAAAAEAAA=</HashCode>
+      <FileName>CSCameraPerspective.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobCameraPerspGenerateRaysDifferential" Collapsed="true">
+    <Position X="33.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAEAAA=</HashCode>
+      <FileName>CSCameraPerspective.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SCameraProjective" Collapsed="true">
+    <Position X="38.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>CSCameraProjective.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobSamplerUpdateCameraSamples" Collapsed="true">
+    <Position X="35" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAAAIAAAAAAAAAEAAA=</HashCode>
+      <FileName>CSSampler.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobSamplerStratifiedGenerateSampels1D" Collapsed="true">
+    <Position X="31.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAAAIAAAAAAAAAEAAA=</HashCode>
+      <FileName>CSSamplerStratified.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobSamplerStratifiedGenerateSampels2D" Collapsed="true">
+    <Position X="33.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAAAIAAAAAAAAAEAAA=</HashCode>
+      <FileName>CSSamplerStratified.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobTriangleMeshGenerateTriangles" Collapsed="true">
+    <Position X="40.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>CSTriangleMesh.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="STriangleMesh" Collapsed="true">
+    <Position X="36.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>CSTriangleMesh.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobProcessTriangleFullInteractionRequests" Collapsed="true">
+    <Position X="28" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAEAAA=</HashCode>
+      <FileName>CSTriangle.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobProcessTriangleInteractionRequests" Collapsed="true">
+    <Position X="29.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>CSTriangle.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobUpdateBoundsAndCentroidTriangle" Collapsed="true">
+    <Position X="45.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAIAAAAAEAAA=</HashCode>
+      <FileName>CSTriangle.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobTriangleProcessMapUVRequests" Collapsed="true">
+    <Position X="42" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>CSTriangle.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="STriangle" Collapsed="true">
+    <Position X="35" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>CSTriangle.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SampledSpectrum" Collapsed="true">
+    <Position X="8.5" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IIQAABAAAAAIAEoIAgAAAAigAIABAAIhAAQgAAQAYAE=</HashCode>
+      <FileName>CSpectrumSampled.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobProcessSphereFullInteractionRequests" Collapsed="true">
+    <Position X="47.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAIAACAAEAAA=</HashCode>
+      <FileName>CSSphere.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobProcessSphereSurfInteractionRequests" Collapsed="true">
+    <Position X="26.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAIAAAAAEAAA=</HashCode>
+      <FileName>CSSphere.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobUpdateBoundsAndCentroidSphere" Collapsed="true">
+    <Position X="43.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAIAAAAAEAAA=</HashCode>
+      <FileName>CSSphere.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobSphereProcessMapUVRequests" Collapsed="true">
+    <Position X="38.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAIAAAAAEAAA=</HashCode>
+      <FileName>CSSphere.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobSphereLightProcessSamplingRequests" Collapsed="true">
+    <Position X="36.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAIAAAAAEAAA=</HashCode>
+      <FileName>CSSphere.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobSphereLightProcessComputeRequests" Collapsed="true">
+    <Position X="35" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAIAAAAAEAAA=</HashCode>
+      <FileName>CSSphere.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobComputeDifferentialsForSurfInter" Collapsed="true">
+    <Position X="36.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAIAAAAAEAAA=</HashCode>
+      <FileName>CSufraceInteraction.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobLightPointsSample" Collapsed="true">
+    <Position X="33.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAA=</HashCode>
+      <FileName>CLight.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobLightSpotSample" Collapsed="true">
+    <Position X="35" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAA=</HashCode>
+      <FileName>CLight.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TextureConst&lt;T&gt;" Collapsed="true">
+    <Position X="40.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAQCAAAAAAAAAAAAA=</HashCode>
+      <FileName>CTexture.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="STextureBindingRGB" Collapsed="true">
+    <Position X="28" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>CTexture.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobFilterTableGaussing" Collapsed="true">
+    <Position X="42" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAEAAA=</HashCode>
+      <FileName>CTexture.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="STextureSampler" Collapsed="true">
+    <Position X="31.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CTexture.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="STextureSampleAnisotropic" Collapsed="true">
+    <Position X="29.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAQAQAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CTexture.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="STextureSamplerIsotropic" Collapsed="true">
+    <Position X="33.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CTexture.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobLoadTextureRGB" Collapsed="true">
+    <Position X="36.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAEAAAAAAAAAAQAACAAAAAAAACAAAAAAEAAA=</HashCode>
+      <FileName>CTexture.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobMapUVRequestsGenerate" Collapsed="true">
+    <Position X="38.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>CTextureMapping.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TextureMappingUV" Collapsed="true">
+    <Position X="43.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CTextureMapping.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TextureMappingSphere" Collapsed="true">
+    <Position X="42" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CTextureMapping.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DRayDifferential&lt;T, alignment&gt;" Collapsed="true">
+    <Position X="29.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAgAAAAAIAAAAEAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DRayDifferential.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CTransform" Collapsed="true">
+    <Position X="6" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAABAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CTransform.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RGBSpectrum" Collapsed="true">
+    <Position X="31.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAEAAkAAAAAAAAAAAIAAAABAAAAgBAAAAAA=</HashCode>
+      <FileName>RGBSpectrum.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobScatteringAccumulateEmittedLight" Collapsed="true">
+    <Position X="36.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAEAAA=</HashCode>
+      <FileName>SScattering.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobScatteringSampleLight" Collapsed="true">
+    <Position X="29.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>SScattering.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobScatteringSampleLightLI" Collapsed="true">
+    <Position X="31.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>SScattering.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobScatteringCastShadowRays" Collapsed="true">
+    <Position X="38.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>SScattering.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobScatteringProcessShadowRay" Collapsed="true">
+    <Position X="47.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAEAAA=</HashCode>
+      <FileName>SScattering.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobScatteringIntegrateImportanceLight" Collapsed="true">
+    <Position X="45.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAACAAEAAA=</HashCode>
+      <FileName>SScattering.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobScatteringSampleBSDF" Collapsed="true">
+    <Position X="28" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>SScattering.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobScatteringCastShadowRaysWithInteraction" Collapsed="true">
+    <Position X="40.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>SScattering.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobScatteringProcessShadowRayWithInteraction" Collapsed="true">
+    <Position X="26.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAEAAA=</HashCode>
+      <FileName>SScattering.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobScatteringIntegrateImportanceBSDF" Collapsed="true">
+    <Position X="43.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAACAAEAAA=</HashCode>
+      <FileName>SScattering.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobScatteringFinish" Collapsed="true">
+    <Position X="42" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAEAAA=</HashCode>
+      <FileName>SScattering.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobProcessRayCastsResults" Collapsed="true">
+    <Position X="45.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAAAIAAAAAACAAEAAA=</HashCode>
+      <FileName>SLBVH.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobCollisionFinish" Collapsed="true">
+    <Position X="35" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAEAAA=</HashCode>
+      <FileName>SLBVH.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobProcessRayCasts" Collapsed="true">
+    <Position X="43.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAEAAA=</HashCode>
+      <FileName>SLBVH.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobGenerateShapesCentroidBound" Collapsed="true">
+    <Position X="29.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>SLBVH.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobGenerateShapesMortonCode" Collapsed="true">
+    <Position X="31.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAAAIEAAAAAAAAEAAA=</HashCode>
+      <FileName>SLBVH.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobSortsShapesByMortonCode" Collapsed="true">
+    <Position X="33.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>SLBVH.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobEmitLBVH" Collapsed="true">
+    <Position X="40.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAABAAAAAAAAAAAAAAIAAAAAAAAAEAAA=</HashCode>
+      <FileName>SLBVH.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JobBuildUpperSAH" Collapsed="true">
+    <Position X="29.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEABAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>SLBVH.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CRay" Collapsed="true">
+    <Position X="47.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAQAAAAAA=</HashCode>
+      <FileName>CRay.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MEngine" Collapsed="true">
+    <Position X="28" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAQAAgABAAAACAAAAAIEAAAAAAQEAAAAAAAwAAA=</HashCode>
+      <FileName>MEngine.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assimp::Importer" Collapsed="true">
+    <Position X="35" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>UADQAAAEASIEQAAsAQAgKAgggAUCQQAGKAAsQEFAgIA=</HashCode>
+      <FileName>assimp\Importer.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assimp::IOSystem" Collapsed="true">
+    <Position X="10.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAQABAAMAAEAAAAAAEAAAEACAAAAAEEBAGAAQA=</HashCode>
+      <FileName>assimp\IOSystem.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assimp::IOStream" Collapsed="true">
+    <Position X="21.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABADAAAAAAgAAAAAAAACAQAAAEIAAA=</HashCode>
+      <FileName>assimp\IOStream.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assimp::BaseImporter" Collapsed="true">
+    <Position X="36.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAABAAQgAgAAAAAAAFACAAAUIBABgASAAIBAA=</HashCode>
+      <FileName>assimp\BaseImporter.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assimp::Bitmap" Collapsed="true">
+    <Position X="38.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAIAAAAAAAAAAAAAAAgAAAAAAAggAAAAAA=</HashCode>
+      <FileName>assimp\Bitmap.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assimp::BlobIOSystem" Collapsed="true">
+    <Position X="10.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACBAAAAAIAAAAAAAAgAABAAAgEAAAIAAgAGAAAA=</HashCode>
+      <FileName>assimp\BlobIOSystem.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assimp::BlobIOStream" Collapsed="true">
+    <Position X="21.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQBAIAAAAFACAAAAAAgABAUAAAADABAAAEIABA=</HashCode>
+      <FileName>assimp\BlobIOSystem.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assimp::ByteSwap" Collapsed="true">
+    <Position X="40.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAAQAAAAAAQBAQAAEAAAAAAAAAA=</HashCode>
+      <FileName>assimp\ByteSwapper.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assimp::DefaultIOStream" Collapsed="true">
+    <Position X="23.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABACAAAAAAgAAAAKAAACIAAABEIAAA=</HashCode>
+      <FileName>assimp\DefaultIOStream.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assimp::DefaultIOSystem" Collapsed="true">
+    <Position X="12.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAICAAAAAAIAAAAAAAAAAAAAAAAAAAAEAABAGAAAA=</HashCode>
+      <FileName>assimp\DefaultIOSystem.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assimp::AndroidJNIIOSystem" Collapsed="true">
+    <Position X="12.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAAIAAAAAAAIAAAAAAAAAAAAAAgBAEIAAA=</HashCode>
+      <FileName>assimp\port\AndroidJNI\AndroidJNIIOSystem.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assimp::DefaultLogger" Collapsed="true">
+    <Position X="17" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAgACgAiAAABIAAUASAAIAAAEAoAAACBAgAAIQAA=</HashCode>
+      <FileName>assimp\DefaultLogger.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assimp::Exporter" Collapsed="true">
+    <Position X="31.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAEASAAQAAAAAMAAAABBABAAAAAIBAKAAAAEAAABA=</HashCode>
+      <FileName>assimp\Exporter.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assimp::ExportProperties" Collapsed="true">
+    <Position X="33.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QCAQAAAAAGAAAAAAAAAAAAAgACRCgYIAAAAcQCAAAIA=</HashCode>
+      <FileName>assimp\Exporter.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assimp::ProgressHandler" Collapsed="true">
+    <Position X="3.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAACAAAAAACAAAAAAAAAAACAAAAAAAAAAAAAAgAA=</HashCode>
+      <FileName>assimp\ProgressHandler.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assimp::IOStreamBuffer&lt;T&gt;" Collapsed="true">
+    <Position X="36.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAABAQgAACAAAAKAQAAgAAAAAAASCAIIAAIAIRgA=</HashCode>
+      <FileName>assimp\IOStreamBuffer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assimp::CIrrXML_IOStreamReader" Collapsed="true">
+    <Position X="43.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAIAAAAAAACAAAAAAAAACAAAACAQQAAAAAAA=</HashCode>
+      <FileName>assimp\irrXMLWrapper.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assimp::LineSplitter" Collapsed="true">
+    <Position X="47.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAABAAEAACAAAAEQIAhAgAAAQEAAAAACAEgAAQgAgA=</HashCode>
+      <FileName>assimp\LineSplitter.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assimp::LogFunctions&lt;TDeriving&gt;" Collapsed="true">
+    <Position X="26.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAACAAAAAAACIAAJAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\LogAux.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assimp::LogStream" Collapsed="true">
+    <Position X="5.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAABAAAAEAAAABAAQAAAAAAAAA=</HashCode>
+      <FileName>assimp\LogStream.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assimp::Logger" Collapsed="true">
+    <Position X="15.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CIAQAAAAAAKAAAAIAAGAgAAAAAAAAAAAQAABgAAIQAA=</HashCode>
+      <FileName>assimp\Logger.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assimp::MemoryIOStream" Collapsed="true">
+    <Position X="19.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAABAKEAAAIAgAAAQAAAACABAAAEIAAA=</HashCode>
+      <FileName>assimp\MemoryIOWrapper.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assimp::MemoryIOSystem" Collapsed="true">
+    <Position X="8" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAACAAAIAAIAAAAEAAAAAAAAAAAAAAAABABAGAAAA=</HashCode>
+      <FileName>assimp\MemoryIOWrapper.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assimp::NullLogger" Collapsed="true">
+    <Position X="14.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAIAAEAAAAAAAAAAAAAAAAAgAAIQAA=</HashCode>
+      <FileName>assimp\NullLogger.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assimp::CommentRemover" Collapsed="true">
+    <Position X="45.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAACAIAAAAAA=</HashCode>
+      <FileName>assimp\RemoveComments.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assimp::SceneCombiner" Collapsed="true">
+    <Position X="40.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgIgAQAgAAAIAABAAAAAAAQgAEARgAAAAAAAAgAAA=</HashCode>
+      <FileName>assimp\SceneCombiner.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assimp::SGSpatialSort" Collapsed="true">
+    <Position X="42" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIJAAAAAAAAQAAAAAIAAAAEAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>assimp\SGSpatialSort.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assimp::SkeletonMeshBuilder" Collapsed="true">
+    <Position X="43.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAAAABAAAAAgAAAAAgAgAABCEAAAA=</HashCode>
+      <FileName>assimp\SkeletonMeshBuilder.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assimp::SpatialSort" Collapsed="true">
+    <Position X="47.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAJAAAAACAAAAAAEAAAAAEAAAAAiQAQAQAAAAAAAAA=</HashCode>
+      <FileName>assimp\SpatialSort.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assimp::StandardShapes" Collapsed="true">
+    <Position X="26.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABBAIAAAABABACEAIAAAgAAAAAAAAAAAAAAAAACA=</HashCode>
+      <FileName>assimp\StandardShapes.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assimp::StreamReader&lt;SwapEndianess, RuntimeSwitch&gt;" Collapsed="true">
+    <Position X="3.5" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAEAASAAIBABBAAgiAAgEUgAEAoYMoGABAACAAAgA=</HashCode>
+      <FileName>assimp\StreamReader.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assimp::StreamWriter&lt;SwapEndianess, RuntimeSwitch&gt;" Collapsed="true">
+    <Position X="13.5" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAIAAwIBERGIGCCACBAAAAAAAAAACABAAAAMAAg=</HashCode>
+      <FileName>assimp\StreamWriter.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assimp::Subdivider" Collapsed="true">
+    <Position X="38.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAgAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\Subdivision.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assimp::Vertex" Collapsed="true">
+    <Position X="45.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAQABAAAAAgAAIQgAAAAAAgCAAAAAAgAAAAA=</HashCode>
+      <FileName>assimp\Vertex.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assimp::Profiling::Profiler" Collapsed="true">
+    <Position X="29.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAEAAAE=</HashCode>
+      <FileName>assimp\Profiler.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assimp::Formatter::basic_formatter&lt;T, CharTraits, Allocator&gt;" Collapsed="true">
+    <Position X="10.5" Y="15.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAIAACAACAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>assimp\TinyFormatter.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="lodepng::State" Collapsed="true">
+    <Position X="2.5" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>lodepng.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="uivector" Collapsed="true">
+    <Position X="28" Y="19.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAAAQAAAAAAQAAAAAAA=</HashCode>
+      <FileName>lodepng.cpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="ucvector" Collapsed="true">
+    <Position X="26.25" Y="19.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAAAQAAAAAAQAAAAAAA=</HashCode>
+      <FileName>lodepng.cpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="__unnamed_struct_0306_1" Collapsed="true">
+    <Position X="19.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARAAAAAAA=</HashCode>
+      <FileName>lodepng.cpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="__unnamed_struct_0306_2" Collapsed="true">
+    <Position X="18.5" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAARRAAAAAAA=</HashCode>
+      <FileName>lodepng.cpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="HuffmanTree" Collapsed="true">
+    <Position X="31.5" Y="17.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAQAAACAAAAAAAICAAAAAAAACAAA=</HashCode>
+      <FileName>lodepng.cpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="BPMNode" Collapsed="true">
+    <Position X="36.75" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAABAgA=</HashCode>
+      <FileName>lodepng.cpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="BPMLists" Collapsed="true">
+    <Position X="35" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAKAAABAAAABAAAAAAAsAAIAAAA=</HashCode>
+      <FileName>lodepng.cpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Hash" Collapsed="true">
+    <Position X="29.75" Y="17.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAgAAAAAAAAIAAAAAAIAAAAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>lodepng.cpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="ColorTree" Collapsed="true">
+    <Position X="40.25" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>lodepng.cpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="aiVectorKey" Collapsed="true">
+    <Position X="28" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAAAAAAAAAQAAgAAEAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>assimp\anim.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="aiQuatKey" Collapsed="true">
+    <Position X="35" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAABAAAAQAAgAAEAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>assimp\anim.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="aiMeshKey" Collapsed="true">
+    <Position X="40.25" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAAAAAAAAAAAQAAgAAEAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>assimp\anim.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="aiMeshMorphKey" Collapsed="true">
+    <Position X="43.75" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAACAAACAAEAAAgAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\anim.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="aiNodeAnim" Collapsed="true">
+    <Position X="28" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgQAAAAAAAECCAAAAAAAAAARAAAAQAAAAAAAAQBg=</HashCode>
+      <FileName>assimp\anim.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="aiMeshAnim" Collapsed="true">
+    <Position X="38.5" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAAAAAAAIAAAAAABAAAAAAAAAAgAAAAAAEA=</HashCode>
+      <FileName>assimp\anim.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="aiMeshMorphAnim" Collapsed="true">
+    <Position X="42" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAAAAAACIAAAAAAAAAAAAAAAQAgAAAAAAAA=</HashCode>
+      <FileName>assimp\anim.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="aiAnimation" Collapsed="true">
+    <Position X="26.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAQAACADAAAAEQAAAAACBACAAAAgAAAAAAAA=</HashCode>
+      <FileName>assimp\anim.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="aiCamera" Collapsed="true">
+    <Position X="31.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAIAAAAAAAQCAACAFAAAAAAgAAAAAIgA=</HashCode>
+      <FileName>assimp\camera.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="aiExportFormatDesc" Collapsed="true">
+    <Position X="38.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAIAAAAAAAAAAAAQAAAAAAAAAAAgA=</HashCode>
+      <FileName>assimp\cexport.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="aiExportDataBlob" Collapsed="true">
+    <Position X="36.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAABAAAAAAEAAAAAAAwgAIAAAA=</HashCode>
+      <FileName>assimp\cexport.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="aiFile" Collapsed="true">
+    <Position X="42" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgAAAIIAAAAAAABAAAAAAAAAACAAAAIAgA=</HashCode>
+      <FileName>assimp\cfileio.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="aiFileIO" Collapsed="true">
+    <Position X="43.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAIAAA=</HashCode>
+      <FileName>assimp\cfileio.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="aiLogStream" Collapsed="true">
+    <Position X="26.25" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQA=</HashCode>
+      <FileName>assimp\cimport.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="aiPropertyStore" Collapsed="true">
+    <Position X="31.5" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\cimport.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="aiColor4D" Collapsed="true">
+    <Position X="35" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAoAQABAAAAAAA=</HashCode>
+      <FileName>assimp\color4.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="ExceptionSwallower&lt;T&gt;" Collapsed="true">
+    <Position X="42" Y="16.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\Exceptional.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="ExceptionSwallower&lt;T*&gt;" Collapsed="true">
+    <Position X="40.25" Y="16.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\Exceptional.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="ExceptionSwallower&lt;aiReturn&gt;" Collapsed="true">
+    <Position X="45.5" Y="16.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\Exceptional.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="ExceptionSwallower&lt;void&gt;" Collapsed="true">
+    <Position X="43.75" Y="16.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\Exceptional.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="aiImporterDesc" Collapsed="true">
+    <Position X="45.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAABABABAAAAAERAAAAAAAgAIAAEAAA=</HashCode>
+      <FileName>assimp\importerdesc.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="aiLight" Collapsed="true">
+    <Position X="47.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAABAABEAAAAAARBAAAAAADAAAggCIAQAAgA=</HashCode>
+      <FileName>assimp\light.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="aiUVTransform" Collapsed="true">
+    <Position X="45.5" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAABAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>assimp\material.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="aiMaterialProperty" Collapsed="true">
+    <Position X="29.75" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAIAAACAEAAAABAIgAAAAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>assimp\material.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="aiMaterial" Collapsed="true">
+    <Position X="28" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACABAIACgAAAAABAQAAAAAAAAAAAAAA6AAAAgABAAAA=</HashCode>
+      <FileName>assimp\material.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="aiMatrix3x3" Collapsed="true">
+    <Position X="31.5" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAADAAgAAAABgAQAANAA=</HashCode>
+      <FileName>assimp\matrix3x3.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="aiMatrix4x4" Collapsed="true">
+    <Position X="33.25" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>sAQAAAAAAAAAAAAAAAAAAAAAAADAEgAAAABgCQCANAA=</HashCode>
+      <FileName>assimp\matrix4x4.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="aiFace" Collapsed="true">
+    <Position X="40.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAACAAAAAAAAAgEAAAAAAQAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>assimp\mesh.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="aiVertexWeight" Collapsed="true">
+    <Position X="29.75" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAAQAAAAAAAAAABAAAAAAAAQA=</HashCode>
+      <FileName>assimp\mesh.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="aiBone" Collapsed="true">
+    <Position X="29.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAASAAAQAAIAAAABAAAAggAAAACAA=</HashCode>
+      <FileName>assimp\mesh.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="aiAnimMesh" Collapsed="true">
+    <Position X="28" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAEAAAACAACgAAATAAAgBIABAApAIAA=</HashCode>
+      <FileName>assimp\mesh.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="aiMesh" Collapsed="true">
+    <Position X="36.75" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EMAACABBAAAAAIFAAQABAAAgACATAAIgAIgBAhpAIAA=</HashCode>
+      <FileName>assimp\mesh.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="aiMetadataEntry" Collapsed="true">
+    <Position X="47.25" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAABAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\metadata.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="aiMetadata" Collapsed="true">
+    <Position X="45.5" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAQAAAAIAABCBAAAAAAAgAAAAAAEACAAAAAAAAgAA=</HashCode>
+      <FileName>assimp\metadata.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="aiQuaternion" Collapsed="true">
+    <Position X="33.25" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAhgAQAAAAA=</HashCode>
+      <FileName>assimp\quaternion.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="aiNode" Collapsed="true">
+    <Position X="26.25" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAEAIAAAAgAAEAAQAAAAAAAAASAgggAAACAA=</HashCode>
+      <FileName>assimp\scene.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="aiScene" Collapsed="true">
+    <Position X="38.5" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACBQAAIAAACABAgAgGVAAIAABAABmAAABgMAAAIIA=</HashCode>
+      <FileName>assimp\scene.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="FaceWithSmoothingGroup" Collapsed="true">
+    <Position X="47.25" Y="16.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAACAAAAAAAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>assimp\SmoothingGroups.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="MeshWithSmoothingGroups&lt;T&gt;" Collapsed="true">
+    <Position X="36.75" Y="18.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAAAAAAAAAAAACAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>assimp\SmoothingGroups.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="aiTexel" Collapsed="true">
+    <Position X="42" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAAAAQAAAAAAAAAoAQABAAAAAAA=</HashCode>
+      <FileName>assimp\texture.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="aiTexture" Collapsed="true">
+    <Position X="43.75" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAQAAAgEQAAAAAAAAAABAAAAABAAAAI=</HashCode>
+      <FileName>assimp\texture.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="aiPlane" Collapsed="true">
+    <Position X="29.75" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAAAAAAAAAAAAACkAQAAAAAAAAA=</HashCode>
+      <FileName>assimp\types.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="aiRay" Collapsed="true">
+    <Position X="36.75" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAACAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\types.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="aiColor3D" Collapsed="true">
+    <Position X="33.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAQABAAEAAAAIAQAhQAAAAAA=</HashCode>
+      <FileName>assimp\types.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="aiString" Collapsed="true">
+    <Position X="40.25" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQABAAAAEAAAQAAAAAAAQAIAAAwAABAAAA=</HashCode>
+      <FileName>assimp\types.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="aiMemoryInfo" Collapsed="true">
+    <Position X="35" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAAAQAAAAAIAEAACAEAAAABgIAA=</HashCode>
+      <FileName>assimp\types.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="aiVector2D" Collapsed="true">
+    <Position X="47.25" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABgAAAAAAA=</HashCode>
+      <FileName>assimp\vector2.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="aiVector3D" Collapsed="true">
+    <Position X="26.25" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABgAQAAAAA=</HashCode>
+      <FileName>assimp\vector3.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CBXDFSpecularReflection" Collapsed="true">
+    <Position X="31.5" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CBSDFSpecularReflectance.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CFresnelDielectric" Collapsed="true">
+    <Position X="29.75" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAgAA=</HashCode>
+      <FileName>CBXDF.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CSpectrumScale" Collapsed="true">
+    <Position X="45.5" Y="15.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CBXDF.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CBXDF" Collapsed="true">
+    <Position X="26.25" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CBXDF.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CBXDFOreanNayar" Collapsed="true">
+    <Position X="29.75" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAQAAAAIAEAAAA=</HashCode>
+      <FileName>CBXDF.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CBXDFLambertian" Collapsed="true">
+    <Position X="28" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
+      <FileName>CBXDF.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CFresnelConductor" Collapsed="true">
+    <Position X="28" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQgAAAAAAAgAA=</HashCode>
+      <FileName>CBXDF.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CBounds" Collapsed="true">
+    <Position X="42" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>CBounds.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CSampledBSDF" Collapsed="true">
+    <Position X="26.25" Y="15.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>CBSDF.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CSampledBSDFPDF" Collapsed="true">
+    <Position X="28" Y="15.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>CBSDF.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CSampledBSDFValue" Collapsed="true">
+    <Position X="29.75" Y="15.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CBSDF.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CBSDFTransform" Collapsed="true">
+    <Position X="2.75" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAA=</HashCode>
+      <FileName>CBSDF.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CBSDFComputeRequest" Collapsed="true">
+    <Position X="43.75" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>CBSDF.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CBSDFSampleRequest" Collapsed="true">
+    <Position X="47.25" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>CBSDF.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CCamera" Collapsed="true">
+    <Position X="33.25" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAQAAIAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CCamera.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CCameraSample" Collapsed="true">
+    <Position X="40.25" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAA=</HashCode>
+      <FileName>CCamera.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CCameraRasterPoint" Collapsed="true">
+    <Position X="38.5" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>CCamera.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CFilm" Collapsed="true">
+    <Position X="45.5" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAACAAAABAAAAACAAAAAAABAA=</HashCode>
+      <FileName>CFilm.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CFilmTile" Collapsed="true">
+    <Position X="47.25" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAIgQAAAAAAAAAAAAAAAAAACBAAAAAAAAAAACAJAA=</HashCode>
+      <FileName>CFilm.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CMaterialDielectric" Collapsed="true">
+    <Position X="33.25" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CMaterialDielectric.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CMaterialPerfectGlass" Collapsed="true">
+    <Position X="38.5" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CMaterialPerfectGlass.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CMaterialMetal" Collapsed="true">
+    <Position X="36.75" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CMaterialMetal.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CRayDifferential" Collapsed="true">
+    <Position X="43.75" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CRayDifferential.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CCentroid" Collapsed="true">
+    <Position X="42" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAEAAAAAAA=</HashCode>
+      <FileName>CCentroid.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="MitchellFilter" Collapsed="true">
+    <Position X="40.25" Y="18.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAAAAAAAAAAAAAAIAAAAAAAAAgAEAAAA=</HashCode>
+      <FileName>CSFilm.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CMaterialHandle" Collapsed="true">
+    <Position X="35" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CMaterial.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CBSDFRequests" Collapsed="true">
+    <Position X="45.5" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>CMaterial.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CTextureBindings" Collapsed="true">
+    <Position X="28" Y="16.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CMaterial.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CSamples1D" Collapsed="true">
+    <Position X="40.25" Y="15.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAQAAAAAAA=</HashCode>
+      <FileName>CSampler.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CSamples2D" Collapsed="true">
+    <Position X="42" Y="15.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAQAAIAAAA=</HashCode>
+      <FileName>CSampler.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CCameraPerspective" Collapsed="true">
+    <Position X="35" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CSCameraPerspective.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CCameraProjective" Collapsed="true">
+    <Position X="36.75" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAQAgAAAAA=</HashCode>
+      <FileName>CSCameraProjective.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CSpectrum" Collapsed="true">
+    <Position X="43.75" Y="15.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CSpectrum.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CSamplerStratified" Collapsed="true">
+    <Position X="38.5" Y="15.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CSSamplerStratified.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CHEntitySamplerStratified" Collapsed="true">
+    <Position X="33.25" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CSSamplerStratified.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CTriangleMesh" Collapsed="true">
+    <Position X="36.75" Y="16.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAABAAAABAIAAAAAAAAAACAAAAEAAAAkA=</HashCode>
+      <FileName>CSTriangleMesh.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CInteractionTriangle" Collapsed="true">
+    <Position X="38.5" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAA=</HashCode>
+      <FileName>CSTriangle.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CTriangle" Collapsed="true">
+    <Position X="35" Y="16.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>CSTriangle.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CInteractionSphere" Collapsed="true">
+    <Position X="36.75" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>CSSphere.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CSphere" Collapsed="true">
+    <Position X="47.25" Y="15.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>CSSphere.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CFullInteractionRequest" Collapsed="true">
+    <Position X="31.5" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CSufraceInteraction.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CInteractionRequest" Collapsed="true">
+    <Position X="35" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAABAAAAQAAA=</HashCode>
+      <FileName>CSufraceInteraction.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CRayCast" Collapsed="true">
+    <Position X="42" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAAAAAAAAAAAAAAEAAAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>CSufraceInteraction.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CInteraction" Collapsed="true">
+    <Position X="12.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAAAABAAAAAAAAAAAEAAQAAAIAA=</HashCode>
+      <FileName>CSufraceInteraction.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CSurfaceInteraction" Collapsed="true">
+    <Position X="12.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAADAAAAAKQBAAAAAAAAACAHAAAAFAAARAACggA=</HashCode>
+      <FileName>CSufraceInteraction.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CLightSamplingRequests" Collapsed="true">
+    <Position X="28" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>CLight.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CLightComputeRequests" Collapsed="true">
+    <Position X="45.5" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>CLight.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CLight" Collapsed="true">
+    <Position X="43.75" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CLight.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CLightPosition" Collapsed="true">
+    <Position X="26.25" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CLight.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CLightPoint" Collapsed="true">
+    <Position X="47.25" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CLight.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CLightSpot" Collapsed="true">
+    <Position X="29.75" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>CLight.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="TextureBase&lt;T&gt;" Collapsed="true">
+    <Position X="8.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAABAgAAAAAAAAAABCAAAAQAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>CTexture.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CTextureRGB" Collapsed="true">
+    <Position X="7.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CTexture.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CTextureR" Collapsed="true">
+    <Position X="9.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CTexture.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CTextureBindingBase&lt;T&gt;" Collapsed="true">
+    <Position X="3.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CTexture.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CTextureBindingRGB" Collapsed="true">
+    <Position X="2.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CTexture.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CTextureBindingR" Collapsed="true">
+    <Position X="4.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CTexture.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CSurfaceInteractionHandle" Collapsed="true">
+    <Position X="26.25" Y="16.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CTexture.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CTextureSamplerIsotropic" Collapsed="true">
+    <Position X="33.25" Y="16.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CTexture.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CTextureSamplerAnistropic" Collapsed="true">
+    <Position X="31.5" Y="16.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CTexture.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CFilterTableGaussing" Collapsed="true">
+    <Position X="26.25" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAAAQAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CTexture.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CMapUVRequests" Collapsed="true">
+    <Position X="31.5" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CTextureMapping.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CTextureMappedPoint" Collapsed="true">
+    <Position X="29.75" Y="16.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAEABAAAAAAA=</HashCode>
+      <FileName>CTextureMapping.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CTransformCameraScreen" Collapsed="true">
+    <Position X="5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAA=</HashCode>
+      <FileName>CTransform.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CTransformRasterCamera" Collapsed="true">
+    <Position X="7.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CTransform.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CTransformScreenRaster" Collapsed="true">
+    <Position X="9.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CTransform.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="LodePNGDecompressSettings" Collapsed="true">
+    <Position X="29.75" Y="18.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAAAAAAIAAAACAAAAAAgAABAAAAAA=</HashCode>
+      <FileName>lodepng.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="LodePNGCompressSettings" Collapsed="true">
+    <Position X="26.25" Y="18.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAIAAAACAAAAAAoAAAACAAAACIAAEAAAAAAA=</HashCode>
+      <FileName>lodepng.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="LodePNGColorMode" Collapsed="true">
+    <Position X="45.5" Y="17.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAAAAAAAIAAIAAAAAAEQABAIAAAAAAIAAAA=</HashCode>
+      <FileName>lodepng.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="LodePNGTime" Collapsed="true">
+    <Position X="35" Y="18.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAkAAAAAAAAAAAAAgAAAAAAAAQAAAAAAAAiAAAAAAA=</HashCode>
+      <FileName>lodepng.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="LodePNGInfo" Collapsed="true">
+    <Position X="33.25" Y="18.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABQgQQAkACgAAAEAQAAEYQ4EAARACYEQMCAkAgEkA=</HashCode>
+      <FileName>lodepng.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="LodePNGDecoderSettings" Collapsed="true">
+    <Position X="28" Y="18.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAEAAAAAAABAAgAAAAAAAAABAAgAQAAAAAAA=</HashCode>
+      <FileName>lodepng.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="LodePNGColorStats" Collapsed="true">
+    <Position X="47.25" Y="17.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAiAAAEBIAAEAAAAAAAAABAIAAAUAAAgAAA=</HashCode>
+      <FileName>lodepng.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="LodePNGEncoderSettings" Collapsed="true">
+    <Position X="31.5" Y="18.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACABAAQAAAAAAAAAAAAAACAAIIAQgAAAAAA=</HashCode>
+      <FileName>lodepng.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="LodePNGState" Collapsed="true">
+    <Position X="2.5" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAAAAAAIEAAAAAAAAAAAQAAAAAAQAAAQA=</HashCode>
+      <FileName>lodepng.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CReflectDirSamplerMicroface" Collapsed="true">
+    <Position X="47.25" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAAAAAAAAAAAAAAAAAQEAAAQAAAAAAQ=</HashCode>
+      <FileName>MicrofaceDistr.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CReflectDirSamplerCosSin" Collapsed="true">
+    <Position X="45.5" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAEAAAAAAAAA=</HashCode>
+      <FileName>MicrofaceDistr.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CSampledLight" Collapsed="true">
+    <Position X="31.5" Y="15.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>SScattering.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CSampledWI" Collapsed="true">
+    <Position X="36.75" Y="15.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SScattering.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CSampledLightLI" Collapsed="true">
+    <Position X="33.25" Y="15.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>SScattering.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CSampledLightPDF" Collapsed="true">
+    <Position X="35" Y="15.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>SScattering.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="LinearBVHNode" Collapsed="true">
+    <Position X="43.75" Y="17.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAACAAA=</HashCode>
+      <FileName>SLBVH.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CLBVHTree" Collapsed="true">
+    <Position X="40.25" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>SLBVH.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="BVHBuildNode" Collapsed="true">
+    <Position X="5.5" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAACAAAAAAAAAACAACAAACAgA=</HashCode>
+      <FileName>SLBVH.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CentroidMortonCode" Collapsed="true">
+    <Position X="43.75" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAABAAA=</HashCode>
+      <FileName>SLBVH.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="LBVHSubTreeBuilder" Collapsed="true">
+    <Position X="5.5" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAAAAAAAAAAgAAAAAAAAAgAAAAAAAAAAIAA=</HashCode>
+      <FileName>SLBVH.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CLBVHTreeBuilder" Collapsed="true">
+    <Position X="42" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CgAEAgAAAAAAAAAAAAAAAAABCAAAAAACAABAAQABCAA=</HashCode>
+      <FileName>SLBVH.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Assimp::Interpolator&lt;T&gt;" Collapsed="true">
+    <Position X="40.25" Y="17.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\anim.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Assimp::Interpolator&lt;aiQuaternion&gt;" Collapsed="true">
+    <Position X="42" Y="17.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\anim.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Assimp::Interpolator&lt;unsigned int&gt;" Collapsed="true">
+    <Position X="38.5" Y="17.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\anim.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Assimp::Interpolator&lt;aiVectorKey&gt;" Collapsed="true">
+    <Position X="36.75" Y="17.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\anim.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Assimp::Interpolator&lt;aiQuatKey&gt;" Collapsed="true">
+    <Position X="35" Y="17.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\anim.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Assimp::Interpolator&lt;aiMeshKey&gt;" Collapsed="true">
+    <Position X="33.25" Y="17.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\anim.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Assimp::AttachmentInfo" Collapsed="true">
+    <Position X="31.5" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAIAAAAAgAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\SceneCombiner.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Assimp::NodeAttachmentInfo" Collapsed="true">
+    <Position X="43.75" Y="18.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAACKAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\SceneCombiner.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Assimp::BoneWithHash" Collapsed="true">
+    <Position X="33.25" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\SceneCombiner.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Assimp::SceneHelper" Collapsed="true">
+    <Position X="47.25" Y="18.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAoACEAAAAAAAAAAAAAAAQgA=</HashCode>
+      <FileName>assimp\SceneCombiner.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Assimp::Intern::ByteSwapper&lt;T, doit&gt;" Collapsed="true">
+    <Position X="38.5" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\ByteSwapper.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Assimp::Intern::ByteSwapper&lt;T, false&gt;" Collapsed="true">
+    <Position X="40.25" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\ByteSwapper.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Assimp::Intern::Getter&lt;SwapEndianess, T, RuntimeSwitch&gt;" Collapsed="true">
+    <Position X="28" Y="17.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\ByteSwapper.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Assimp::Intern::Getter&lt;SwapEndianess, T, false&gt;" Collapsed="true">
+    <Position X="26.25" Y="17.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\ByteSwapper.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Assimp::Intern::AllocateFromAssimpHeap" Collapsed="true">
+    <Position X="13.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAAAAAQAAAAEAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>assimp\types.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Assimp::Intern::plus&lt;T0, T1, TRES&gt;" Collapsed="true">
+    <Position X="45.5" Y="18.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\Vertex.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Assimp::Intern::minus&lt;T0, T1, TRES&gt;" Collapsed="true">
+    <Position X="38.5" Y="18.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\Vertex.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Assimp::Intern::multiplies&lt;T0, T1, TRES&gt;" Collapsed="true">
+    <Position X="42" Y="18.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\Vertex.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Assimp::Intern::divides&lt;T0, T1, TRES&gt;" Collapsed="true">
+    <Position X="38.5" Y="16.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\Vertex.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Typedef Name="LodePNGBitWriter" Collapsed="true">
+    <Position X="19.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>lodepng.cpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="LodePNGBitReader" Collapsed="true">
+    <Position X="18.5" Y="15.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>lodepng.cpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="aiFileWriteProc" Collapsed="true">
+    <Position X="40.25" Y="22.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\cfileio.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="aiFileReadProc" Collapsed="true">
+    <Position X="36.75" Y="22.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\cfileio.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="aiFileTellProc" Collapsed="true">
+    <Position X="38.5" Y="22.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\cfileio.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="aiFileFlushProc" Collapsed="true">
+    <Position X="35" Y="22.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\cfileio.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="aiFileCloseProc" Collapsed="true">
+    <Position X="33.25" Y="22.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\cfileio.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="aiUserData" Collapsed="true">
+    <Position X="43.75" Y="22.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\cfileio.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="aiLogStreamCallback" Collapsed="true">
+    <Position X="42" Y="22.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\cimport.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="aiBool" Collapsed="true">
+    <Position X="31.5" Y="22.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\cimport.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="uint8_t" Collapsed="true">
+    <Position X="45.5" Y="24.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include\stdint.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="int8_t" Collapsed="true">
+    <Position X="43.75" Y="23.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include\stdint.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="uint16_t" Collapsed="true">
+    <Position X="40.25" Y="24.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include\stdint.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="int16_t" Collapsed="true">
+    <Position X="38.5" Y="23.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include\stdint.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="uint32_t" Collapsed="true">
+    <Position X="42" Y="24.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include\stdint.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="int32_t" Collapsed="true">
+    <Position X="40.25" Y="23.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include\stdint.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="int64_t" Collapsed="true">
+    <Position X="42" Y="23.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include\stdint.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="uint64_t" Collapsed="true">
+    <Position X="43.75" Y="24.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include\stdint.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="intmax_t" Collapsed="true">
+    <Position X="45.5" Y="23.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include\stdint.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="uintmax_t" Collapsed="true">
+    <Position X="47.25" Y="24.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include\stdint.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="int_least8_t" Collapsed="true">
+    <Position X="36.75" Y="23.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include\stdint.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="uint_least8_t" Collapsed="true">
+    <Position X="38.5" Y="24.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include\stdint.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="int_least16_t" Collapsed="true">
+    <Position X="31.5" Y="23.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include\stdint.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="uint_least16_t" Collapsed="true">
+    <Position X="33.25" Y="24.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include\stdint.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="int_least32_t" Collapsed="true">
+    <Position X="33.25" Y="23.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include\stdint.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="uint_least32_t" Collapsed="true">
+    <Position X="35" Y="24.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include\stdint.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="int_least64_t" Collapsed="true">
+    <Position X="35" Y="23.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include\stdint.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="uint_least64_t" Collapsed="true">
+    <Position X="36.75" Y="24.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include\stdint.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="int_fast8_t" Collapsed="true">
+    <Position X="29.75" Y="23.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include\stdint.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="uint_fast8_t" Collapsed="true">
+    <Position X="31.5" Y="24.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include\stdint.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="int_fast16_t" Collapsed="true">
+    <Position X="47.25" Y="22.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include\stdint.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="uint_fast16_t" Collapsed="true">
+    <Position X="26.25" Y="24.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include\stdint.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="int_fast32_t" Collapsed="true">
+    <Position X="26.25" Y="23.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include\stdint.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="uint_fast32_t" Collapsed="true">
+    <Position X="28" Y="24.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include\stdint.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="int_fast64_t" Collapsed="true">
+    <Position X="28" Y="23.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include\stdint.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="uint_fast64_t" Collapsed="true">
+    <Position X="29.75" Y="24.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include\stdint.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="intptr_t" Collapsed="true">
+    <Position X="47.25" Y="23.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include\vcruntime.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="ai_real" Collapsed="true">
+    <Position X="28" Y="22.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\defs.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="ai_int" Collapsed="true">
+    <Position X="26.25" Y="22.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\defs.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="ai_uint" Collapsed="true">
+    <Position X="29.75" Y="22.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\defs.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="DeadlyExportError" Collapsed="true">
+    <Position X="14.5" Y="15.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\Exceptional.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Assimp::BoneSrcIndex" Collapsed="true">
+    <Position X="45.5" Y="22.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\SceneCombiner.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Assimp::StreamReaderLE" Collapsed="true">
+    <Position X="6.5" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\StreamReader.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Assimp::StreamReaderBE" Collapsed="true">
+    <Position X="0.5" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\StreamReader.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Assimp::StreamReaderAny" Collapsed="true">
+    <Position X="3.5" Y="16.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\StreamReader.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Assimp::StreamWriterLE" Collapsed="true">
+    <Position X="16.5" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\StreamWriter.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Assimp::StreamWriterBE" Collapsed="true">
+    <Position X="15.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\StreamWriter.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Assimp::StreamWriterAny" Collapsed="true">
+    <Position X="13.5" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\StreamWriter.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Assimp::Formatter::format" Collapsed="true">
+    <Position X="10.5" Y="17.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\TinyFormatter.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Assimp::Formatter::wformat" Collapsed="true">
+    <Position X="10.5" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\TinyFormatter.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Enum Name="aiAnimBehaviour" Collapsed="true">
+    <Position X="26.25" Y="21" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAIAAAAAIAAAAAAAIAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>assimp\anim.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="aiReturn" Collapsed="true">
+    <Position X="47.25" Y="21" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAAAAEAAAAAAAAAAAACAQAAAAAAAAAA=</HashCode>
+      <FileName>assimp\types.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="aiComponent" Collapsed="true">
+    <Position X="29.75" Y="21" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAgAAAAAAAEACgBEAAQAAAAAIAAAgAAAAIAAAgAA=</HashCode>
+      <FileName>assimp\config.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="aiImporterFlags" Collapsed="true">
+    <Position X="33.25" Y="21" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAABAIAAAAAAAAAACAQAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\importerdesc.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="aiLightSourceType" Collapsed="true">
+    <Position X="35" Y="21" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAQQAAAAAAAAAAACAIAAAAAABAAAAAAAAAAgA=</HashCode>
+      <FileName>assimp\light.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="aiTextureOp" Collapsed="true">
+    <Position X="33.25" Y="21.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CRAAAAAAAAAAAAAAAAAAAAAACCEAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>assimp\material.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="aiTextureMapMode" Collapsed="true">
+    <Position X="29.75" Y="21.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAAAAAAAAACAAAEAAAQAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>assimp\material.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="aiTextureMapping" Collapsed="true">
+    <Position X="31.5" Y="21.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgIgAAAAAAAAAABAABAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>assimp\material.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="aiTextureType" Collapsed="true">
+    <Position X="35" Y="21.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAiAISAAABAAAABAAAAAAAAAAEAJAAAAAAAAMA=</HashCode>
+      <FileName>assimp\material.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="aiShadingMode" Collapsed="true">
+    <Position X="26.25" Y="21.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAABAgAAAAAAQREIAACAAAAAAAAAAAAABAAAAAgA=</HashCode>
+      <FileName>assimp\material.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="aiTextureFlags" Collapsed="true">
+    <Position X="28" Y="21.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABCAAAAAAAAAAAAAAAAAAACEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\material.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="aiBlendMode" Collapsed="true">
+    <Position X="28" Y="21" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAgAAAAAAAAAAAABAA=</HashCode>
+      <FileName>assimp\material.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="aiPropertyTypeInfo" Collapsed="true">
+    <Position X="45.5" Y="21" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAgAAEAECAAAAAAAAAAAAAAAAAEEAA=</HashCode>
+      <FileName>assimp\material.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="aiPrimitiveType" Collapsed="true">
+    <Position X="43.75" Y="21" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAAAAAAAAAAQAAAAAwAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\mesh.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="aiMorphingMethod" Collapsed="true">
+    <Position X="38.5" Y="21" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAAAAAAAAAAAAAAAEAAAAAAgAAAEAAAAAAA=</HashCode>
+      <FileName>assimp\mesh.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="aiMetadataType" Collapsed="true">
+    <Position X="36.75" Y="21" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACEgAAAAAAgAACAAAAAgBAAAAAAAAAAIAAAAAACAA=</HashCode>
+      <FileName>assimp\metadata.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="aiPostProcessSteps" Collapsed="true">
+    <Position X="42" Y="21" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>A4AAEACQCIBAIAAABAAAAAAAgIAAVBFRAAAAQAEBAAA=</HashCode>
+      <FileName>assimp\postprocess.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="aiOrigin" Collapsed="true">
+    <Position X="40.25" Y="21" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAACAAAAAAAAAAgAAAAQAAAAAAAAAAAAAA=</HashCode>
+      <FileName>assimp\types.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="aiDefaultLogStream" Collapsed="true">
+    <Position X="31.5" Y="21" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACAgAAAAAgAABAAAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>assimp\types.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="BxDFType" Collapsed="true">
+    <Position X="36.75" Y="21.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAQAAAAAIAAAAAAAAAAAACAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>CBXDF.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="SpectrumType" Collapsed="true">
+    <Position X="42" Y="21.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAABAAAAA=</HashCode>
+      <FileName>CoefficientSpectrum.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="LodePNGColorType" Collapsed="true">
+    <Position X="38.5" Y="21.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAIBAAAAAAAAAACAAAAAAAIBA=</HashCode>
+      <FileName>lodepng.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="LodePNGFilterStrategy" Collapsed="true">
+    <Position X="40.25" Y="21.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QIAAAARAAAAABAAAABAAQAAAAAAAQAAAACAAAAAAAAA=</HashCode>
+      <FileName>lodepng.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

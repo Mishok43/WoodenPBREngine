@@ -60,9 +60,17 @@ struct CSurfaceInteraction: public CInteraction
 			hCollision, time
 		},
 		uv(std::move(uv)),
-		dpdu(std::move(dpdu)), dpdv(std::move(dpdv)),
-		dndu(std::move(dndu)), dndv(std::move(dndv))
-	{}
+		dpdu(dpdu), dpdv(dpdv),
+		dndu(dndu), dndv(dndv)
+	{
+		shading.n = n;
+		shading.dpdu = std::move(dpdu);
+		shading.dpdv = std::move(dpdv);
+		shading.dndu = std::move(dndu);
+		shading.dndv = std::move(dndv);
+
+		assert(shading.dpdu.length2() > 0.0f);
+	}
 
 	DVector2f uv;
 	DVector3f dpdu, dpdv;
@@ -125,7 +133,7 @@ struct CSurfaceInteraction: public CInteraction
 			dudx = dvdx = 0;
 		}
 
-		if (!Solvers::solveLinearSystem2x2(A, Bx, &dudy, &dvdy))
+		if (!Solvers::solveLinearSystem2x2(A, By, &dudy, &dvdy))
 		{
 			dudy = dvdy = 0;
 		}
@@ -161,6 +169,7 @@ struct CSurfaceInteraction: public CInteraction
 		shading.dpdv = std::move(dpdv);
 		shading.dndu = std::move(dndu);
 		shading.dndv = std::move(dndv);
+		assert(shading.dpdu.length2() > 0.0f);
 
 		//const CShape& surfShape = hSurfShape.get();
 		//if (surfShape.bReverseOrientation ^ surfShape.bTransformSwapsHandedness)

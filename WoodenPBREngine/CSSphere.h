@@ -213,7 +213,7 @@ class JobSphereLightProcessSamplingRequests : public JobParallazible
 				CSampledLightPDF pdf;
 				CSampledLightLI li;
 
-				DPoint3f sP = SSphere::sample(sphere, world, si, samples.data[samples.i++], pdfWi);			
+				DPoint3f sP = SSphere::sample(sphere, world, si, samples.next(), pdfWi);			
 				li = light.LEmit;
 				pdf.p = pdfWi;
 

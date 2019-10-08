@@ -52,6 +52,8 @@ struct CFresnelDielectric
 			((etaItmp * cosThetaI) + (etaTtmp * cosThetaT));
 		return (Rparl * Rparl + Rperp * Rperp) / 2;
 	}
+
+	DECL_MANAGED_DENSE_COMP_DATA(CFresnelDielectric, 2)
 };
 
 
@@ -187,6 +189,8 @@ struct CBXDFLambertian
 //	ft = ft*(etaItmp*etaItmp) / (etaTtmp*etaTtmp);
 //	return ft / abs(cosTheta(wi));
 //}
+
+
 
 
 struct CFresnelConductor

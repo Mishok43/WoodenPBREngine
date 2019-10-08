@@ -5,8 +5,6 @@
 
 WPBR_BEGIN
 
-
-DECL_OUT_COMP_DATA(CTriangleMeshHandle)
 DECL_OUT_COMP_DATA(CTriangleMesh)
 
 
@@ -18,7 +16,6 @@ uint32_t STriangleMesh::create(
 	uint32_t hEntity = engine.createEntity();
 
 	engine.addComponent<CTransform>(hEntity, std::move(world));
-	engine.addComponent<CTriangleMesh>(hEntity, std::move(mesh));
 
 	// Convert elements to world space
 	for (uint32_t i = 0; i < mesh.nVertices; i++)
@@ -36,21 +33,36 @@ uint32_t STriangleMesh::create(
 		}
 	}
 
+ 	engine.addComponent<CTriangleMesh>(hEntity, std::move(mesh));
+
 	return hEntity;
 }
 
-
-void STriangleMesh::generateTriangles(MEngine& engine,
-							HEntity hEntity,
-						   const CTriangleMesh& triangleMesh)
+void STriangleMesh::generateTriangles(WECS& engine,
+									  HEntity hEntity,
+									  const CTriangleMesh& triangleMesh,
+									   CMaterialHandle hMaterial)
 {
 	for (uint32_t i = 0; i < triangleMesh.nTriangles; i++)
 	{
 		
-		HEntity hEntity = engine.createEntity();
-		engine.addComponent<CTriangle>(hEntity, CTriangle{ i });
-		engine.addComponent<CTriangleMeshHandle>(hEntity, CTriangleMeshHandle(hEntity));
+		HEntity h = engine.createEntity();
+		CTriangle triangle;
+		triangle.index = i;
+		triangle.hMesh = hEntity;
+		engine.addComponent<CTriangle>(h, std::move(triangle));
+		engine.addComponent<CBounds>(h);
+		engine.addComponent<CCentroid>(h);
+		engine.addComponent<CMapUVRequests>(h);
+		engine.addComponent<CMaterialHandle>(h, hMaterial);
+
 	}
+}
+
+
+void JobTriangleMeshGenerateTriangles::update(WECS* ecs, HEntity hEntity, CTriangleMesh& mesh, CMaterialHandle& hMaterial)
+{
+	STriangleMesh::generateTriangles(*ecs, hEntity, mesh, hMaterial);
 }
 
 WPBR_END

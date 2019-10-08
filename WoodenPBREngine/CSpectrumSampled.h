@@ -11,7 +11,7 @@
 
 WPBR_BEGIN
 
-class SampledSpectrum : public CoefficientSpectrum<nSpectralSamples/8>
+class alignas(alignof(DVector8f)) SampledSpectrum : public CoefficientSpectrum<nSpectralSamples/8>
 {
 public:
 	explicit SampledSpectrum(float v = 0.0f) :
@@ -37,13 +37,13 @@ public:
 
 
 	static float averageSpectrumSamples(const float* lambda, const float *values, int n, 
-										float waveLength0, float waveLength1)
+										float lambdaStart, float lambdaEnd)
 	{
-		if (waveLength1 <= lambda[0])
+		if (lambdaEnd <= lambda[0])
 		{
 			return values[0];
 		}
-		if (waveLength0 >= lambda[n - 1])
+		if (lambdaStart >= lambda[n - 1])
 		{
 			return values[n - 1];
 		}
@@ -54,13 +54,13 @@ public:
 
 
 		float sumSamples = 0;
-		if (waveLength0 < lambda[0])
-			sumSamples += values[0] * (lambda[0] - waveLength0);
-		if (waveLength1 > lambda[n - 1])
-			sumSamples += values[n - 1] * (waveLength1 - lambda[n - 1]);
+		if (lambdaStart < lambda[0])
+			sumSamples += values[0] * (lambda[0] - lambdaStart);
+		if (lambdaEnd > lambda[n - 1])
+			sumSamples += values[n - 1] * (lambdaEnd - lambda[n - 1]);
 
 		uint16_t j = 0;
-		while (waveLength0 > lambda[j + 1])
+		while (lambdaStart > lambda[j + 1])
 		{
 			j++;
 		}
@@ -71,14 +71,14 @@ public:
 		};
 
 
-		for (; j + 1 < n && waveLength1 >= lambda[j]; j++)
+		for (; j + 1 < n && lambdaEnd >= lambda[j]; j++)
 		{
-			float segWaveLength0 = max(waveLength0, lambda[j]);
-			float segWaveLength1 = min(waveLength1, lambda[j + 1]);
+			float segWaveLength0 = max(lambdaStart, lambda[j]);
+			float segWaveLength1 = min(lambdaEnd, lambda[j + 1]);
 			sumSamples += (interp(segWaveLength0, j) + interp(segWaveLength1, j)) *
 				(segWaveLength1 - segWaveLength0)*0.5;
 		}
-		return sumSamples / (waveLength1 - waveLength0);
+		return sumSamples / (lambdaEnd - lambdaStart);
 	}
 
 	static SampledSpectrum fromSampled(const float* lambda, const float *values, int n)
@@ -89,9 +89,11 @@ public:
 		float step = (sampledLambdaEnd - sampledLambdaStart) / (nSpectralSamples-1);
 		for (uint32_t i = 0; i < nSpectralSamples; i++)
 		{
+			waveLength0 += step;
 			float waveLength1 = waveLength0 + step;
 			r[i] = averageSpectrumSamples(lambda, values, n, waveLength0, waveLength1);
 		}
+		return r;
 	}
 
 	static SampledSpectrum fromRGB(const DVector3f& rgb,

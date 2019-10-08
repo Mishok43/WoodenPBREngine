@@ -1,8 +1,20 @@
 #pragma once
 #include "pch.h"
 #include "CSpectrum.h"
+#include "CTransform.h"
 
 WPBR_BEGIN
+struct CSampledBSDF
+{
+	CSampledBSDF(HEntity h) : h(h)
+	{
+	};
+	HEntity h;
+
+	DECL_MANAGED_DENSE_COMP_DATA(CSampledBSDF, 16)
+};
+
+
 struct CSampledBSDFPDF
 {
 	float p;
@@ -21,6 +33,14 @@ struct CSampledBSDFValue : public Spectrum
 	DECL_MANAGED_DENSE_COMP_DATA(CSampledBSDFValue, 16)
 };
 
+struct CBSDFTransform: public CTransform
+{
+	CBSDFTransform(CTransform&& t) :
+		CTransform(std::move(t))
+	{ }
+
+	DECL_MANAGED_DENSE_COMP_DATA(CBSDFTransform, 16)
+};
 
 struct CBSDFComputeRequest
 {
@@ -33,6 +53,12 @@ struct CBSDFSampleRequest
 	HEntity h;
 	DECL_MANAGED_DENSE_COMP_DATA(CBSDFSampleRequest, 16)
 };
+
+class JobBSDFComputeTransform : public JobParallaziblePerCompGroup<CSampledBSDF, CSurfaceInteraction>
+{
+	void update(WECS* ecs, HEntity hEntity, CSampledBSDF& sampledBSDF, CSurfaceInteraction& si);
+};
+
 
 //struct alignas(16) CBSDF
 //{

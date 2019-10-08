@@ -48,16 +48,16 @@ namespace SBSDFConductorMicroface
 	
 
 class JobBSDFConductorMicrofaceCompute: 
-	public JobParallaziblePerCompGroup<CReflectDirSamplerMicroface, CFresnelConductor, CBSDFComputeRequest, CSpectrumScale>
+	public JobParallaziblePerCompGroup<CReflectDirSamplerMicroface, CBSDFTransform, CFresnelConductor, CBSDFComputeRequest, CSpectrumScale>
 {
-	void update(WECS* ecs, HEntity hEntity, CReflectDirSamplerMicroface& microface, CFresnelConductor& coductor,
+	void update(WECS* ecs, HEntity hEntity, CReflectDirSamplerMicroface& microface, CBSDFTransform& world, CFresnelConductor& coductor,
 				CBSDFComputeRequest& request, CSpectrumScale& R) final;
 };
 
-class JobBSDFConductorMicrofaceSample :
-	public JobParallaziblePerCompGroup<CReflectDirSamplerMicroface, CFresnelConductor, CBSDFSampleRequest, CSpectrumScale>
+class JobBSDFConductorMicrofaceSample:
+	public JobParallaziblePerCompGroup<CReflectDirSamplerMicroface, CBSDFTransform, CFresnelConductor, CBSDFSampleRequest, CSpectrumScale>
 {
-	void update(WECS* ecs, HEntity hEntity, CReflectDirSamplerMicroface& microface, CFresnelConductor& coductor,
+	void update(WECS* ecs, HEntity hEntity, CReflectDirSamplerMicroface& microface, CBSDFTransform &world, CFresnelConductor& coductor,
 				CBSDFSampleRequest& request, CSpectrumScale& R) final;
 };
 

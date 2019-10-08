@@ -18,10 +18,10 @@ struct LinearBVHNode
 {
 	union
 	{
-		uint16_t shapeOffset;
-		uint16_t secondChildOffset;
+		uint32_t shapeOffset;
+		uint32_t secondChildOffset;
 	};
-	uint16_t nShapes; // 0 -> interior node
+	uint32_t nShapes; // 0 -> interior node
 	uint8_t axis;
 };
 
@@ -36,7 +36,7 @@ struct CLBVHTree
 
 class JobProcessRayCastsResults : public JobParallazible
 {
-	constexpr static uint16_t sliceSize = 32;
+	constexpr static uint32_t sliceSize = 32;
 
 	virtual uint32_t updateNStartThreads(uint32_t nWorkThreads) override
 	{
@@ -68,14 +68,15 @@ class JobProcessRayCasts: public JobParallazible
 
 struct BVHBuildNode
 {
-	uint16_t iStartShape;
-	uint16_t nShapes;
+	uint32_t iStartShape;
+	uint32_t nShapes;
 	DBounds3f* bounds;
 	BVHBuildNode* children[2];
 	uint8_t splitAxis;
 
 	void initAsInterior(uint8_t axis, BVHBuildNode* child0, BVHBuildNode* child1, DBounds3f* bounds)
 	{
+		assert(axis < 3);
 		children[0] = child0;
 		children[1] = child1;
 		splitAxis = axis;
@@ -84,7 +85,7 @@ struct BVHBuildNode
 		nShapes = 0;
 	}
 
-	void initAsLeaf(uint16_t iStartShapeBounds, uint16_t nShapeBounds, DBounds3f* bounds)
+	void initAsLeaf(uint32_t iStartShapeBounds, uint32_t nShapeBounds, DBounds3f* bounds)
 	{
 		this->nShapes = nShapeBounds;
 		this->iStartShape = iStartShapeBounds;
@@ -96,14 +97,14 @@ struct BVHBuildNode
 struct CentroidMortonCode
 {
 	uint32_t value;
-	uint16_t index;
+	uint32_t index;
 };
 
 struct LBVHSubTreeBuilder : public BVHBuildNode
 {
 	BVHBuildNode* nodes;
 	DBounds3f* nodesBounds;
-	uint16_t nNodes;
+	uint32_t nNodes;
 	uint8_t iBucket;
 };
 
@@ -134,7 +135,7 @@ class JobGenerateShapesCentroidBound: public Job
 
 class JobGenerateShapesMortonCode : public JobParallazible
 {
-	constexpr static uint16_t sliceSize = 512;
+	constexpr static uint32_t sliceSize = 512;
 
 	virtual uint32_t updateNStartThreads(uint32_t nWorkThreads) override
 	{
@@ -162,8 +163,8 @@ class JobEmitLBVH : public JobParallazible
 
 	void update(WECS* ecs, uint8_t iThread) override;
 
-	BVHBuildNode* emitLBVH(CLBVHTreeBuilder& treeBuilder, BVHBuildNode* nodes, DBounds3f* nodesBounds,
-						   uint16_t iStartShape, uint16_t nShapes, int bitIndex, uint16_t& totalNodes);
+	BVHBuildNode* emitLBVH(CLBVHTreeBuilder& treeBuilder, BVHBuildNode* nodes, DBounds3f* nodesBounds, uint32_t& boundsOffset,
+						   uint32_t iStartShape, uint32_t nShapes, int bitIndex, uint32_t& totalNodes);
 
 	uint32_t maxPrimitiveInNode = 10;
 };
@@ -173,8 +174,8 @@ class JobBuildUpperSAH: public Job
 
 	void update(WECS* ecs) override;
 
-	uint16_t flattenBVHTree(BVHBuildNode* node, CLBVHTree& tree, uint16_t& offset);
-	BVHBuildNode* buildUpperSAH(CLBVHTreeBuilder& treeBuilder, uint16_t iStart, uint16_t iLast);
+	uint32_t flattenBVHTree(BVHBuildNode* node, CLBVHTree& tree, uint32_t& offset);
+	BVHBuildNode* buildUpperSAH(CLBVHTreeBuilder& treeBuilder, uint32_t iStart, uint32_t iLast);
 };
 
 

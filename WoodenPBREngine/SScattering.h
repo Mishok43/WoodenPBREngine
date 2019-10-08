@@ -43,15 +43,6 @@ struct CSampledLightPDF
 	DECL_MANAGED_DENSE_COMP_DATA(CSampledLightPDF, 16)
 };
 
-struct CSampledBSDF
-{
-	CSampledBSDF(HEntity h) : h(h)
-	{
-	};
-	HEntity h;
-
-	DECL_MANAGED_DENSE_COMP_DATA(CSampledBSDF, 16)
-}; 
 
 class JobScatteringAccumulateEmittedLight: public Job
 {
@@ -85,10 +76,10 @@ class JobScatteringProcessShadowRay :
 };
 
 class JobScatteringIntegrateImportanceLight : 
-	public JobParallaziblePerCompGroup<CSampledLightLI, CSampledLightPDF, CSampledBSDFValue, CSampledBSDFPDF, CSpectrum>
+	public JobParallaziblePerCompGroup<CSurfaceInteraction, CSampledLightLI, CSampledLightPDF, CSampledBSDFValue, CSampledBSDFPDF, CSampledWI, CSpectrum>
 {
-	void update(WECS* ecs, HEntity hEntity, CSampledLightLI& li, CSampledLightPDF& liPDF,
-				CSampledBSDFValue& bsdf, CSampledBSDFPDF& bsdfPDF, CSpectrum& accumulatedLI) final;
+	void update(WECS* ecs, HEntity hEntity, CSurfaceInteraction& si, CSampledLightLI& li, CSampledLightPDF& liPDF,
+				CSampledBSDFValue& bsdf, CSampledBSDFPDF& bsdfPDF, CSampledWI& wi, CSpectrum& accumulatedLI) final;
 
 	void finish(WECS* ecs) final;
 	inline float PowerHeuristic(int nf, float fPdf, int ng, float gPdf);
@@ -118,10 +109,10 @@ class JobScatteringProcessShadowRayWithInteraction :
 };
 
 class JobScatteringIntegrateImportanceBSDF :
-	public JobParallaziblePerCompGroup<CSampledLightLI, CSampledLightPDF, CSampledBSDFValue, CSampledBSDFPDF, CSpectrum>
+	public JobParallaziblePerCompGroup<CSurfaceInteraction, CSampledLightLI, CSampledLightPDF, CSampledBSDFValue, CSampledBSDFPDF, CSampledWI, CSpectrum>
 {
-	void update(WECS* ecs, HEntity hEntity, CSampledLightLI& li, CSampledLightPDF& liPDF,
-				CSampledBSDFValue& bsdf, CSampledBSDFPDF& bsdfPDF, CSpectrum& accumulatedLI) final;
+	void update(WECS* ecs, HEntity hEntity, CSurfaceInteraction& si, CSampledLightLI& li, CSampledLightPDF& liPDF,
+				CSampledBSDFValue& bsdf, CSampledBSDFPDF& bsdfPDF, CSampledWI& wi, CSpectrum& accumulatedLI) final;
 
 	void finish(WECS* ecs) final;
 

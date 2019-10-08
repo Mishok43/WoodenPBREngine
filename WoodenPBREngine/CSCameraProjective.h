@@ -39,8 +39,8 @@ public:
 			DTransformf::makeScale(1.0 / (cameraProj.screenWindow.pMax.x() - cameraProj.screenWindow.pMin.x()),
 								   1.0 / (cameraProj.screenWindow.pMax.y() - cameraProj.screenWindow.pMin.y()),
 								   1.0) *
-			DTransformf::makeScale(film.resolution.x(),
-								   film.resolution.y(), 1);
+			DTransformf::makeScale(film.resolution.x()-1,
+								   film.resolution.y()-1, 1);
 		ecs.addComponent<CTransformScreenRaster>(hEntity, CTransform(screenRaster));
 		DTransformf rasterScreen = inverse(screenRaster);
 		DTransformf screenCamera = inverse(cameraScreen);

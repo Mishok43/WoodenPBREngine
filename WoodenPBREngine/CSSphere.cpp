@@ -260,7 +260,6 @@ DPoint3f SSphere::sample(
 	float cosAlpha = (dc * dc + radius * radius - ds * ds) /
 		(2 * dc * radius);
 	float sinAlpha = std::sqrt(max(0.0f, 1 - cosAlpha * cosAlpha));
-
 	
 	DVector3f nL = sphericalToCasterian(sinAlpha, cosAlpha, phi, -wcX, -wcY, -wc);
 	DPoint3f pL = nL * sphere.radius;

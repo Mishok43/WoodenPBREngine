@@ -81,19 +81,22 @@ WPBR_BEGIN
 		return f_impl(R, fresnel, whD, wh, wo, wi);
 	}
 
-	void JobBSDFConductorMicrofaceCompute::update(WECS* ecs, HEntity hEntity, CReflectDirSamplerMicroface& microface, CFresnelConductor& coductor,
+	void JobBSDFConductorMicrofaceCompute::update(WECS* ecs, HEntity hEntity, CReflectDirSamplerMicroface& microface, CBSDFTransform& world, CFresnelConductor& coductor,
 				CBSDFComputeRequest& request, CSpectrumScale& R)
 	{
 		const CSampledWI& sampledWI = ecs->getComponent<CSampledWI>(request.h);
 		const CSurfaceInteraction& si = ecs->getComponent<CSurfaceInteraction>(request.h);
 
+		DVector3f wiL = world(sampledWI, INV_TRANFORM);
+
 		CSampledBSDFPDF pdf;
-		CSampledBSDFValue bsdf = SBSDFConductorMicroface::f(microface, R, coductor, si.wo, sampledWI, pdf.p);
+		CSampledBSDFValue bsdf = SBSDFConductorMicroface::f(microface, R, coductor,  world(si.wo, INV_TRANFORM), wiL, pdf.p);
+		bsdf = Spectrum(bsdf * absCosTheta(wiL));
 		ecs->addComponent<CSampledBSDFValue>(request.h, std::move(bsdf));
 		ecs->addComponent<CSampledBSDFPDF>(request.h, std::move(pdf));
 	}
 
-	void JobBSDFConductorMicrofaceSample::update(WECS* ecs, HEntity hEntity, CReflectDirSamplerMicroface& microface, CFresnelConductor& coductor,
+	void JobBSDFConductorMicrofaceSample::update(WECS* ecs, HEntity hEntity, CReflectDirSamplerMicroface& microface,  CBSDFTransform& world, CFresnelConductor& coductor,
 				CBSDFSampleRequest& request, CSpectrumScale& R) 
 	{
 		const CSurfaceInteraction& si = ecs->getComponent<CSurfaceInteraction>(request.h);
@@ -101,10 +104,13 @@ WPBR_BEGIN
 
 		CSampledBSDFPDF pdf;
 		CSampledWI wi;
-		CSampledBSDFValue bsdf = SBSDFConductorMicroface::sample_f(microface, R, coductor, si.wo,
-																   samples.data[samples.i++], wi, pdf.p);
+		CSampledBSDFValue bsdf = SBSDFConductorMicroface::sample_f(microface, R, coductor, world(si.wo, INV_TRANFORM),
+																 samples.next(), wi, pdf.p);
+		bsdf = Spectrum(bsdf*absCosTheta(wi));
 		ecs->addComponent<CSampledBSDFValue>(request.h, std::move(bsdf));
 		ecs->addComponent<CSampledBSDFPDF>(request.h, std::move(pdf));
+
+		wi = world(wi);
 		ecs->addComponent<CSampledWI>(request.h, std::move(wi));
 	}
 

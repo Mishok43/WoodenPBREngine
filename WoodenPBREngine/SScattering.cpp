@@ -2,14 +2,17 @@
 #include "SScattering.h"
 #include "CTexture.h"
 #include "CBXDF.h"
+#include "CBSDFSpecularReflectance.h"
 
 WPBR_BEGIN
 DECL_OUT_COMP_DATA(CSampledLight)
 DECL_OUT_COMP_DATA(CSampledWI)
 DECL_OUT_COMP_DATA(CSampledLightLI)
 DECL_OUT_COMP_DATA(CSampledLightPDF)
-DECL_OUT_COMP_DATA(CSampledBSDF)
 
+
+#define BSDF_SAMPLING false
+#define LIGHT_SAMPLING false
 
 void JobScatteringAccumulateEmittedLight::update(WECS* ecs)
 {
@@ -24,18 +27,18 @@ void JobScatteringAccumulateEmittedLight::update(WECS* ecs)
 			return;
 		}
 
-		float factor = 25000000.f;
+		float factor = 5000000.f;
 
 		if (si.hCollision.hasComponent<CLight>())
 		{
 			sp += Spectrum(1.0f)*factor;
 			deleteList.push_back(hEntity);
 		}
-		//else
-		//{
-		//	sp += Spectrum(0.5f)*factor;
-		//	deleteList.push_back(hEntity);
-		//}
+		/*	else
+			{
+				sp += Spectrum(RGBSpectrum(DVector3f(1.0f, 0.0f, 0.0f))*factor);
+				deleteList.push_back(hEntity);
+			}*/
 	}, sis);
 
 	for (uint32_t i = 0; i < deleteList.size(); i++)
@@ -54,7 +57,7 @@ void JobScatteringAccumulateEmittedLight::finish(WECS* ecs)
 void JobScatteringSampleLight::update(WECS* ecs, HEntity hEntity, CSurfaceInteraction& si, CSamples1D& samples)
 {
 	ComponentsGroup<CLight> lights = queryComponentsGroup<CLight>();
-	uint32_t u = samples.data[samples.i++] * (lights.size() - 1);
+	uint32_t u = (samples.data[samples.i++]+0.5f) * (lights.size() - 1);
 	HEntity hLight = lights.getEntity(u);
 	ecs->addComponent<CSampledLight>(hEntity, CSampledLight{ hLight });
 }
@@ -85,6 +88,10 @@ void JobScatteringProcessShadowRay::update(WECS* ecs, HEntity hEntity,
 	{
 		ecs->addComponent<CBSDFComputeRequest>(bsdf.h, CBSDFComputeRequest{ hEntity });
 	}
+	else
+	{
+		int a;
+	}
 }
 
 void JobScatteringProcessShadowRay::finish(WECS* ecs)
@@ -92,8 +99,8 @@ void JobScatteringProcessShadowRay::finish(WECS* ecs)
 	ecs->clearComponents<CInteraction>();
 }
 
-void JobScatteringIntegrateImportanceLight::update(WECS* ecs, HEntity hEntity, CSampledLightLI& li, CSampledLightPDF& liPDF,
-												   CSampledBSDFValue& bsdf, CSampledBSDFPDF& bsdfPDF, CSpectrum& accumulatedLI)
+void JobScatteringIntegrateImportanceLight::update(WECS* ecs, HEntity hEntity, CSurfaceInteraction& si, CSampledLightLI& li, CSampledLightPDF& liPDF,
+												   CSampledBSDFValue& bsdf, CSampledBSDFPDF& bsdfPDF, CSampledWI& wi, CSpectrum& accumulatedLI)
 {
 	if (li.isBlack())
 	{
@@ -101,6 +108,14 @@ void JobScatteringIntegrateImportanceLight::update(WECS* ecs, HEntity hEntity, C
 	}
 
 	float weight = PowerHeuristic(1, liPDF.p, 1, bsdfPDF.p);
+#if LIGHT_SAMPLING
+	weight = 1.0f;
+#endif
+
+#if BSDF_SAMPLING
+	weight = 0.0f;
+#endif
+
 	accumulatedLI += li * bsdf*(weight / liPDF.p);
 }
 
@@ -157,15 +172,32 @@ void JobScatteringProcessShadowRayWithInteraction::finish(WECS* ecs)
 }
 
 
-void JobScatteringIntegrateImportanceBSDF::update(WECS* ecs, HEntity hEntity, CSampledLightLI& li, CSampledLightPDF& liPDF,
-												  CSampledBSDFValue& bsdf, CSampledBSDFPDF& bsdfPDF, CSpectrum& accumulatedLI)
+void JobScatteringIntegrateImportanceBSDF::update(WECS* ecs, HEntity hEntity, CSurfaceInteraction& si, CSampledLightLI& li, CSampledLightPDF& liPDF,
+												  CSampledBSDFValue& bsdf, CSampledBSDFPDF& bsdfPDF, CSampledWI& wi, CSpectrum& accumulatedLI)
 {
 	if (li.isBlack())
 	{
 		return;
 	}
 
-	float weight = PowerHeuristic(1, bsdfPDF.p, 1, liPDF.p);
+
+	float weight;
+	if (bsdfPDF.p == 1.0f)
+	{
+		weight = 1.0f;
+	}
+	else
+	{
+		weight = PowerHeuristic(1, bsdfPDF.p, 1, liPDF.p);
+	}
+
+#if BSDF_SAMPLING
+	weight = 1.0f;
+#endif
+
+#if LIGHT_SAMPLING
+	weight = 0.0f;
+#endif
 	accumulatedLI += li * bsdf*(weight / bsdfPDF.p);
 }
 
@@ -195,13 +227,14 @@ void JobScatteringFinish::update(WECS* ecs)
 void JobScatteringFinish::finish(WECS* ecs)
 {
 	ecs->clearComponents<CSurfaceInteraction>();
-	ecs->clearComponents<CSamples1D>();
-	ecs->clearComponents<CSamples2D>();
 	ecs->clearComponents<CSampledLight>();
 	ecs->clearComponents<CRayDifferential>();
 	ecs->clearComponents<CTextureMappedPoint>();
 	ecs->clearComponents<CSampledBSDF>();
+	ecs->clearComponents<CBSDFTransform>();
 	ecs->deleteEntitiesOfComponents<CReflectDirSamplerMicroface>();
+	ecs->deleteEntitiesOfComponents<CBXDFSpecularReflection>();
+	ecs->clearComponents<CBXDFSpecularReflection>();
 	ecs->clearComponents<CReflectDirSamplerMicroface>();
 	ecs->clearComponents<CSpectrumScale>();
 	ecs->clearComponents<CFresnelConductor>();
