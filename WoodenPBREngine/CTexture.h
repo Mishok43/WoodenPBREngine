@@ -28,7 +28,7 @@ class TextureConst
 };
 
 template<typename T>
-struct TextureBase
+struct Texture2DBase
 {
 	std::string filename;
 	std::vector<std::vector<T, AllocatorAligned2<T>>> mips;
@@ -69,20 +69,67 @@ struct TextureBase
 
 };
 
-
-struct CTextureRGB : public TextureBase<RGBSpectrum>
+template<typename T>
+struct Texture3DBase
 {
-	DECL_MANAGED_DENSE_COMP_DATA(CTextureRGB, 16)
-}; 
+	std::string filename;
+	std::vector<std::vector<T, AllocatorAligned2<T>>> mips;
+	std::vector<DPoint3i, AllocatorAligned2<DPoint3i>> resolutions;
+	std::vector<DPoint3i, AllocatorAligned2<DPoint3i>> mipNBlocks;
 
-struct CTextureR : public TextureBase<float>
-{
+	static constexpr uint8_t blockSize = 4;
+	uint32_t iTexel(const DPoint2i& p, uint8_t mip) const
+	{
+		const DPoint2i& nBlocks = mipNBlocks[mip];
+		constexpr uint8_t blockArea = blockSize * blockSize;
+		DPoint2i block = p / blockSize;
 
-	DECL_MANAGED_DENSE_COMP_DATA(CTextureR, 16)
+		uint32_t iBlock = block.x() + block.y()*nBlocks.x();
+		uint32_t i = iBlock * blockArea + (p.x() % blockSize) + (p.y() % blockSize)*blockSize;
+		return i;
+	}
+
+	const T& texel(const DPoint2i& p, uint8_t mip) const
+	{
+		return mips[mip][iTexel(p, mip)];
+	}
+
+	const T& texel(uint32_t x, uint32_t y, uint8_t mip) const
+	{
+		return mips[mip][iTexel(DPoint2i(x, y), mip)];
+	}
+
+	T& texel(const DPoint2i& p, uint8_t mip)
+	{
+		return mips[mip][iTexel(p, mip)];
+	}
+
+	T& texel(uint32_t x, uint32_t y, uint8_t mip)
+	{
+		return mips[mip][iTexel(DPoint2i(x, y), mip)];
+	}
 };
 
 
+struct CTexture2DRGB : public Texture2DBase<DVectorPacked<float, 3>>
+{
+	DECL_MANAGED_DENSE_COMP_DATA(CTexture2DRGB, 4)
+}; 
 
+struct CTexture2DR : public Texture2DBase<DVectorPacked<float, 1>>
+{
+	DECL_MANAGED_DENSE_COMP_DATA(CTexture2DR, 4)
+};
+
+struct CTexture3DRGB : public Texture3DBase<DVectorPacked<float, 3>>
+{
+	DECL_MANAGED_DENSE_COMP_DATA(CTexture3DRGB, 4)
+};
+
+struct CTexture3DR : public Texture3DBase<DVectorPacked<float, 1>>
+{
+	DECL_MANAGED_DENSE_COMP_DATA(CTexture3DR, 4)
+};
 
 
 template<typename T>
@@ -98,14 +145,24 @@ struct CTextureBindingBase
 	}
 };
 
-struct CTextureBindingRGB: public CTextureBindingBase<CTextureRGB>
+struct CTextureBinding2DRGB: public CTextureBindingBase<CTexture2DRGB>
 {
-	DECL_MANAGED_DENSE_COMP_DATA(CTextureBindingRGB, 16)
+	DECL_MANAGED_DENSE_COMP_DATA(CTextureBinding2DRGB, 16)
 }; 
 
-struct CTextureBindingR: public CTextureBindingBase<CTextureR>
+struct CTextureBinding2DR: public CTextureBindingBase<CTexture2DR>
 {
-	DECL_MANAGED_DENSE_COMP_DATA(CTextureBindingR, 16)
+	DECL_MANAGED_DENSE_COMP_DATA(CTextureBinding2DR, 16)
+};
+
+struct CTextureBinding3DRGB : public CTextureBindingBase<CTexture3DRGB>
+{
+	DECL_MANAGED_DENSE_COMP_DATA(CTextureBinding2DRGB, 16)
+};
+
+struct CTextureBinding3DR : public CTextureBindingBase<CTexture3DR>
+{
+	DECL_MANAGED_DENSE_COMP_DATA(CTextureBinding2DR, 16)
 };
 
 
@@ -115,12 +172,12 @@ class STextureBindingRGB
 public:
 	static HEntity create(const std::string& filename)
 	{
-		CTextureBindingRGB tex;
+		CTextureBinding2DRGB tex;
 		tex.filename = filename;
 
 		MEngine& mEngine = MEngine::getInstance();
 		HEntity h = mEngine.createEntity();
-		mEngine.addComponent<CTextureBindingRGB>(h, std::move(tex));
+		mEngine.addComponent<CTextureBinding2DRGB>(h, std::move(tex));
 		return h;
 	}
 };
@@ -196,7 +253,7 @@ public:
 
 	template<typename T>
 	static T triangle(const DPoint2f& st,
-						 const TextureBase<T>& tex,
+						 const Texture2DBase<T>& tex,
 						 uint32_t mip)
 	{
 		uint32_t nLevels = tex.mips.size();
@@ -229,7 +286,7 @@ public:
 		const CTextureMappedPoint& st,
 		const CTextureSamplerAnistropic& sampler,
 		const CFilterTableGaussing& filterTable,
-		const TextureBase<T>& tex)
+		const Texture2DBase<T>& tex)
 	{
 		DVector2f dst0 = st.dstdx;
 		DVector2f dst1 = st.dstdy;
@@ -270,7 +327,7 @@ public:
 
 	template<typename T>
 	static T ewa(const CTextureMappedPoint& p,
-					const TextureBase<T>& tex,
+					const Texture2DBase<T>& tex,
 					const CFilterTableGaussing& filter,
 					uint32_t mip)
 	{
@@ -351,7 +408,7 @@ public:
 	template<typename T>
 	static T sample(
 		   const CTextureMappedPoint& st,
-		   const TextureBase<T>& tex) 
+		   const Texture2DBase<T>& tex) 
 	{
 		float width = 2 * max(max(st.dstdx[0], st.dstdx[1]),
 								   max(st.dstdy[0], st.dstdy[1]));
@@ -375,15 +432,130 @@ public:
 	}
 };
 
-class JobLoadTextureRGB: public Job
+class SLoadTexture
 {
-public:
-	static std::map<std::string, HEntity> textures;
-	void update(WECS* ecs) override;
 
-	CTextureRGB generateMIPs(std::vector<RGBSpectrum, AllocatorAligned2<RGBSpectrum>> texels, DPoint2i resolution);
-	
-	float gammaCorrect(float value)
+public:
+	template<typename T, typename CompT>
+	static void load(std::map<std::string, HEntity>& textures, CTextureBindingBase<CompT>& textureInfo)
+	{
+		std::map<std::string, HEntity>::const_iterator it = textures.find(textureInfo.filename);
+		if (it != textures.cend())
+		{
+			textureInfo.tex = it->second;
+			return;
+		}
+
+
+		DPoint2i resolutions;
+		std::vector<T, AllocatorAligned2<T>> texels = readImagePNG(textureInfo.filename, resolutions);
+
+		for (uint32_t i = 0; i < texels.size(); i++)
+		{
+			for (uint32_t k = 0; k < texels[i].size(); k++)
+			{
+				texels[i][k] = gammaCorrectInv(texels[i][k]);
+			}
+		}
+
+		assert(!texels.empty());
+
+		HEntity hTexture = ecs->createEntity();
+		CompT texRGB = generateMIPS<T, CompT>(std::move(texels), resolutions);
+		ecs->addComponent<CompT>(hTexture, std::move(texRGB));
+
+		textureInfo.tex = hTexture;
+		textures[textureInfo.filename] = hTexture;
+	}
+
+	template<typename T, typename CompT>
+	static CompT generateMIPS(std::vector<T, AllocatorAligned2<T>> texels, DPoint2i resolution)
+	{
+		uint16_t nLevels = log2(max(resolution[0], resolution[1])) - 1;
+		CompT tex;
+		tex.resolutions.resize(nLevels);
+		tex.mips.resize(nLevels);
+		tex.mipNBlocks.resize(nLevels);
+
+		tex.resolutions[0] = std::move(resolution);
+		tex.mipNBlocks[0] = tex.resolutions[0] / CompT::blockSize;
+		tex.mips[0].resize(tex.resolutions[0].x()*tex.resolutions[0].y());
+		for (uint32_t y = 0; y < tex.resolutions[0].y(); y++)
+		{
+			for (uint32_t x = 0; x < tex.resolutions[0].x(); x++)
+			{
+				tex.texel(x, y, 0) = std::move(texels[x + y * tex.resolutions[0].x()]);
+			}
+		}
+
+
+		for (uint16_t i = 1; i < nLevels; i++)
+		{
+			DPoint2i res = maxv(DPoint2i(1, 1), tex.resolutions[i - 1] / 2);
+			tex.mips[i].resize(res.x()*res.y());
+			tex.resolutions[i] = res;
+			tex.mipNBlocks[i] = res / CompT::blockSize;
+
+			std::vector<T, AllocatorAligned2<T>>& mip = tex.mips[i];
+			for (uint32_t y = 0; y < res.y() - 1; y++)
+			{
+				for (uint32_t x = 0; x < res.x() - 1; x++)
+				{
+					tex.texel(x, y, i) = (tex.texel(2 * x, 2 * y, i - 1) + tex.texel(2 * x + 1, 2 * y, i - 1) +
+										  tex.texel(2 * x, 2 * y + 1, i - 1) + tex.texel(2 * x + 1, 2 * y + 1, i - 1))*0.25;
+				}
+
+				tex.texel(res.x() - 1, y, i) = (tex.texel(tex.resolutions[i - 1].x() - 1, 2 * y, i - 1) +
+												tex.texel(tex.resolutions[i - 1].x() - 1, 2 * y + 1, i - 1))*0.5;
+			}
+
+			for (uint32_t x = 0; x < res.x() - 1; x++)
+			{
+				tex.texel(x, res.y() - 1, i) = (tex.texel(2 * x, tex.resolutions[i - 1].y() - 1, i - 1) +
+												tex.texel(2 * x + 1, tex.resolutions[i - 1].y() - 1, i - 1))*0.5;
+			}
+
+			tex.texel(res.x() - 1, res.y() - 1, i) = tex.texel(tex.resolutions[i - 1].x() - 1, tex.resolutions[i - 1].y() - 1, i - 1);
+		}
+		return tex;
+	}
+
+
+	template<typename T>
+	static std::vector<T, AllocatorAligned2<T>> readImagePNG(const std::string &name, DPoint2i& resolution)
+	{
+		unsigned char *rgb;
+		unsigned w, h;
+		unsigned int error = lodepng_decode24_file(&rgb, &w, &h, name.c_str());
+		assert(error == 0);
+		resolution.x() = w;
+		resolution.y() = h;
+
+		std::vector<T, AllocatorAligned2<T>> ret(resolution.x()*resolution.y());
+		unsigned char *src = rgb;
+		for (unsigned int y = 0; y < h; ++y)
+		{
+			for (unsigned int x = 0; x < w; ++x, src += 3)
+			{
+				T tmp;
+				for (uint32_t k = 0; k < tmp.size(); k++)
+				{
+					tmp[k] = src[k];
+				}
+
+				src += k;
+
+				ret[y * resolution.x() + x] = tmp / 255.0f;
+			}
+		}
+
+		free(rgb);
+		return ret;
+	}
+
+
+
+	static float gammaCorrect(float value)
 	{
 		if (value <= 0.0031308f)
 		{
@@ -395,19 +567,29 @@ public:
 		}
 	}
 
-	inline float gammaCorrectInv(float value)
+	static inline float gammaCorrectInv(float value)
 	{
 		if (value <= 0.04045f)
 			return value * 1.f / 12.92f;
 		return std::pow((value + 0.055f) * 1.f / 1.055f, 2.4f);
 	}
 
-	//static unsigned int  lodepng_decode24_file(unsigned char** rgb, unsigned* w, unsigned* h, const char* name)
-	//{
-	//	static_assert(false || "Not implemented yet");
-	//}
 
-	static std::vector<RGBSpectrum, AllocatorAligned2<RGBSpectrum>> readImagePNG(const std::string &name, DPoint2i& resolution);
+
+};
+
+class JobLoadTextureRGB: public Job
+{
+public:
+	static std::map<std::string, HEntity> textures;
+	void update(WECS* ecs) override;
+};
+
+class JobLoadTextureR : public Job
+{
+public:
+	static std::map<std::string, HEntity> textures;
+	void update(WECS* ecs) override;
 };
 
 

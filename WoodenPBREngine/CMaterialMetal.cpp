@@ -5,7 +5,6 @@ WPBR_BEGIN
 DECL_OUT_COMP_DATA(CMaterialMetal)
 void JobGenerateBSDFMaterialMetal::update(WECS* ecs, uint8_t iThread)
 {
-
 	uint32_t nRequests = queryComponentsGroup<CMaterialMetal, CBSDFRequests>().size();
 	uint32_t sliceSize = (nRequests + getNumThreads() - 1) / getNumThreads();
 
@@ -20,8 +19,8 @@ void JobGenerateBSDFMaterialMetal::update(WECS* ecs, uint8_t iThread)
 			const CSurfaceInteraction& si = ecs->getComponent<CSurfaceInteraction>(h);
 			const CTextureMappedPoint& mp = ecs->getComponent<CTextureMappedPoint>(h);
 
-			const CTextureBindingRGB& kd = ecs->getComponent<CTextureBindingRGB>(texs[0]);
-			const CTextureBindingRGB& sigma = ecs->getComponent<CTextureBindingRGB>(texs[1]);
+			const CTextureBinding2DRGB& kd = ecs->getComponent<CTextureBinding2DRGB>(texs[0]);
+			const CTextureBinding2DRGB& sigma = ecs->getComponent<CTextureBinding2DRGB>(texs[1]);
 
 			CTextureSamplerAnistropic anistropic16x;
 			anistropic16x.maxAnisotropy = 32;

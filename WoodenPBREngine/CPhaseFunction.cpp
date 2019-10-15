@@ -5,9 +5,9 @@
 
 WPBR_BEGIN
 
-DECL_OUT_COMP_DATA(CPhaseFunctionRequestWI)
-DECL_OUT_COMP_DATA(CPhaseFunctionRequestWO)
+
 DECL_OUT_COMP_DATA(CPhaseFunctionRequests)
+DECL_OUT_COMP_DATA(CPhaseFunctionRequest)
 
 class SPhaseFunctionRequest
 {
@@ -16,8 +16,12 @@ public:
 	{
 		MEngine& engine = MEngine::getInstance();
 		HEntity h = engine.createEntity();
-		engine.addComponent<CPhaseFunctionRequestWI>(h, CPhaseFunctionRequestWI(std::move(wi)));
-		engine.addComponent<CPhaseFunctionRequestWO>(h, CPhaseFunctionRequestWO(std::move(wo)));
+
+		CPhaseFunctionRequest request;
+		request.wi = wi;
+		request.wo = wo;
+
+		engine.addComponent<CPhaseFunctionRequest>(h, std::move(request));
 		return h;
 	}
 };

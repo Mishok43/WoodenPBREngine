@@ -3,9 +3,11 @@
 WPBR_BEGIN
 
 
+
 struct CPhaseFunctionResponse
 {
 	float inScatterPDF;
+	DECL_MANAGED_DENSE_COMP_DATA(CPhaseFunctionResponse, 16)
 };
 
 struct CPhaseFunctionRequest

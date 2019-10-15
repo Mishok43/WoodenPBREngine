@@ -2,10 +2,10 @@
 #include "CTexture.h"
 
 WPBR_BEGIN
-DECL_OUT_COMP_DATA(CTextureR)
-DECL_OUT_COMP_DATA(CTextureRGB)
-DECL_OUT_COMP_DATA(CTextureBindingRGB)
-DECL_OUT_COMP_DATA(CTextureBindingR)
+DECL_OUT_COMP_DATA(CTexture2DR)
+DECL_OUT_COMP_DATA(CTexture2DRGB)
+DECL_OUT_COMP_DATA(CTextureBinding2DRGB)
+DECL_OUT_COMP_DATA(CTextureBinding2DR)
 DECL_OUT_COMP_DATA(CSurfaceInteractionHandle)
 DECL_OUT_COMP_DATA(CTextureSamplerIsotropic)
 DECL_OUT_COMP_DATA(CTextureSamplerAnistropic)
@@ -35,111 +35,22 @@ void JobFilterTableGaussing::update(WECS* ecs, uint8_t iThread)
 
 void JobLoadTextureRGB::update(WECS* ecs)
 {
-	ComponentsGroup<CTextureBindingRGB> texInfos = queryComponentsGroup<CTextureBindingRGB>();
-	for_each([&](HEntity hEntity, CTextureBindingRGB& textureInfo)
+	ComponentsGroup<CTextureBinding2DRGB> texInfos = queryComponentsGroup<CTextureBinding2DRGB>();
+	for_each([&](HEntity hEntity, CTextureBinding2DRGB& textureInfo)
 	{
-		std::map<std::string, HEntity>::const_iterator it = textures.find(textureInfo.filename);
-		if (it != textures.cend())
-		{
-			textureInfo.tex = it->second;
-			return;
-		}
+		SLoadTexture::load<DVectorPacked3f, CTexture2DRGB>(textures, textureInfo);
 
-
-		DPoint2i resolutions;
-		std::vector<RGBSpectrum, AllocatorAligned2<RGBSpectrum>> texels = readImagePNG(textureInfo.filename, resolutions);
-
-		assert(!texels.empty());
-
-		//for (uint32_t i = 0; i < texels.size(); i++)
-		//{
-		//	for (uint8_t j = 0; j < 3; j++)
-		//	{
-		//		texels[i][j] = gammaCorrectInv(texels[i][j]);
-		//	}
-		//}
-
-		HEntity hTexture = ecs->createEntity();
-		CTextureRGB texRGB = generateMIPs(std::move(texels), resolutions);
-		ecs->addComponent<CTextureRGB>(hTexture, std::move(texRGB));
-
-		textureInfo.tex = hTexture;
-		textures[textureInfo.filename] = hTexture;
 	}, texInfos);
 }
 
-CTextureRGB JobLoadTextureRGB::generateMIPs(std::vector<RGBSpectrum, AllocatorAligned2<RGBSpectrum>> texels, DPoint2i resolution)
+void JobLoadTextureR::update(WECS* ecs)
 {
-	uint16_t nLevels = log2(max(resolution[0], resolution[1]))-1;
-	CTextureRGB tex;
-	tex.resolutions.resize(nLevels);
-	tex.mips.resize(nLevels);
-	tex.mipNBlocks.resize(nLevels);
-
-	tex.resolutions[0] = std::move(resolution);
-	tex.mipNBlocks[0] = tex.resolutions[0] / CTextureRGB::blockSize;
-	tex.mips[0].resize(tex.resolutions[0].x()*tex.resolutions[0].y());
-	for (uint32_t y = 0; y < tex.resolutions[0].y(); y++)
+	ComponentsGroup<CTextureBinding2DR> texInfos = queryComponentsGroup<CTextureBinding2DR>();
+	for_each([&](HEntity hEntity, CTextureBinding2DR& textureInfo)
 	{
-		for (uint32_t x = 0; x < tex.resolutions[0].x(); x++)
-		{
-			tex.texel(x, y, 0) = std::move(texels[x + y * tex.resolutions[0].x()]);
-		}
-	}
+		SLoadTexture::load<DVectorPacked1f, CTexture2DR>(textures, textureInfo);
 
-
-	for (uint16_t i = 1; i < nLevels; i++)
-	{
-		DPoint2i res = maxv(DPoint2i(1, 1), tex.resolutions[i - 1] / 2);
-		tex.mips[i].resize(res.x()*res.y());
-		tex.resolutions[i] = res;
-		tex.mipNBlocks[i] = res / CTextureRGB::blockSize;
-
-		std::vector<RGBSpectrum, AllocatorAligned2<RGBSpectrum>>& mip = tex.mips[i];
-		for (uint32_t y = 0; y < res.y() - 1; y++)
-		{
-			for (uint32_t x = 0; x < res.x() - 1; x++)
-			{
-				tex.texel(x, y, i) = (tex.texel(2 * x, 2 * y, i-1) + tex.texel(2 * x + 1, 2 * y, i-1) +
-									  tex.texel(2 * x, 2 * y + 1, i-1) + tex.texel(2 * x + 1, 2 * y + 1, i-1))*0.25;
-			}
-
-			tex.texel(res.x() - 1, y, i) = (tex.texel(tex.resolutions[i - 1].x() - 1, 2 * y, i-1) +
-											tex.texel(tex.resolutions[i - 1].x() - 1, 2 * y + 1, i-1))*0.5;
-		}
-
-		for (uint32_t x = 0; x < res.x() - 1; x++)
-		{
-			tex.texel(x, res.y() - 1, i) = (tex.texel(2 * x, tex.resolutions[i - 1].y() - 1, i-1) +
-											tex.texel(2 * x + 1, tex.resolutions[i - 1].y() - 1, i-1))*0.5;
-		}
-
-		tex.texel(res.x() - 1, res.y() - 1, i) = tex.texel(tex.resolutions[i - 1].x() - 1, tex.resolutions[i - 1].y() - 1, i-1);
-	}
-	return tex;
-}
-
-std::vector<RGBSpectrum, AllocatorAligned2<RGBSpectrum>> JobLoadTextureRGB::readImagePNG(const std::string &name, DPoint2i& resolution)
-{
-	unsigned char *rgb;
-	unsigned w, h;
-	unsigned int error = lodepng_decode24_file(&rgb, &w, &h, name.c_str());
-	assert(error == 0);
-	resolution.x() = w;
-	resolution.y() = h;
-
-	std::vector<RGBSpectrum, AllocatorAligned2<RGBSpectrum>> ret(resolution.x()*resolution.y());
-	unsigned char *src = rgb;
-	for (unsigned int y = 0; y < h; ++y)
-	{
-		for (unsigned int x = 0; x < w; ++x, src += 3)
-		{
-			ret[y * resolution.x() + x] = DVector3f(src[0], src[1], src[2]) / 255.0f;
-		}
-	}
-
-	free(rgb);
-	return ret;
+	}, texInfos);
 }
 
 

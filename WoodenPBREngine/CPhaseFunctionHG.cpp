@@ -4,21 +4,17 @@
 
 WPBR_BEGIN
 
-class SPhaseFunctionHG
+
+float SPhaseFunctionHG::p(const CPhaseFunctionHG& hg, const DVector3f& wo, const DVector3f& wi)
 {
-public:
-	static float p(const CPhaseFunctionHG& hg, const DVector3f& wo, const DVector3f& wi)
-	{
-		return p(hg, dot(wo, wi));
-	}
+	return p(hg, dot(wo, wi));
+}
 
-	static float p(const CPhaseFunctionHG& hg, const float cosTheta)
-	{
-		float denom = 1 + hg.g*hg.g + 2 * hg.g*cosTheta;
-		return (1.0 / 4 * PI)*(1.0 - hg.g*hg.g) / (denom*std::sqrt(denom));
-	}
-};
-
+float SPhaseFunctionHG::p(const CPhaseFunctionHG& hg, const float cosTheta)
+{
+	float denom = 1 + hg.g*hg.g + 2 * hg.g*cosTheta;
+	return (1.0 / 4 * PI)*(1.0 - hg.g*hg.g) / (denom*std::sqrt(denom));
+}
 
 void JobPhaseFunctionHDCompute::update(WECS* ecs, HEntity hEntity, CPhaseFunctionHG& hg, CPhaseFunctionRequests& requests)
 {

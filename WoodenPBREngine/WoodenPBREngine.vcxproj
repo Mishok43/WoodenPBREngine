@@ -152,7 +152,7 @@
       <PreprocessorDefinitions>_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>C:\Users\devmi\source\repos\WoodenAllocators;C:\Users\devmi\source\repos\WoodenMathLibrarry;C:\Users\devmi\source\repos\;C:\Users\devmi\source\repos\WoodenECS;C:\Users\devmi\source\repos\WoodenPBREngine2\WoodenPBREngine</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\..\..\WoodenAllocators;$(SolutionDir)\..\..\WoodenMathLibrarry;$(SolutionDir)\..\..\;$(SolutionDir)\..\..\WoodenECS;$(SolutionDir)\..\..\WoodenPBREngine2\WoodenPBREngine</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
@@ -260,6 +260,7 @@
     <ClInclude Include="CMaterialPerfectGlass.h" />
     <ClInclude Include="CMaterialMetal.h" />
     <ClInclude Include="CMaterialPlastic.h" />
+    <ClInclude Include="CMedium.h" />
     <ClInclude Include="CPhaseFunctionHG.h" />
     <ClInclude Include="CRayDifferential.h" />
     <ClInclude Include="CSCamera.h" />
@@ -320,6 +321,7 @@
     <ClCompile Include="CMaterialGlass.cpp" />
     <ClCompile Include="CMaterialPerfectGlass.cpp" />
     <ClCompile Include="CMaterialMetal.cpp" />
+    <ClCompile Include="CMedium.cpp" />
     <ClCompile Include="CoefficientSpectrum.cpp" />
     <ClCompile Include="CPhaseFunction.cpp" />
     <ClCompile Include="CPhaseFunctionHG.cpp" />
