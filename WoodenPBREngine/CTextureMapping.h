@@ -37,9 +37,12 @@ public:
 		const DVector2f& duv = DVector2f(0.0f, 0.0f))
 	{
 		CTextureMappedPoint mappedPoint;
-		mappedPoint.dstdx =  suv*DVector2f(si.dudx, si.dvdx);
-		mappedPoint.dstdy = duv*DVector2f(si.dudy, si.dvdy);
+		mappedPoint.dstdx =  suv*DVector2f(si.dudx, si.dvdx) + duv;
+		mappedPoint.dstdy = suv*DVector2f(si.dudy, si.dvdy)+duv;
 		mappedPoint.p = suv*si.uv + duv;
+
+		assert(mappedPoint.p.x() <= 1.0f);
+		assert(mappedPoint.p.y() <= 1.0f);
 		return mappedPoint;
 	}
 };

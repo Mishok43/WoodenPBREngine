@@ -9,8 +9,9 @@ WPBR_BEGIN
 
 struct CMaterialHandle: public HEntity
 {
-	CMaterialHandle(HEntity hEntity):
-		HEntity(std::move(hEntity)){ }
+
+	CMaterialHandle(HEntity m):
+		HEntity(std::move(m)){ }
 
 	DECL_MANAGED_DENSE_COMP_DATA(CMaterialHandle, 16)
 }; 

@@ -30,6 +30,9 @@ void JobCameraPerspGenerateRaysDifferential::update(WECS* ecs, uint8_t iThread)
 			DPoint3f pFilm = DPoint3f(sPFilm.x(), sPFilm.y(), 0);
 			DPoint3f pCamera = rasterCamera(pFilm);
 
+			//std::cout << pCamera.x() << " " << pCamera.y() << std::endl;
+
+
 			DRayDifferentialf ray = DRayDifferentialf(DPoint3f(0.0, 0.0, 0.0), normalize(DVector3f(pCamera)));
 			ray.difXRay.origin = ray.difYRay.origin = ray.origin;
 			ray.difXRay.dir = normalize(DVector3f(pCamera) + cameraPerspe.dxCamera);
@@ -37,10 +40,11 @@ void JobCameraPerspGenerateRaysDifferential::update(WECS* ecs, uint8_t iThread)
 			//ray.t = wml::lerp(camera.shutterOpenTime, camera.shutterCloseTime, sample.time);
 			ray = world(ray);
 
-			ecs->addComponent<CRayDifferential>(hSample, std::move(ray));
+			ecs->addComponent<CRayDifferential>(hSample, ray);
 
 			CRayCast rayCast;
 			rayCast.ray = ray;
+			rayCast.bSurfInteraction = true;
 			ecs->addComponent<CRayCast>(hSample, std::move(rayCast));
 			//ecs->addComponent<CSampleIndex>(hEntity, CSampleIndex{ i });
 			//ecs->addComponent<CRay>(hEntity, std::move(ray));

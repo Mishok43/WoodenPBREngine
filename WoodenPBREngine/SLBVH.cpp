@@ -12,13 +12,13 @@ void JobProcessRayCastsResults::update(WECS* ecs, uint8_t iThread)
 
 	uint32_t slice = (nRaysCasts + getNumThreads() - 1) / getNumThreads();
 	uint32_t iStart = iThread * slice;
-	ComponentsGroupSlice<CRayCast> rayCasts = queryComponentsGroupSlice<CRayCast>(Slice(iStart, slice));
+	ComponentsGroup<CRayCast> rayCasts = queryComponentsGroup<CRayCast>();
 	for_each([ecs](HEntity hEntity, CRayCast& rayCast)
 	{
 		HEntity interactionEntity;
 		HEntity hShape;
 		float tHitMin = std::numeric_limits<float>::infinity();
-		for (uint16_t i = 0; i < rayCast.interactionEntities.size(); i++)
+		for (uint32_t i = 0; i < rayCast.interactionEntities.size(); i++)
 		{
 			HEntity hInteractionEntity = rayCast.interactionEntities[i];
 			const CInteractionRequest& interactionRequest =
@@ -88,7 +88,7 @@ void JobProcessRayCasts::update(WECS* ecs, uint8_t iThread)
 
 	uint32_t slice = (nRays+nThreads-1) /getNumThreads();
 	uint32_t iStart = iThread * slice;
-	ComponentsGroupSlice<CRayCast> rays = queryComponentsGroupSlice<CRayCast>(Slice(iStart, slice));
+	ComponentsGroup<CRayCast> rays = queryComponentsGroup<CRayCast>();
 	ComponentsGroup<CLBVHTree> trees = queryComponentsGroup<CLBVHTree>();
 	const CLBVHTree& tree = trees.getRawData<CLBVHTree>()[0];
 	for_each([tree, ecs](HEntity hEntity, CRayCast& rayCast)
@@ -98,7 +98,7 @@ void JobProcessRayCasts::update(WECS* ecs, uint8_t iThread)
 		DVector3f dirInv = DVector3f(1.0) / ray.dir;
 		int dirIsNeg[3] = { dirInv.x() < 0, dirInv.y() < 0, dirInv.z() < 0 };
 		int toVisitOffset = 0, currentNodeIndex = 0;
-		int nodesToVisit[64];
+		int nodesToVisit[256];
 		while (true)
 		{
 			const LinearBVHNode& node = tree.nodes[currentNodeIndex];
@@ -107,7 +107,7 @@ void JobProcessRayCasts::update(WECS* ecs, uint8_t iThread)
 			{
 				if (node.nShapes > 0)
 				{
-					for (uint16_t i = 0; i < node.nShapes; ++i)
+					for (uint32_t i = 0; i < node.nShapes; ++i)
 					{
 						HEntity shapeEntity = tree.shapesEntities[node.shapeOffset + i];
 
@@ -122,7 +122,6 @@ void JobProcessRayCasts::update(WECS* ecs, uint8_t iThread)
 						if (shapeEntity.hasComponent<CTriangle>())
 						{
 							CInteractionTriangle interactionTriangle;
-							interactionTriangle.hTriangle = shapeEntity;
 							ecs->addComponent<CInteractionTriangle>(eRequest, std::move(interactionTriangle));
 						}
 						else if(shapeEntity.hasComponent<CSphere>())
@@ -170,7 +169,7 @@ void JobProcessRayCasts::update(WECS* ecs, uint8_t iThread)
 void JobGenerateShapesCentroidBound::update(WECS* ecs) 
 {
 	ComponentsGroup<CCentroid> centroids = queryComponentsGroup<CCentroid>();
-	uint16_t nShapes = centroids.size<CCentroid>();
+	uint32_t nShapes = centroids.size<CCentroid>();
 
 	CLBVHTreeBuilder treeBuilder;
 	treeBuilder.shapeBounds.reserve(nShapes);
@@ -194,11 +193,11 @@ void JobGenerateShapesMortonCode::update(WECS* ecs, uint8_t iThread)
 	ComponentsGroup<CLBVHTreeBuilder> treeBuilderData = queryComponentsGroup<CLBVHTreeBuilder>();
 
 	Slice slice = Slice(iThread*sliceSize, sliceSize);
-	ComponentsGroupSlice<CCentroid, CBounds> shapesData = queryComponentsGroupSlice<CCentroid, CBounds>(slice);
+	ComponentsGroup<CCentroid, CBounds> shapesData = queryComponentsGroup<CCentroid, CBounds>();
 
 	for_each([this, ecs, &shapesData, iThread](HEntity, CLBVHTreeBuilder& treeBuilder)
 	{
-		uint16_t iShape = iThread;
+		uint32_t iShape = iThread;
 		for_each([this, ecs, &shapesData, &treeBuilder, &iShape]
 		(HEntity hEntity, const CCentroid& eCentroid, const CBounds& eBounds)
 		{
@@ -206,9 +205,9 @@ void JobGenerateShapesMortonCode::update(WECS* ecs, uint8_t iThread)
 			constexpr int32_t mortonScale = 1 << mortonBits;
 			DPoint3f centroidN = treeBuilder.boundsCentroid.getLerpFactors(eCentroid);
 			uint32_t mortonCode =
-				(leftShift3(centroidN.z()) << 2) |
-				(leftShift3(centroidN.y()) << 1) |
-				leftShift3(centroidN.x());
+				(leftShift3(centroidN.z()*mortonScale) << 2) |
+				(leftShift3(centroidN.y()*mortonScale) << 1) |
+				leftShift3(centroidN.x()*mortonScale);
 
 			CentroidMortonCode code;
 			code.value = mortonCode;
@@ -259,10 +258,10 @@ void JobSortsShapesByMortonCode::update(WECS* ecs)
 				CentroidMortonCode* out = (iPass & 1) ? mortonCodes : mortonCodesTmp;
 				int8_t lowBit = iPass * bitsPerPass;
 
-				std::array<uint16_t, nBuckets> counters;
-				std::memset(counters.data(), 0, sizeof(uint16_t)*nBuckets);
+				std::array<uint32_t, nBuckets> counters;
+				std::memset(counters.data(), 0, sizeof(uint32_t)*nBuckets);
 
-				for (uint16_t i = 0; i < nMortonCodes; i++)
+				for (uint32_t i = 0; i < nMortonCodes; i++)
 				{
 					uint8_t iCounter = (in[i].value >> lowBit) & bitMask;
 					++counters[iCounter];
@@ -270,27 +269,27 @@ void JobSortsShapesByMortonCode::update(WECS* ecs)
 
 
 				// convert counters to offsets
-				uint16_t total = 0;
-				for (uint16_t i = 0; i < nBuckets; i++)
+				uint32_t total = 0;
+				for (uint32_t i = 0; i < nBuckets; i++)
 				{
-					uint16_t tmp = counters[i];
+					uint32_t tmp = counters[i];
 					counters[i] = total;
 					total += tmp;
 				}
 
-				for (uint16_t i = 0; i < nMortonCodes; i++)
+				for (uint32_t i = 0; i < nMortonCodes; i++)
 				{
 					uint8_t iCounter = (in[i].value >> lowBit) & bitMask;
-					uint16_t sortedPos = counters[iCounter]++;
+					uint32_t sortedPos = counters[iCounter]++;
 					out[sortedPos] = in[i];
 				}
 
 				std::swap(in, out);
 			}
 
-			CBounds* boundsTmp = (CBounds*)allocTemp.allocMem(sizeof(CBounds)*nMortonCodes, sizeof(CBounds));
+			CBounds* boundsTmp = (CBounds*)allocTemp.allocMem(sizeof(CBounds)*nMortonCodes, alignof(CBounds));
 			HEntity* entitiesTmp = (HEntity*)allocTemp.allocMem(sizeof(HEntity)*nMortonCodes);
-			for (uint16_t i = 0; i < nMortonCodes; i++)
+			for (uint32_t i = 0; i < nMortonCodes; i++)
 			{
 				boundsTmp[i] = treeBuilder.shapeBounds[mortonCodes[i].index];
 				entitiesTmp[i] = treeBuilder.shapeEntities[mortonCodes[i].index];
@@ -336,35 +335,38 @@ void JobEmitLBVH::update(WECS* ecs, uint8_t iThread)
 	ComponentsGroup<CLBVHTreeBuilder> treeBuilders = queryComponentsGroup<CLBVHTreeBuilder>();
 	for_each([this, ecs, iThread](HEntity, CLBVHTreeBuilder& treeBuilder)
 	{
-		uint16_t nSubTreeBuilders = treeBuilder.subTreeBuilders.size();
-		uint16_t slice = nSubTreeBuilders / getNumThreads();
+		uint32_t nSubTreeBuilders = treeBuilder.subTreeBuilders.size();
+		uint32_t slice = nSubTreeBuilders / getNumThreads();
 
-		uint16_t iStart = iThread * slice;
-		uint16_t iEnd = min(iStart + slice + 1, nSubTreeBuilders);
-		for (uint16_t i = iStart; i < iEnd; i++)
+		uint32_t iStart = iThread * slice;
+		uint32_t iEnd = min(iStart + slice + 1, nSubTreeBuilders);
+		for (uint32_t i = iStart; i < iEnd; i++)
 		{
 			LBVHSubTreeBuilder* subTreeBuilder = &treeBuilder.subTreeBuilders[i];
 
 			const int firstBitIndex = 30 - 12 - 1;
 			subTreeBuilder->nNodes = 0;
-			emitLBVH(treeBuilder, subTreeBuilder->nodes, subTreeBuilder->nodesBounds,
+
+			uint32_t boundsOffset = 0;
+			emitLBVH(treeBuilder, subTreeBuilder->nodes, subTreeBuilder->nodesBounds, boundsOffset,
 						subTreeBuilder->iStartShape, subTreeBuilder->nShapes, firstBitIndex, subTreeBuilder->nNodes);
 			treeBuilder.nSubTreeNodesTotal += subTreeBuilder->nNodes;
 		}
 	}, treeBuilders);
 }
 
-BVHBuildNode* JobEmitLBVH::emitLBVH(CLBVHTreeBuilder& treeBuilder, BVHBuildNode* nodes, DBounds3f* nodesBounds,
-									uint16_t iStartShape, uint16_t nShapes, int bitIndex, uint16_t& totalNodes)
+BVHBuildNode* JobEmitLBVH::emitLBVH(CLBVHTreeBuilder& treeBuilder, BVHBuildNode* nodes, DBounds3f* nodesBounds, uint32_t& boundsOffset,
+									uint32_t iStartShape, uint32_t nShapes, int bitIndex, uint32_t& totalNodes)
 {
+	maxPrimitiveInNode = 30;
 	if (bitIndex == -1 || nShapes < maxPrimitiveInNode)
 	{
 		totalNodes++;
-		BVHBuildNode* node = nodes++;
-		DBounds3f* bounds = nodesBounds++;
-		for (uint16_t i = 0; i < nShapes; i++)
+		BVHBuildNode* node = &nodes[boundsOffset];
+		DBounds3f* bounds = &nodesBounds[boundsOffset++];
+		for (uint32_t i = 0; i < nShapes; i++)
 		{
-			uint16_t iShape = i + iStartShape;
+			uint32_t iShape = i + iStartShape;
 			*bounds = DBounds3f(*bounds, treeBuilder.shapeBounds[iShape]);
 		}
 		node->initAsLeaf(iStartShape, nShapes, bounds);
@@ -377,7 +379,7 @@ BVHBuildNode* JobEmitLBVH::emitLBVH(CLBVHTreeBuilder& treeBuilder, BVHBuildNode*
 		if ((treeBuilder.shapeMortonCodes[iStartShape].value & mask) ==
 			(treeBuilder.shapeMortonCodes[iStartShape + nShapes - 1].value & mask))
 		{
-			return emitLBVH(treeBuilder, nodes, nodesBounds, iStartShape, nShapes, bitIndex - 1, totalNodes);
+			return emitLBVH(treeBuilder, nodes, nodesBounds, boundsOffset, iStartShape, nShapes, bitIndex - 1, totalNodes);
 		}
 		else
 		{
@@ -393,16 +395,16 @@ BVHBuildNode* JobEmitLBVH::emitLBVH(CLBVHTreeBuilder& treeBuilder, BVHBuildNode*
 					searchEnd = mid;
 			}
 			uint32_t splitOffset = searchEnd;
-			BVHBuildNode* node = nodes++;
-			DBounds3f* bounds = nodesBounds++;
+			BVHBuildNode* node = &nodes[boundsOffset];
+			DBounds3f* bounds = &nodesBounds[boundsOffset++];
 			totalNodes++;
 			std::array<BVHBuildNode*, 2> childrens = {
-				emitLBVH(treeBuilder, nodes, nodesBounds, iStartShape, splitOffset - iStartShape, bitIndex - 1, totalNodes),
-				emitLBVH(treeBuilder, nodes, nodesBounds, splitOffset, nShapes - (splitOffset - iStartShape), bitIndex - 1, totalNodes)
+				emitLBVH(treeBuilder, nodes, nodesBounds, boundsOffset, iStartShape, splitOffset - iStartShape, bitIndex - 1, totalNodes),
+				emitLBVH(treeBuilder, nodes, nodesBounds, boundsOffset,splitOffset, nShapes - (splitOffset - iStartShape), bitIndex - 1, totalNodes)
 			};
 
 			int axis = bitIndex % 3;
-			node->initAsInterior(bitIndex, childrens[0], childrens[1], bounds);
+			node->initAsInterior(axis, childrens[0], childrens[1], bounds);
 			return node;
 		}
 	}
@@ -419,12 +421,12 @@ void JobBuildUpperSAH::update(WECS* ecs)
 			
 
 		CLBVHTree linearTree;
-		uint16_t nNodesTotal = treeBuilder.nSAHNodesTotal + treeBuilder.nSubTreeNodesTotal;
+		uint32_t nNodesTotal = treeBuilder.nSAHNodesTotal + treeBuilder.nSubTreeNodesTotal;
 		linearTree.nodes.resize(nNodesTotal);
 		linearTree.nodesBounds.resize(nNodesTotal);
 		linearTree.shapesEntities = std::move(treeBuilder.shapeEntities);
 
-		uint16_t offset = 0;
+		uint32_t offset = 0;
 		flattenBVHTree(root, linearTree, offset);
 			
 		ecs->addComponent<CLBVHTree>(hEntity, std::move(linearTree));
@@ -432,13 +434,13 @@ void JobBuildUpperSAH::update(WECS* ecs)
 	}, treeBuilders);
 }
 
-uint16_t JobBuildUpperSAH::flattenBVHTree(BVHBuildNode* node, CLBVHTree& tree, uint16_t& offset)
+uint32_t JobBuildUpperSAH::flattenBVHTree(BVHBuildNode* node, CLBVHTree& tree, uint32_t& offset)
 {
 	LinearBVHNode *lNode = &tree.nodes[offset];
 	DBounds3f* lNodeBounds = &tree.nodesBounds[offset];
 	*lNodeBounds = *node->bounds;
 
-	uint16_t myOffset = offset++;
+	uint32_t myOffset = offset++;
 	if (node->nShapes > 0)
 	{
 		lNode->shapeOffset = node->iStartShape;
@@ -447,6 +449,7 @@ uint16_t JobBuildUpperSAH::flattenBVHTree(BVHBuildNode* node, CLBVHTree& tree, u
 	else
 	{
 		lNode->axis = node->splitAxis;
+		assert(lNode->axis < 3);
 		lNode->nShapes = 0;
 		flattenBVHTree(node->children[0], tree, offset);
 		lNode->secondChildOffset =
@@ -456,8 +459,9 @@ uint16_t JobBuildUpperSAH::flattenBVHTree(BVHBuildNode* node, CLBVHTree& tree, u
 	return myOffset;
 }
 
-BVHBuildNode* JobBuildUpperSAH::buildUpperSAH(CLBVHTreeBuilder& treeBuilder, uint16_t iStart, uint16_t iLast)
+BVHBuildNode* JobBuildUpperSAH::buildUpperSAH(CLBVHTreeBuilder& treeBuilder, uint32_t iStart, uint32_t iLast)
 {
+	assert(iStart <= iLast);
 	if (iStart == iLast)
 	{
 		return &treeBuilder.subTreeBuilders[iStart].nodes[0];
@@ -465,7 +469,7 @@ BVHBuildNode* JobBuildUpperSAH::buildUpperSAH(CLBVHTreeBuilder& treeBuilder, uin
 
 	DBounds3f bounds;
 	DBounds3f centroidsBounds;
-	for (uint16_t i = iStart; i <= iLast; i++)
+	for (uint32_t i = iStart; i <= iLast; i++)
 	{
 		//treeBuilder.nSubTreeNodesTotal += treeBuilder.subTreeBuilders[i].nNodes;
 		const DBounds3f& rootNodeBounds = *treeBuilder.subTreeBuilders[i].nodes[0].bounds;
@@ -479,15 +483,18 @@ BVHBuildNode* JobBuildUpperSAH::buildUpperSAH(CLBVHTreeBuilder& treeBuilder, uin
 
 
 	std::array<DBounds3f, nBuckets> bucketsBounds;
-	std::array<uint16_t, nBuckets> bucketsCount;
+	std::array<uint32_t, nBuckets> bucketsCount;
 	bucketsCount.fill(0);
 
-	for (uint16_t i = iStart; i <= iLast; i++)
+	for (uint32_t i = iStart; i <= iLast; i++)
 	{
+		float dist = centroidsBounds.pMax[splitDim] - centroidsBounds.pMin[splitDim];
+
 		DBounds3f* rootNodeBounds = treeBuilder.subTreeBuilders[i].nodes[0].bounds;
 		float centroid = (rootNodeBounds->pMin[splitDim] + rootNodeBounds->pMax[splitDim])*0.5;
-		uint8_t iBucket = nBuckets * ((centroid - centroidsBounds.pMin[splitDim]) /
-			(centroidsBounds.pMax[splitDim] - centroidsBounds.pMax[splitDim]));
+
+		float t = (centroid - centroidsBounds.pMin[splitDim]) / dist;
+		uint8_t iBucket = nBuckets * t;
 		if (iBucket == nBuckets)
 		{
 			iBucket = nBuckets - 1;
@@ -504,7 +511,7 @@ BVHBuildNode* JobBuildUpperSAH::buildUpperSAH(CLBVHTreeBuilder& treeBuilder, uin
 	for (uint8_t i = 0; i < nBuckets - 1; i++)
 	{
 		DBounds3f b0, b1;
-		uint16_t count0, count1;
+		uint32_t count0, count1;
 		count0 = 0;
 		count1 = 0;
 		for (uint8_t j = 0; j <= i; j++)
@@ -537,19 +544,24 @@ BVHBuildNode* JobBuildUpperSAH::buildUpperSAH(CLBVHTreeBuilder& treeBuilder, uin
 
 
 		
-	LBVHSubTreeBuilder* split = std::partition(&treeBuilder.subTreeBuilders[iStart], &treeBuilder.subTreeBuilders[iLast],
+	LBVHSubTreeBuilder* split = std::partition(&treeBuilder.subTreeBuilders[iStart], &treeBuilder.subTreeBuilders[iLast]+1,
 												[iBucketMinCost](const LBVHSubTreeBuilder& builder)
 	{
 		return builder.iBucket <= iBucketMinCost;
 	});
 
-	uint16_t mid = split - &treeBuilder.subTreeBuilders[iStart];
+	uint32_t mid = split - &treeBuilder.subTreeBuilders[0];
+
+	if (mid == iLast + 1)
+	{
+		mid = (iLast - iStart + 1) / 2 + iStart;
+	}
 
 	DBounds3f& nodeBounds = treeBuilder.sahBuildNodesBounds.emplace_back();
 	BVHBuildNode& node = treeBuilder.sahBuildNodes.emplace_back();
 	treeBuilder.nSAHNodesTotal++;
 	node.initAsInterior(splitDim, 
-						buildUpperSAH(treeBuilder, iStart, mid - 1), 
+						buildUpperSAH(treeBuilder, iStart, mid - 1),
 						buildUpperSAH(treeBuilder, mid, iLast), 
 						&nodeBounds);
 	return &node;

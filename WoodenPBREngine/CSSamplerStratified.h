@@ -6,6 +6,7 @@
 #include "WoodenMathLibrarry/DPoint.h"
 #include "WoodenMathLibrarry/DBounds.h"
 #include <random>
+#include <iostream>
 
 WPBR_BEGIN
 
@@ -28,34 +29,7 @@ class JobSamplerStratifiedGenerateSampels1D : public JobParallazible
 		return min(nWorkThreads, (queryComponentsGroup<CSamples1D>().size() + sliceSize - 1) / sliceSize);
 	}
 
-	virtual void update(WECS* ecs, uint8_t iThread) override
-	{
-		uint32_t sliceSize =
-			(queryComponentsGroup<CSamples1D>().size() + nThreads - 1) / nThreads;
-
-		ComponentsGroupSlice<CSamples1D> samples =
-			queryComponentsGroupSlice<CSamples1D>(Slice(sliceSize*iThread, sliceSize));
-
-		for_each([ecs, this](HEntity hEntity,
-				 CSamples1D& sample)
-		{
-			std::random_device rd; std::mt19937 gen(rd());
-			std::uniform_real_distribution<float> uniform(0.0, 1.0);
-
-			//sample.data = std::vector<float, AllocatorAligned2<float>>(300);
-
-			for (uint32_t i = 0; i < sample.data.size(); i++)
-			{
-				float invNSamples = 1.0 / sample.data.size();
-				float dt = uniform(gen);
-				sample.data[i] = min((i + dt)*invNSamples, 1.0);
-			}
-
-			std::shuffle(sample.data.begin(), sample.data.end(), gen);
-
-
-		}, samples);
-	}
+	virtual void update(WECS* ecs, uint8_t iThread) override;
 };
 
 class JobSamplerStratifiedGenerateSampels2D : public JobParallazible
@@ -67,38 +41,7 @@ class JobSamplerStratifiedGenerateSampels2D : public JobParallazible
 		return min(nWorkThreads, (queryComponentsGroup<CSamples2D>().size() + sliceSize - 1) / sliceSize);
 	}
 
-	virtual void update(WECS* ecs, uint8_t iThread) override
-	{
-		uint32_t sliceSize =
-			(queryComponentsGroup<CSamples2D>().size() + nThreads - 1) / nThreads;
-
-		ComponentsGroupSlice<CSamples2D> samples =
-			queryComponentsGroupSlice<CSamples2D>(Slice(sliceSize*iThread, sliceSize));
-
-		for_each([ecs, this](HEntity hEntity,
-				 CSamples2D& samples)
-		{
-			std::random_device rd; std::mt19937 gen(rd());
-			std::uniform_real_distribution<float> uniform(0.0, 1.0);
-
-
-			for (uint32_t i = 0; i < samples.data.size(); i++)
-			{
-				for (uint32_t j = 0; j < samples.data.size(); j++)
-				{
-					float invNSamples = 1.0 / samples.data.size();
-					float dtX = uniform(gen);
-					float dtY = uniform(gen);
-					samples.data[i].x() = min((i + dtX)*invNSamples, 1.0);
-					samples.data[i].y() = min((j + dtY)*invNSamples, 1.0);
-				}
-			}
-
-
-			std::shuffle(samples.data.begin(), samples.data.end(), gen);
-
-		}, samples);
-	}
+	virtual void update(WECS* ecs, uint8_t iThread) override;
 };
 
 
