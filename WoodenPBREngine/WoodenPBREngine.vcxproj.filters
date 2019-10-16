@@ -420,6 +420,15 @@
     <ClInclude Include="CMedium.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CMediumHomogeneous.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CMediumDensityGrid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CTextureBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -561,6 +570,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CMedium.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CMediumHomogeneous.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CMediumDensityGrid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

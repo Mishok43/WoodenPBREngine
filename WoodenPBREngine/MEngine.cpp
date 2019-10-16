@@ -79,8 +79,7 @@ void MEngine::buildScene()
 	HEntity hMaterialGlass = SMaterialPerfectGlass::create();
 	HEntity hMaterialDielectric = CSMaterialDielectric::create();
 
-	// Loading all textures
-	JOB_RUN(JobLoadTextureRGB)
+
 
 	CFilterTableGaussing filter;
 	filter.size = 64;
@@ -135,7 +134,6 @@ void MEngine::buildScene()
 	{
 		CTransform p = DTransformf::makeTranslate(-0.0, -8.0f, 5.5f);
 		HEntity hSphereLight = SSphere::create(std::move(p), CSphere(0.45f));
-
 
 		float lambda = 600;
 		float lemit;
@@ -252,9 +250,18 @@ void MEngine::buildScene()
 	//	addComponent<CLightComputeRequests>(hSphereLight);
 	//	addComponent<CLightSamplingRequests>(hSphereLight);
 	//}
+    loadTextures();
 
 
 	JOB_RUN(JobTriangleMeshGenerateTriangles)
+}
+
+void MEngine::loadTextures()
+{
+	JOB_RUN(JobLoadTexture2DRGB)
+	JOB_RUN(JobLoadTexture2DR)
+	JOB_RUN(JobLoadTexture3DRGB)
+	JOB_RUN(JobLoadTexture3DR)
 }
 
 void MEngine::buildLBVH()

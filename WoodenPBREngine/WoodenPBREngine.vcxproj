@@ -261,6 +261,8 @@
     <ClInclude Include="CMaterialMetal.h" />
     <ClInclude Include="CMaterialPlastic.h" />
     <ClInclude Include="CMedium.h" />
+    <ClInclude Include="CMediumDensityGrid.h" />
+    <ClInclude Include="CMediumHomogeneous.h" />
     <ClInclude Include="CPhaseFunctionHG.h" />
     <ClInclude Include="CRayDifferential.h" />
     <ClInclude Include="CSCamera.h" />
@@ -285,6 +287,7 @@
     <ClInclude Include="CSufraceInteraction.h" />
     <ClInclude Include="CLight.h" />
     <ClInclude Include="CTexture.h" />
+    <ClInclude Include="CTextureBase.h" />
     <ClInclude Include="CTextureMapping.h" />
     <ClInclude Include="DRayDifferential.h" />
     <ClInclude Include="CTransform.h" />
@@ -322,6 +325,8 @@
     <ClCompile Include="CMaterialPerfectGlass.cpp" />
     <ClCompile Include="CMaterialMetal.cpp" />
     <ClCompile Include="CMedium.cpp" />
+    <ClCompile Include="CMediumDensityGrid.cpp" />
+    <ClCompile Include="CMediumHomogeneous.cpp" />
     <ClCompile Include="CoefficientSpectrum.cpp" />
     <ClCompile Include="CPhaseFunction.cpp" />
     <ClCompile Include="CPhaseFunctionHG.cpp" />

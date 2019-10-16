@@ -11,7 +11,7 @@ DECL_OUT_COMP_DATA(CTextureSamplerIsotropic)
 DECL_OUT_COMP_DATA(CTextureSamplerAnistropic)
 DECL_OUT_COMP_DATA(CFilterTableGaussing)
 
-std::map<std::string, HEntity> JobLoadTextureRGB::textures;
+std::map<std::string, HEntity> JobLoadTexture2DRGB::textures;
 
 
 void JobFilterTableGaussing::update(WECS* ecs, uint8_t iThread) 
@@ -33,7 +33,7 @@ void JobFilterTableGaussing::update(WECS* ecs, uint8_t iThread)
 }
 
 
-void JobLoadTextureRGB::update(WECS* ecs)
+void JobLoadTexture2DRGB::update(WECS* ecs)
 {
 	ComponentsGroup<CTextureBinding2DRGB> texInfos = queryComponentsGroup<CTextureBinding2DRGB>();
 	for_each([&](HEntity hEntity, CTextureBinding2DRGB& textureInfo)
@@ -43,13 +43,31 @@ void JobLoadTextureRGB::update(WECS* ecs)
 	}, texInfos);
 }
 
-void JobLoadTextureR::update(WECS* ecs)
+void JobLoadTexture2DR::update(WECS* ecs)
 {
 	ComponentsGroup<CTextureBinding2DR> texInfos = queryComponentsGroup<CTextureBinding2DR>();
 	for_each([&](HEntity hEntity, CTextureBinding2DR& textureInfo)
 	{
 		SLoadTexture::load<DVectorPacked1f, CTexture2DR>(textures, textureInfo);
 
+	}, texInfos);
+}
+
+void JobLoadTexture3DRGB::update(WECS* ecs)
+{
+	ComponentsGroup<CTextureBinding3DRGB> texInfos = queryComponentsGroup<CTextureBinding3DRGB>();
+	for_each([&](HEntity hEntity, CTextureBinding3DRGB& textureInfo)
+	{
+		SLoadTexture::load3D<DVectorPacked3f, CTexture3DRGB>(textures, textureInfo);
+	}, texInfos);
+}
+
+void JobLoadTexture3DR::update(WECS* ecs)
+{
+	ComponentsGroup<CTextureBinding3DR> texInfos = queryComponentsGroup<CTextureBinding3DR>();
+	for_each([&](HEntity hEntity, CTextureBinding3DR& textureInfo)
+	{
+		SLoadTexture::load3D<DVectorPacked1f, CTexture3DR>(textures, textureInfo);
 	}, texInfos);
 }
 

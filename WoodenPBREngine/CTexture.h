@@ -2,7 +2,7 @@
 
 #include "pch.h"
 #include <map>
-
+#include "CTexture.h"
 #include <algorithm>
 #include "lodepng.h"
 #include "CTextureMapping.h"
@@ -14,174 +14,8 @@
 #include "RGBSpectrum.h"
 #include "MEngine.h"
 
+
 WPBR_BEGIN
-
-template<typename T>
-class TextureConst
-{
-	T sample(const CSurfaceInteraction& si) const
-	{
-		return value;
-	}
-
-	T value;
-};
-
-template<typename T>
-struct Texture2DBase
-{
-	std::string filename;
-	std::vector<std::vector<T, AllocatorAligned2<T>>> mips;
-	std::vector<DPoint2i, AllocatorAligned2<DPoint2i>> resolutions;
-	std::vector<DPoint2i, AllocatorAligned2<DPoint2i>> mipNBlocks;
-
-	static constexpr uint8_t blockSize = 4;
-	uint32_t iTexel(const DPoint2i& p, uint8_t mip) const
-	{
-		const DPoint2i& nBlocks = mipNBlocks[mip];
-		constexpr uint8_t blockArea = blockSize * blockSize;
-		DPoint2i block = p / blockSize;
-
-		uint32_t iBlock = block.x() + block.y()*nBlocks.x();
-		uint32_t i = iBlock * blockArea + (p.x() % blockSize) + (p.y() % blockSize)*blockSize;
-		return i;
-	}
-
-	const T& texel(const DPoint2i& p, uint8_t mip) const
-	{
-		return mips[mip][iTexel(p, mip)];
-	}
-
-	const T& texel(uint32_t x, uint32_t y, uint8_t mip) const
-	{
-		return mips[mip][iTexel(DPoint2i(x, y), mip)];
-	}
-
-	T& texel(const DPoint2i& p, uint8_t mip)
-	{
-		return mips[mip][iTexel(p, mip)];
-	}
-
-	T& texel(uint32_t x, uint32_t y, uint8_t mip)
-	{
-		return mips[mip][iTexel(DPoint2i(x, y), mip)];
-	}
-
-};
-
-template<typename T>
-struct Texture3DBase
-{
-	std::string filename;
-	std::vector<std::vector<T, AllocatorAligned2<T>>> mips;
-	std::vector<DPoint3i, AllocatorAligned2<DPoint3i>> resolutions;
-	std::vector<DPoint3i, AllocatorAligned2<DPoint3i>> mipNBlocks;
-
-	static constexpr uint8_t blockSize = 4;
-	uint32_t iTexel(const DPoint2i& p, uint8_t mip) const
-	{
-		const DPoint2i& nBlocks = mipNBlocks[mip];
-		constexpr uint8_t blockArea = blockSize * blockSize;
-		DPoint2i block = p / blockSize;
-
-		uint32_t iBlock = block.x() + block.y()*nBlocks.x();
-		uint32_t i = iBlock * blockArea + (p.x() % blockSize) + (p.y() % blockSize)*blockSize;
-		return i;
-	}
-
-	const T& texel(const DPoint2i& p, uint8_t mip) const
-	{
-		return mips[mip][iTexel(p, mip)];
-	}
-
-	const T& texel(uint32_t x, uint32_t y, uint8_t mip) const
-	{
-		return mips[mip][iTexel(DPoint2i(x, y), mip)];
-	}
-
-	T& texel(const DPoint2i& p, uint8_t mip)
-	{
-		return mips[mip][iTexel(p, mip)];
-	}
-
-	T& texel(uint32_t x, uint32_t y, uint8_t mip)
-	{
-		return mips[mip][iTexel(DPoint2i(x, y), mip)];
-	}
-};
-
-
-struct CTexture2DRGB : public Texture2DBase<DVectorPacked<float, 3>>
-{
-	DECL_MANAGED_DENSE_COMP_DATA(CTexture2DRGB, 4)
-}; 
-
-struct CTexture2DR : public Texture2DBase<DVectorPacked<float, 1>>
-{
-	DECL_MANAGED_DENSE_COMP_DATA(CTexture2DR, 4)
-};
-
-struct CTexture3DRGB : public Texture3DBase<DVectorPacked<float, 3>>
-{
-	DECL_MANAGED_DENSE_COMP_DATA(CTexture3DRGB, 4)
-};
-
-struct CTexture3DR : public Texture3DBase<DVectorPacked<float, 1>>
-{
-	DECL_MANAGED_DENSE_COMP_DATA(CTexture3DR, 4)
-};
-
-
-template<typename T>
-struct CTextureBindingBase
-{
-
-	std::string filename;
-	HEntity tex;
-
-	const T& getTex(WECS* ecs) const
-	{
-		return ecs->getComponent<T>(tex);
-	}
-};
-
-struct CTextureBinding2DRGB: public CTextureBindingBase<CTexture2DRGB>
-{
-	DECL_MANAGED_DENSE_COMP_DATA(CTextureBinding2DRGB, 16)
-}; 
-
-struct CTextureBinding2DR: public CTextureBindingBase<CTexture2DR>
-{
-	DECL_MANAGED_DENSE_COMP_DATA(CTextureBinding2DR, 16)
-};
-
-struct CTextureBinding3DRGB : public CTextureBindingBase<CTexture3DRGB>
-{
-	DECL_MANAGED_DENSE_COMP_DATA(CTextureBinding2DRGB, 16)
-};
-
-struct CTextureBinding3DR : public CTextureBindingBase<CTexture3DR>
-{
-	DECL_MANAGED_DENSE_COMP_DATA(CTextureBinding2DR, 16)
-};
-
-
-
-class STextureBindingRGB
-{
-public:
-	static HEntity create(const std::string& filename)
-	{
-		CTextureBinding2DRGB tex;
-		tex.filename = filename;
-
-		MEngine& mEngine = MEngine::getInstance();
-		HEntity h = mEngine.createEntity();
-		mEngine.addComponent<CTextureBinding2DRGB>(h, std::move(tex));
-		return h;
-	}
-};
-
 //
 //
 //struct CTextureSpecular : public CTextureBindingR
@@ -520,6 +354,67 @@ public:
 		return tex;
 	}
 
+	template<typename T, typename CompT>
+	static void load3D(std::map<std::string, HEntity>& textures, CTextureBindingBase<CompT>& textureInfo)
+	{
+		std::map<std::string, HEntity>::const_iterator it = textures.find(textureInfo.filename);
+		if (it != textures.cend())
+		{
+			textureInfo.tex = it->second;
+			return;
+		}
+
+
+		DPoint2i resolutions;
+		std::vector<T, AllocatorAligned2<T>> texels = readImagePNG(textureInfo.filename, resolutions);
+
+		DPoint3i resolutionReal(pow(resolutions.area(), 1.0 / 3.0));
+
+		for (uint32_t i = 0; i < texels.size(); i++)
+		{
+			for (uint32_t k = 0; k < texels[i].size(); k++)
+			{
+				texels[i][k] = gammaCorrectInv(texels[i][k]);
+			}
+		}
+
+		assert(!texels.empty());
+
+		HEntity hTexture = ecs->createEntity();
+		CompT texRGB = generateMIPS<T, CompT>(std::move(texels), resolutionReal);
+		ecs->addComponent<CompT>(hTexture, std::move(texRGB));
+
+		textureInfo.tex = hTexture;
+		textures[textureInfo.filename] = hTexture;
+	}
+
+	template<typename T, typename CompT>
+	static CompT generateMIPS3D(std::vector<T, AllocatorAligned2<T>> texels, DPoint3i resolution)
+	{
+		uint16_t nLevels = 1;
+		CompT tex;
+		tex.resolutions.resize(nLevels);
+		tex.mips.resize(nLevels);
+		tex.mipNBlocks.resize(nLevels);
+
+		tex.resolutions[0] = std::move(resolution);
+		tex.mipNBlocks[0] = tex.resolutions[0] / CompT::blockSize;
+		tex.mips[0].resize(tex.resolutions[0].area());
+		for (uint32_t y = 0; y < tex.resolutions[0].y(); y++)
+		{
+			for (uint32_t x = 0; x < tex.resolutions[0].x(); x++)
+			{
+				for (uint32_t z = 0; z < tex.resolutions[0].z(); z++)
+				{
+					tex.texel(x, y, z, 0) = std::move(texels[x + y * tex.resolutions[0].x() + z*tex.resolutions[0].x()*tex.resolutions[0].y()]);
+				}
+			}
+		}
+
+		return tex;
+	}
+
+
 
 	template<typename T>
 	static std::vector<T, AllocatorAligned2<T>> readImagePNG(const std::string &name, DPoint2i& resolution)
@@ -551,7 +446,7 @@ public:
 
 		free(rgb);
 		return ret;
-	}
+	} 
 
 
 
@@ -578,21 +473,33 @@ public:
 
 };
 
-class JobLoadTextureRGB: public Job
+class JobLoadTexture2DRGB: public Job
 {
 public:
 	static std::map<std::string, HEntity> textures;
 	void update(WECS* ecs) override;
 };
 
-class JobLoadTextureR : public Job
+class JobLoadTexture2DR : public Job
 {
 public:
 	static std::map<std::string, HEntity> textures;
 	void update(WECS* ecs) override;
 };
 
+class JobLoadTexture3DRGB : public Job
+{
+public:
+	static std::map<std::string, HEntity> textures;
+	void update(WECS* ecs) override;
+};
 
+class JobLoadTexture3DR : public Job
+{
+public:
+	static std::map<std::string, HEntity> textures;
+	void update(WECS* ecs) override;
+};
 
 WPBR_END
 
