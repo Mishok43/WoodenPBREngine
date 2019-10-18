@@ -1,3 +1,5 @@
+![alt text](https://github.com/Mishok43/WoodenPBREngine/tree/master/images/dino.png)
+
 Wooden PBR Engine is software ray-tracing researching engine for rendering 3D scenes based on C++17, SIMD Math Library, Data-Oriented ECS Design.  
 <b>Technologies</b>:   
 C++17, Data-Oriented ECS, Allocators, SIMD Math  
