@@ -29,7 +29,8 @@ https://drive.google.com/file/d/1mX7miJLeN_xeZ3ocKnfiUIN57I690-i9/view?usp=shari
   - Photon mapping  
   - Volume rendering  
   - Subsurface scattering  
-  - Multilayer materials  
+  - Multilayer materials
+  - Scene parser  
   
 <b>Libraries</b>:  
   Data Driven ECS: https://github.com/Mishok43/WoodenECS  
