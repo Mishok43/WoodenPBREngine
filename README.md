@@ -1,4 +1,5 @@
-![](https://github.com/Mishok43/WoodenPBREngine/blob/master/images/dino.PNG=128x128)
+<img src="https://github.com/Mishok43/WoodenPBREngine/blob/master/images/dino.PNG" width="256" height="256"><img src="https://github.com/Mishok43/WoodenPBREngine/blob/master/images/anisotropic.png" width="256" height="256"><img src="https://github.com/Mishok43/WoodenPBREngine/blob/master/images/mG-8P4TLfQU.jpg" width="256" height="256">  
+<img src="https://github.com/Mishok43/WoodenPBREngine/blob/master/images/dielectric.png" width="256" height="256"><img src="https://github.com/Mishok43/WoodenPBREngine/blob/master/images/conductor.png" width="256" height="256"><img src="https://github.com/Mishok43/WoodenPBREngine/blob/master/images/StratisfiedSampler.PNG" width="256" height="256">   
 
 Wooden PBR Engine is software ray-tracing researching engine for rendering 3D scenes based on C++17, SIMD Math Library, Data-Oriented ECS Design.  
 <b>Technologies</b>:   
