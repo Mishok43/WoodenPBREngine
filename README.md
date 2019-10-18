@@ -23,6 +23,7 @@ C++17, Data-Oriented ECS, Allocators, SIMD Math
   - Photon mapping  
   - Volume rendering  
   - Subsurface scattering  
+  - Multilayer materials  
   
 <b>Libraries</b>:  
   Data Driven ECS: https://github.com/Mishok43/WoodenECS  
