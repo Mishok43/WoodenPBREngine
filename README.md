@@ -2,7 +2,8 @@ Wooden PBR Engine is software ray-tracing researching engine for rendering 3D sc
 <b>Technologies</b>:   
 C++17, Data-Oriented ECS, Allocators, SIMD Math  
 
-<b>Paper(RU)</b>:  https://drive.google.com/file/d/1mX7miJLeN_xeZ3ocKnfiUIN57I690-i9/view?usp=sharing  
+<b>Paper(RU)</b>:  
+https://drive.google.com/file/d/1mX7miJLeN_xeZ3ocKnfiUIN57I690-i9/view?usp=sharing  
 
 <b>Implemented features</b>:  
   - Basic geometry shapes meshes generator  
