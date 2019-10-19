@@ -22,7 +22,7 @@
 
 *.opendb
 *.opensdf
-
+*.suo
 # Compiled Static libraries
 *.lai
 *.la
@@ -36,5 +36,6 @@
 *.app
 
 *.VC.db
-*.VC.*
+*.VC.db-shm
+*.VC.db-wal
 *.pdb
