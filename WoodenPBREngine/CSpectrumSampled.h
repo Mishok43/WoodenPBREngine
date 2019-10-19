@@ -18,7 +18,6 @@ public:
 		CoefficientSpectrum(v)
 	{}
 
-
 	template<uint32_t n> 
 	SampledSpectrum(CoefficientSpectrum<n>&& r) :
 		CoefficientSpectrum(r)
@@ -34,6 +33,10 @@ public:
 		*this = SampledSpectrum::fromRGB(r, t);
 	}
 
+	uint32_t size() const
+	{
+		return nSpectralSamples;
+	}
 
 
 	static float averageSpectrumSamples(const float* lambda, const float *values, int n, 
@@ -272,9 +275,6 @@ public:
 															 nRGB2SpectSamples, wl0, wl1);
 		}
 	}
-
-
-
 
 	float y() const
 	{

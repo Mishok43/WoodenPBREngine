@@ -162,19 +162,7 @@
     <ClInclude Include="lodepng.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CBSDFSpecularReflectance.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CMaterialMetal.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MeshTools.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CMaterialPerfectGlass.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CMaterialGlass.h">
+    <ClInclude Include="CPhaseFunctionHG.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="assimp\ai_assert.h">
@@ -402,16 +390,43 @@
     <ClInclude Include="assimp\XMLTools.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Settings.h">
+    <ClInclude Include="CBSDFDielectricMicroface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CBSDFSpecularReflectance.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CLightInfiniteArea.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CBSDFDielectricMicroface.h">
+    <ClInclude Include="CMaterialDielectric.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CMaterialDielectric.h">
+    <ClInclude Include="CMaterialGlass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CMaterialPerfectGlass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CMaterialMetal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshTools.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Settings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CMedium.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CMediumHomogeneous.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CMediumDensityGrid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CTextureBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -530,22 +545,37 @@
     <ClCompile Include="CSSampler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CBSDFSpecularReflectance.cpp">
+    <ClCompile Include="CPhaseFunction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CMaterialMetal.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CMaterialPerfectGlass.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CMaterialGlass.cpp">
+    <ClCompile Include="CPhaseFunctionHG.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CBSDFDielectricMicroface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CBSDFSpecularReflectance.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="CMaterialDieletric.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CMaterialGlass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CMaterialPerfectGlass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CMaterialMetal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CMedium.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CMediumHomogeneous.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CMediumDensityGrid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CLightInfiniteArea.cpp">
