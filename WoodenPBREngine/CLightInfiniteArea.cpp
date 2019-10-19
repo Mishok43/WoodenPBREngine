@@ -138,7 +138,6 @@ void JobLightInfiniteAreaLiCompute::update(WECS* ecs, HEntity hEntity, CLight& l
 		CSampledWI& wi = ecs->getComponent<CSampledWI>(hRequest);
 		const CSurfaceInteraction& si = ecs->getComponent<CSurfaceInteraction>(hRequest);
 
-		
 		CSampledLightLI li;
 		CSampledLightPDF pdf;
 

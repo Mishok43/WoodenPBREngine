@@ -20,6 +20,7 @@
 *.mod
 *.smod
 .vs/
+WoodenPBREngine/.vs/
 *.opendb
 *.opensdf
 *.suo
