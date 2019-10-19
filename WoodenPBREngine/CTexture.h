@@ -88,9 +88,10 @@ struct CTextureR : public TextureBase<float>
 template<typename T>
 struct CTextureBindingBase
 {
-
 	std::string filename;
+	uint32_t resX, resY;
 	HEntity tex;
+	bool isLoaded = false;
 
 	const T& getTex(WECS* ecs) const
 	{
@@ -225,7 +226,7 @@ class STextureSampleAnisotropic
 {
 public:
 	template<typename T>
-	static T sample(
+	static T evaluate(
 		const CTextureMappedPoint& st,
 		const CTextureSamplerAnistropic& sampler,
 		const CFilterTableGaussing& filterTable,
@@ -349,7 +350,17 @@ class STextureSamplerIsotropic
 public:
 
 	template<typename T>
-	static T sample(
+	static T evaluate(
+		const DPoint2f& p,
+		const TextureBase<T>& tex)
+	{
+		CTextureMappedPoint mp;
+		mp.p = p;
+		return evaluate(mp, tex);
+	}
+
+	template<typename T>
+	static T evaluate(
 		   const CTextureMappedPoint& st,
 		   const TextureBase<T>& tex) 
 	{

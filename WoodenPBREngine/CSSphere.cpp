@@ -15,56 +15,64 @@ DECL_OUT_COMP_DATA(CSphere)
 
 void JobProcessSphereSurfInteractionRequests::update(WECS* ecs, uint8_t iThread)
 {
-	uint32_t nCollisions = queryComponentsGroup<CInteractionSphere>().size<CInteractionSphere>();
+	uint32_t nCollisions = queryComponentsGroup<CSphere>().size();
 	uint32_t sliceSize = (nCollisions + getNumThreads()-1) /getNumThreads();
 	uint32_t iStart = iThread * sliceSize;
 
-	ComponentsGroupSlice<CInteractionSphere, CInteractionRequest> requests =
-		queryComponentsGroupSlice<CInteractionSphere, CInteractionRequest>(Slice(iStart, sliceSize));
+	ComponentsGroup<CSphere, CTransform, CInteractionRequests> requests = queryComponentsGroup<CSphere,  CTransform, CInteractionRequests>();
 
 	for_each([ecs](HEntity hEntity,
-			 CInteractionSphere& interactionSphere,
-			 CInteractionRequest& interactionRequest)
+			 CSphere& sphere,
+			 CTransform& world,
+			 CInteractionRequests& interactionRequests)
 	{
-		const CRayCast& rayCast = ecs->getComponent<CRayCast>(interactionRequest.rayCastEntity);
-		const DRayf& rayW = rayCast.ray;
+		for (uint32_t i = 0; i < interactionRequests.size(); i++)
+		{
+			HEntity hRequest = interactionRequests[i];
+			CInteractionRequest& request = ecs->getComponent<CInteractionRequest>(hRequest);
+			const DRayf& rayW = request.ray;
+			float eRadius = sphere.radius;
 
-		const CSphere& sphere = ecs->getComponent<CSphere>(interactionRequest.hShape);
-		float eRadius = sphere.radius;
-		const CTransform& eWorld = ecs->getComponent<CTransform>(interactionRequest.hShape);
-		
-		float tHit;
-		if (intersect(rayW, sphere, eWorld, interactionSphere, tHit))
-		{
-			interactionRequest.tHitResult = tHit;
+
+			CInteractionSphere interactionSphere;
+			float tHit;
+			if (intersect(rayW, sphere, world, interactionSphere, tHit))
+			{
+				request.tHitResult = tHit;
+				ecs->addComponent<CInteractionSphere>(hRequest, std::move(interactionSphere));
+			}
+			else
+			{
+				request.tHitResult = 0.0f;
+			}
 		}
-		else
-		{
-			interactionRequest.tHitResult = 0.0f;
-		}
+		interactionRequests.clear();
 	}, requests);
 }
 
 void JobProcessSphereFullInteractionRequests::update(WECS* ecs, uint8_t iThread)
 {
-	uint32_t nCollisions = queryComponentsGroup<CFullInteractionRequest>().size<CFullInteractionRequest>();
-	uint32_t sliceSize = (nCollisions + getNumThreads()-1) /getNumThreads();
-	uint32_t iStart = iThread * sliceSize;
-
-	ComponentsGroupSlice<CFullInteractionRequest, CInteractionSphere, CInteractionRequest> requests =
-		queryComponentsGroupSlice<CFullInteractionRequest, CInteractionSphere, CInteractionRequest>(Slice(iStart, sliceSize));
+	ComponentsGroup<CSphere,  CTransform, CInteractionFullRequests> requests =
+		queryComponentsGroup<CSphere, CTransform, CInteractionFullRequests>();
 
 	for_each([ecs](HEntity hEntity,
-			 CFullInteractionRequest&,
-			 CInteractionSphere& interactionSphere,
-			 const CInteractionRequest& interactionRequest)
+			 CSphere& sphere,
+			 CTransform& world,
+			 CInteractionFullRequests& interactionRequests)
 	{
+		for (uint32_t i = 0; i < interactionRequests.size(); i++)
+		{
+			HEntity hRequest = interactionRequests[i];
 
-		const CSphere& sphere = ecs->getComponent<CSphere>(interactionRequest.hShape);
-		const CTransform& eWorld = ecs->getComponent<CTransform>(interactionRequest.hShape);
+			CInteractionRequest& request = ecs->getComponent<CInteractionRequest>(hRequest);
+			CInteractionSphere& requestSphere = ecs->getComponent<CInteractionSphere>(hRequest);
+			const DRayf& rayW = request.ray;
 
-		CSurfaceInteraction si = computeSurfInteraction(interactionRequest.hShape, sphere, eWorld, interactionSphere);
-		ecs->addComponent<CSurfaceInteraction>(interactionRequest.rayCastEntity, std::move(si));
+			CSurfaceInteraction si = computeSurfInteraction(request.hShape, sphere, world, requestSphere);
+			ecs->addComponent<CSurfaceInteraction>(request.hRayCast, std::move(si));
+		}
+
+		interactionRequests.clear();
 	}, requests);
 }
 
@@ -196,6 +204,8 @@ uint32_t SSphere::create(CTransform transform,
 	engine.addComponent<CBounds>(hEntity);
 	engine.addComponent<CCentroid>(hEntity);
 	engine.addComponent<CMapUVRequests>(hEntity);
+	engine.addComponent<CInteractionRequests>(hEntity);
+	engine.addComponent<CInteractionFullRequests>(hEntity);
 
 	return hEntity;
 }

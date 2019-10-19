@@ -8,16 +8,29 @@
 
 WPBR_BEGIN
 
-struct CLightSamplingRequests
+struct CLightLiSampleRequests
 {
 	std::vector<HEntity, AllocatorAligned2<HEntity>> data;
 
-	DECL_MANAGED_DENSE_COMP_DATA(CLightSamplingRequests, 16)
+	DECL_MANAGED_DENSE_COMP_DATA(CLightLiSampleRequests, 16)
 }; 
-struct CLightComputeRequests
+
+struct CLightLiComputeRequests
 {
 	std::vector<HEntity, AllocatorAligned2<HEntity>> data;
-	DECL_MANAGED_DENSE_COMP_DATA(CLightComputeRequests, 16)
+	DECL_MANAGED_DENSE_COMP_DATA(CLightLiComputeRequests, 16)
+};
+
+struct CLightLeComputeRequests
+{
+	std::vector<HEntity, AllocatorAligned2<HEntity>> data;
+	DECL_MANAGED_DENSE_COMP_DATA(CLightLeComputeRequests, 16)
+};
+
+struct CLightLE
+{
+	Spectrum L;
+	DECL_MANAGED_DENSE_COMP_DATA(CLightLE, 16)
 };
 
 struct CLight

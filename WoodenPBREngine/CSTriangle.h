@@ -27,19 +27,18 @@ struct CTriangle
 };
 
 
-class JobProcessTriangleFullInteractionRequests : public JobParallaziblePerCompGroup<CFullInteractionRequest, CInteractionTriangle, CInteractionRequest>
+class JobProcessTriangleFullInteractionRequests : public JobParallaziblePerCompGroup<CTriangle, CInteractionFullRequests>
 {
 
-	void update(WECS* ecs, HEntity hEntity, CFullInteractionRequest&,
-			 CInteractionTriangle& interactionTriangle,
-			 CInteractionRequest& interactionRequest) override;
+	void update(WECS* ecs, HEntity hEntity, CTriangle& triangle,
+			 CInteractionFullRequests& requests) override;
 
 	void finish(WECS* ecs) override;
 };
 
-class JobProcessTriangleInteractionRequests: public JobParallaziblePerCompGroup<CInteractionTriangle, CInteractionRequest>
+class JobProcessTriangleInteractionRequests: public JobParallaziblePerCompGroup<CTriangle, CInteractionRequests>
 {
-	void update(WECS* ecs, HEntity hEntity, CInteractionTriangle&, CInteractionRequest&) override;
+	void update(WECS* ecs, HEntity hEntity, CTriangle& triangle, CInteractionRequests& requests) override;
 };
 
 

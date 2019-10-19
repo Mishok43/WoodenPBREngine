@@ -66,7 +66,7 @@ void JobScatteringSampleLight::update(WECS* ecs, HEntity hEntity, CSurfaceIntera
 
 void JobScatteringSampleLightLI::update(WECS* ecs, HEntity hEntity, CSurfaceInteraction& si, CSampledLight& sl)
 {
-	CLightSamplingRequests& requests = ecs->getComponent<CLightSamplingRequests>(sl.h);
+	CLightLiSampleRequests& requests = ecs->getComponent<CLightLiSampleRequests>(sl.h);
 	requests.data.push_back(hEntity);
 }
 
@@ -84,7 +84,7 @@ void JobScatteringCastShadowRays::update(WECS* ecs, HEntity hEntity,
 void JobScatteringProcessShadowRay::update(WECS* ecs, HEntity hEntity,
 										   CSampledLight& si, CInteraction& sl, CSampledBSDF& bsdf)
 {
-	if (sl.hCollision == si.h)
+	if (sl.hCollision.h == INVALID_HANDLE || sl.hCollision == si.h)
 	{
 		ecs->addComponent<CBSDFComputeRequest>(bsdf.h, CBSDFComputeRequest{ hEntity });
 	}
@@ -159,9 +159,9 @@ void JobScatteringCastShadowRaysWithInteraction::update(WECS* ecs, HEntity hEnti
 void JobScatteringProcessShadowRayWithInteraction::update(WECS* ecs, HEntity hEntity,
 														  CSampledLight& si, CInteraction& sl)
 {
-	if (sl.hCollision == si.h)
+	if (sl.hCollision.h == INVALID_HANDLE || sl.hCollision == si.h)
 	{
-		CLightComputeRequests& requests = ecs->getComponent<CLightComputeRequests>(si.h);
+		CLightLiComputeRequests& requests = ecs->getComponent<CLightLiComputeRequests>(si.h);
 		requests.data.push_back(hEntity);
 	}
 }

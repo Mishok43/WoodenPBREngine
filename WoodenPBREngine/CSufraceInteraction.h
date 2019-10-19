@@ -13,18 +13,25 @@ WPBR_BEGIN
 struct CMedium;
 
 
-struct CFullInteractionRequest: public CompDummy
+struct alignas(16) CInteractionRequest
 {
-	DECL_MANAGED_DENSE_COMP_DATA(CFullInteractionRequest, 16)
-};
-
-struct CInteractionRequest
-{
+	DRayf ray;
 	float tHitResult;
-	HEntity rayCastEntity;
 	HEntity hShape;
+	HEntity hRayCast;
 	DECL_MANAGED_DENSE_COMP_DATA(CInteractionRequest, 16)
 };
+
+struct CInteractionRequests: public std::vector<HEntity>
+{
+	DECL_MANAGED_DENSE_COMP_DATA(CInteractionRequests, 16)
+}; 
+
+struct CInteractionFullRequests: public std::vector<HEntity>
+{
+	DECL_MANAGED_DENSE_COMP_DATA(CInteractionFullRequests, 16)
+}; 
+
 
 struct CRayCast
 {

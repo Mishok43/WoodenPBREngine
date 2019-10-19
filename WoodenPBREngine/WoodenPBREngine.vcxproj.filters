@@ -548,6 +548,9 @@
     <ClCompile Include="CMaterialDieletric.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CLightInfiniteArea.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="assimp\color4.inl">

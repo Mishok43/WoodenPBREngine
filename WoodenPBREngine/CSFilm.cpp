@@ -77,7 +77,7 @@ void JobAccumalateLIFromSamples::update(WECS* ecs, uint8_t iThread)
 	{
 		for (uint32_t i = 0; i < tile.samples.size(); i++)
 		{
-			const static MitchellFilter filter(1.65f, 1.0/3.0f, 1.0/3.0f);
+			const static MitchellFilter filter(2.0, 1.0/3.0f, 1.0/3.0f);
 
 			HEntity hSample = tile.samples[i];
 

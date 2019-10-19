@@ -64,6 +64,9 @@ void JobLoadTextureRGB::update(WECS* ecs)
 		ecs->addComponent<CTextureRGB>(hTexture, std::move(texRGB));
 
 		textureInfo.tex = hTexture;
+		textureInfo.resX = resolutions.x();
+		textureInfo.resY = resolutions.y();
+		textureInfo.isLoaded = true;
 		textures[textureInfo.filename] = hTexture;
 	}, texInfos);
 }

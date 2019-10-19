@@ -27,6 +27,7 @@ private:
 	void buildCameraAndFilm();
 	void buildLBVH();
 	void buildScene();
+	void preprocess();
 	void buildMaterials();
 	void runCollisionSystem();
 };

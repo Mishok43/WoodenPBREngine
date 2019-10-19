@@ -14,6 +14,7 @@ public:
 	{
 	}
 
+
 	RGBSpectrum(DVector3f v) :
 		DVector3f(std::move(v))
 	{

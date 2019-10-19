@@ -314,6 +314,7 @@
     <ClCompile Include="CCentroid.cpp" />
     <ClCompile Include="CFilm.cpp" />
     <ClCompile Include="CLight.cpp" />
+    <ClCompile Include="CLightInfiniteArea.cpp" />
     <ClCompile Include="CMaterial.cpp" />
     <ClCompile Include="CMaterialDieletric.cpp" />
     <ClCompile Include="CMaterialGlass.cpp" />

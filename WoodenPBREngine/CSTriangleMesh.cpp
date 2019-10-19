@@ -55,7 +55,8 @@ void STriangleMesh::generateTriangles(WECS& engine,
 		engine.addComponent<CCentroid>(h);
 		engine.addComponent<CMapUVRequests>(h);
 		engine.addComponent<CMaterialHandle>(h, hMaterial);
-
+		engine.addComponent<CInteractionRequests>(h);
+		engine.addComponent<CInteractionFullRequests>(h);
 	}
 }
 

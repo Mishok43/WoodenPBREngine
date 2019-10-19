@@ -11,6 +11,7 @@
 #include "CSCameraPerspective.h"
 #include "CSSamplerStratified.h"
 #include "CTexture.h"
+#include "CLightInfiniteArea.h"
 #include "SLBVH.h"
 #include "CSpectrum.h"
 #include "MeshTools.h"
@@ -47,7 +48,7 @@ WPBR_BEGIN
  _tmpAllocator.reset();\
 }
 
-wal::AllocatorLinear _tmpAllocator(1024*1024);
+wal::AllocatorLinear _tmpAllocator(1024*1024*16);
 
 int res = RESOLUTION;
 
@@ -70,6 +71,7 @@ void MEngine::buildMaterials()
 {
 }
 
+
 void MEngine::buildScene()
 {
 	buildCameraAndFilm();
@@ -79,72 +81,122 @@ void MEngine::buildScene()
 	HEntity hMaterialGlass = SMaterialPerfectGlass::create();
 	HEntity hMaterialDielectric = CSMaterialDielectric::create();
 
-	// Loading all textures
-	JOB_RUN(JobLoadTextureRGB)
 
 	CFilterTableGaussing filter;
 	filter.size = 64;
 	addComponent<CFilterTableGaussing>(createEntity(), std::move(filter));
 	JOB_RUN(JobFilterTableGaussing)
-		/*
-		{
-			CTransform p = DTransformf::makeTranslate(0.0f, 0.0f, 12.0f);
-			HEntity hSphere = SSphere::create(std::move(p), CSphere(7.0));
-			addComponent<CMaterialHandle>(hSphere, CMaterialHandle(hMaterialMetal));
-		}*/
 
+
+
+	//{
+	//	float dist = 4.0f;
+	//	int nObjectsInRow = 16;
+
+	//	float distTotal = (nObjectsInRow)*dist;
+
+	//	int k = 0;
+	//	for (float y = 0; y < distTotal; y += dist)
+	//	{
+	//		for (float x = 0; x < distTotal; x += dist)
+	//		{
+
+	//			float yP = y - distTotal * 0.5f;
+	//			float xP = x - distTotal * 0.5f;
+
+
+	//			CMaterialHandle hMaterialSphere = (k % 2) ? hMaterialMetal : hMaterialGlass;
+	//			CMaterialHandle hMaterialQuad = (k % 2) ? hMaterialGlass : hMaterialMetal;
+
+	//			{
+	//				CTransform p = DTransformf::makeTranslate(xP, yP, 5.0f);
+	//				HEntity hSphere = SSphere::create(std::move(p), CSphere(1.0));
+	//				addComponent<CMaterialHandle>(hSphere, CMaterialHandle(hMaterialSphere));
+	//			}
+
+	//			x += dist;
+
+	//			{
+	//				CTransform p = DTransformf::makeRotateX(radians(-35.0))*DTransformf::makeTranslate(xP, yP, 5.0f);
+	//				HEntity hShape = STriangleMesh::create(p, MeshTools::createQuad(2.0f, 2.0f));
+	//				addComponent<CMaterialHandle>(hShape, CMaterialHandle(hMaterialQuad));
+	//			}
+	//			k++;
+	//		}
+	//	}
+
+	//	CLight l;
+	//	{
+	//		CTransform p = DTransformf::makeTranslate(-0.0, -12.5f, 2.5f);
+	//		HEntity hSphereLight = SSphere::create(std::move(p), CSphere(0.3f));
+
+
+	//		float lambda = 600;
+	//		float lemit;
+	//		blackbody(&lambda, 1, 1500, &lemit);
+	//		l.LEmit = Spectrum(lemit);
+	//		addComponent<CLight>(hSphereLight, l);
+	//		addComponent<CLightLiComputeRequests>(hSphereLight);
+	//		addComponent<CLightLiSampleRequests>(hSphereLight);
+	//	}
+
+	//	CLight l2;
+	//	{
+	//		CTransform p = DTransformf::makeTranslate(-0.0, 0.0f, -9.5f);
+	//		HEntity hSphereLight = SSphere::create(std::move(p), CSphere(1.0f));
+
+
+	//		float lambda = 600;
+	//		float lemit;
+	//		blackbody(&lambda, 1, 1500, &lemit);
+	//		l2.LEmit = Spectrum(lemit*0.8);
+	//		addComponent<CLight>(hSphereLight, l2);
+	//		addComponent<CLightLiComputeRequests>(hSphereLight);
+	//		addComponent<CLightLiSampleRequests>(hSphereLight);
+	//	}
+
+	//}
+
+	
+	//	
 	{
-		CTransform p = DTransformf::makeRotateX(radians(-35.0))*DTransformf::makeTranslate(0.0f, 0.0f, 40.0);
-		//CTransform p = DTransformf::makeTranslate(-2.0f, -3.5f, 12.0f);
-		HEntity hShape = STriangleMesh::create(p, MeshTools::createQuad(50.0f, 50.0f));
-		addComponent<CMaterialHandle>(hShape, CMaterialHandle(hMaterialMetal));
+		CTransform p = DTransformf::makeRotateX(radians(-35.0))*DTransformf::makeTranslate(0, 0, 30.0f);
+		HEntity hShape = STriangleMesh::create(p, MeshTools::createQuad(80.0f, 80.0f));
+		addComponent<CMaterialHandle>(hShape, CMaterialHandle(hMaterialDielectric));
 	}
+
 
 	{
 		CTransform p =
-			DTransformf::makeRotateZ(radians(180.0))*
+			DTransformf::makeRotateX(radians(35.0))*
+			DTransformf::makeRotateY(radians(20.0))*
+			DTransformf::makeRotateZ(radians(200.0))*
 			DTransformf::makeScale(-4.65f, 4.65f, 4.65f)*
-			DTransformf::makeTranslate(-0.8f, 0.0f, 10);
+			DTransformf::makeTranslate(1.5f, 1.2f, 7.5);
 		HEntity hShape = STriangleMesh::create(p, MeshTools::loadMesh("robot.obj"));
 		addComponent<CMaterialHandle>(hShape, CMaterialHandle(hMaterialMetal));
 	}
 
-
 	//{
-	//	CTransform p = DTransformf::makeTranslate(3.3f, 1.0f, 4.5f);
-	//	HEntity hSphere = SSphere::create(std::move(p), CSphere(0.75));
-	//	addComponent<CMaterialHandle>(hSphere, CMaterialHandle(hMaterialMetal));
+	//	CTransform p =
+	//		DTransformf::makeRotateY(radians(-25.0))*
+	//		DTransformf::makeRotateX(radians(180.0))*
+	//		DTransformf::makeScale(1.0f, 1.0f, 1.0f)*
+	//		DTransformf::makeTranslate(0.0f, 1.0f, 9.5);
+	//	HEntity hShape = STriangleMesh::create(p, MeshTools::loadMesh("skull.obj"));
+	//	addComponent<CMaterialHandle>(hShape, CMaterialHandle(hMaterialMetal));
 	//}
 
-	// //Adding lights
-	CLight l;
 	{
-		CTransform p = DTransformf::makeTranslate(-0.0, -4.5f, -3.5f);
-		HEntity hSphereLight = SSphere::create(std::move(p), CSphere(0.5f));
-
-
-		float lambda = 600;
-		float lemit;
-		blackbody(&lambda, 1, 1500, &lemit);
-		l.LEmit = Spectrum(lemit);
-		addComponent<CLight>(hSphereLight, l);
-		addComponent<CLightComputeRequests>(hSphereLight);
-		addComponent<CLightSamplingRequests>(hSphereLight);
+		SLightInfiniteArea::create(RGBSpectrum(DVector3f(600000.0f, 600000.0f, 600000.0f)), "env.png");
 	}
-	CLight l2;
-	{
-		CTransform p = DTransformf::makeTranslate(-0.0, -8.0f, 5.5f);
-		HEntity hSphereLight = SSphere::create(std::move(p), CSphere(0.45f));
 
 
-		float lambda = 600;
-		float lemit;
-		blackbody(&lambda, 1, 1500, &lemit);
-		l2.LEmit = Spectrum(lemit*0.8);
-		addComponent<CLight>(hSphereLight, l2);
-		addComponent<CLightComputeRequests>(hSphereLight);
-		addComponent<CLightSamplingRequests>(hSphereLight);
-	}
+	/*{
+		CTransform p = DTransformf::makeTranslate(0.0f, 0.0f, 4.5f);
+		HEntity hSphere = SSphere::create(std::move(p), CSphere(2.0));
+		addComponent<CMaterialHandle>(hSphere, CMaterialHandle(hMaterialMetal));
+	}*/
 
 
 	
@@ -253,7 +305,8 @@ void MEngine::buildScene()
 	//	addComponent<CLightSamplingRequests>(hSphereLight);
 	//}
 
-
+	// Loading all textures
+JOB_RUN(JobLoadTextureRGB)
 	JOB_RUN(JobTriangleMeshGenerateTriangles)
 }
 
@@ -286,8 +339,14 @@ void MEngine::loadResources()
 	SampledSpectrum::init();
 	buildScene();
 	buildLBVH();
+	preprocess();
 
+}
 
+void MEngine::preprocess()
+{
+	JOB_RUN(JobLightInfiniteAreaPreprocessLocation);
+	JOB_RUN(JobLightInfiniteAreaPreprocessSampling);
 }
 
 void MEngine::render()
@@ -322,7 +381,9 @@ void MEngine::render()
 			for (uint32_t i = 0; i < 1; i++)
 			{
 				JOB_RUN(JobScatteringSampleLightLI)
+
 					JOB_RUN(JobSphereLightProcessSamplingRequests)
+					JOB_RUN(JobLightInfiniteAreaLiSample);
 
 					JOB_RUN(JobScatteringCastShadowRays)
 					runCollisionSystem();
@@ -340,9 +401,11 @@ void MEngine::render()
 
 					JOB_RUN(JobScatteringCastShadowRaysWithInteraction)
 					runCollisionSystem();
-				JOB_RUN(JobScatteringProcessShadowRayWithInteraction)
+					JOB_RUN(JobScatteringProcessShadowRayWithInteraction)
 
 					JOB_RUN(JobSphereLightProcessComputeRequests)
+					JOB_RUN(JobLightInfiniteAreaLiCompute);
+
 					JOB_RUN(JobScatteringIntegrateImportanceBSDF)
 			}
 			JOB_RUN(JobScatteringFinish)

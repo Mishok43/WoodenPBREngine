@@ -25,13 +25,18 @@ struct LinearBVHNode
 	uint8_t axis;
 };
 
-struct CLBVHTree
+struct CSceneTreeLBVH
 {
 	std::vector<LinearBVHNode, AllocatorAligned2<LinearBVHNode>> nodes;
 	std::vector<DBounds3f, AllocatorAligned2<DBounds3f>> nodesBounds;
 	std::vector<HEntity, AllocatorAligned2<HEntity>> shapesEntities;
 
-	DECL_MANAGED_DENSE_COMP_DATA(CLBVHTree, 1)
+	DECL_MANAGED_DENSE_COMP_DATA(CSceneTreeLBVH, 1)
+
+	const DBounds3f& getSceneBounds() const
+	{
+		return nodesBounds[0];
+	}
 }; 
 
 class JobProcessRayCastsResults : public JobParallazible
@@ -174,7 +179,7 @@ class JobBuildUpperSAH: public Job
 
 	void update(WECS* ecs) override;
 
-	uint32_t flattenBVHTree(BVHBuildNode* node, CLBVHTree& tree, uint32_t& offset);
+	uint32_t flattenBVHTree(BVHBuildNode* node, CSceneTreeLBVH& tree, uint32_t& offset);
 	BVHBuildNode* buildUpperSAH(CLBVHTreeBuilder& treeBuilder, uint32_t iStart, uint32_t iLast);
 };
 

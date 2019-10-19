@@ -28,6 +28,10 @@ struct CInteractionSphere
 
 struct CSphere
 {
+	CSphere()
+	{
+	};
+
 	CSphere(float radius):
 		radius(radius)
 	{ }
@@ -98,8 +102,7 @@ class JobProcessSphereFullInteractionRequests: public JobParallazible
 
 	uint32_t updateNStartThreads(uint32_t nWorkThreads) override
 	{
-		ComponentsGroup<CFullInteractionRequest> collisions = queryComponentsGroup<CFullInteractionRequest>();
-		return min(nWorkThreads, collisions.size<CFullInteractionRequest>()/ slice);
+		return 1;
 	}
 
 	void update(WECS* ecs, uint8_t iThread) override;
@@ -113,8 +116,7 @@ class JobProcessSphereSurfInteractionRequests: public JobParallazible
 
 	uint32_t updateNStartThreads(uint32_t nWorkThreads) override
 	{
-		ComponentsGroup<CInteractionSphere> collisions = queryComponentsGroup<CInteractionSphere>();
-		return min(nWorkThreads, collisions.size<CInteractionSphere>()/ slice);
+		return 1;
 	}
 
 	void update(WECS* ecs, uint8_t iThread) override;
@@ -188,7 +190,7 @@ class JobSphereLightProcessSamplingRequests : public JobParallazible
 
 	uint32_t updateNStartThreads(uint32_t nWorkThreads) override
 	{
-		return min(nWorkThreads, (queryComponentsGroup<CSphere, CLightSamplingRequests>().size() + slice - 1) / slice);
+		return min(nWorkThreads, (queryComponentsGroup<CSphere, CLightLiSampleRequests>().size() + slice - 1) / slice);
 	}
 
 	void update(WECS* ecs, uint8_t iThread) override
@@ -197,10 +199,10 @@ class JobSphereLightProcessSamplingRequests : public JobParallazible
 		uint32_t nRequests = queryComponentsGroup<CSphere>().size<CSphere>();
 		uint32_t sliceSize = (nRequests + getNumThreads()-1) /getNumThreads();
 
-		ComponentsGroupSlice<CSphere, CTransform, CLightSamplingRequests, CLight> spheres =
-			queryComponentsGroupSlice<CSphere, CTransform, CLightSamplingRequests, CLight>(Slice(iThread * sliceSize, sliceSize));
+		ComponentsGroupSlice<CSphere, CTransform, CLightLiSampleRequests, CLight> spheres =
+			queryComponentsGroupSlice<CSphere, CTransform, CLightLiSampleRequests, CLight>(Slice(iThread * sliceSize, sliceSize));
 
-		for_each([&](HEntity hEntity, const CSphere& sphere, const CTransform& world, CLightSamplingRequests& requests, const CLight& light)
+		for_each([&](HEntity hEntity, const CSphere& sphere, const CTransform& world, CLightLiSampleRequests& requests, const CLight& light)
 		{
 			for (uint32_t i = 0; i < requests.data.size(); i++)
 			{
@@ -233,7 +235,7 @@ class JobSphereLightProcessComputeRequests : public JobParallazible
 
 	uint32_t updateNStartThreads(uint32_t nWorkThreads) override
 	{
-		return min(nWorkThreads, (queryComponentsGroup<CSphere, CLightComputeRequests>().size() + slice - 1) / slice);
+		return min(nWorkThreads, (queryComponentsGroup<CSphere, CLightLiComputeRequests>().size() + slice - 1) / slice);
 	}
 
 	void update(WECS* ecs, uint8_t iThread) override
@@ -242,10 +244,10 @@ class JobSphereLightProcessComputeRequests : public JobParallazible
 		uint32_t nRequests = queryComponentsGroup<CSphere>().size<CSphere>();
 		uint32_t sliceSize = (nRequests + getNumThreads()-1) /getNumThreads();
 
-		ComponentsGroupSlice<CSphere, CTransform, CLightComputeRequests, CLight> spheres =
-			queryComponentsGroupSlice<CSphere, CTransform, CLightComputeRequests, CLight>(Slice(iThread * sliceSize, sliceSize));
+		ComponentsGroupSlice<CSphere, CTransform, CLightLiComputeRequests, CLight> spheres =
+			queryComponentsGroupSlice<CSphere, CTransform, CLightLiComputeRequests, CLight>(Slice(iThread * sliceSize, sliceSize));
 
-		for_each([&](HEntity hEntity, const CSphere& sphere, const CTransform& world, CLightComputeRequests& requests, const CLight& light)
+		for_each([&](HEntity hEntity, const CSphere& sphere, const CTransform& world, CLightLiComputeRequests& requests, const CLight& light)
 		{
 			for (uint32_t i = 0; i < requests.data.size(); i++)
 			{

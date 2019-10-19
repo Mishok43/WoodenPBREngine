@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "SLBVH.h"
 WPBR_BEGIN
-DECL_OUT_COMP_DATA(CLBVHTree)
+DECL_OUT_COMP_DATA(CSceneTreeLBVH)
 DECL_OUT_COMP_DATA(CLBVHTreeBuilder)
 
 
@@ -40,7 +40,7 @@ void JobProcessRayCastsResults::update(WECS* ecs, uint8_t iThread)
 		if (tHitMin == std::numeric_limits<float>::infinity())
 		{
 			CInteraction interaction;
-			interaction.hCollision = INVALID_HANDLE;
+			interaction.hCollision.h = INVALID_HANDLE;
 
 			ecs->addComponent<CInteraction>(hEntity, std::move(interaction));
 		}
@@ -48,7 +48,8 @@ void JobProcessRayCastsResults::update(WECS* ecs, uint8_t iThread)
 		{
 			if (rayCast.bSurfInteraction)
 			{
-				ecs->addComponent<CFullInteractionRequest>(interactionEntity);
+				CInteractionFullRequests& requests = ecs->getComponent<CInteractionFullRequests>(hShape);
+				requests.push_back(interactionEntity);
 			}
 			else
 			{
@@ -76,7 +77,6 @@ void JobCollisionFinish::update(WECS* ecs)
 void JobCollisionFinish::finish(WECS* ecs)
 {
 	ecs->deleteEntitiesOfComponents<CInteractionRequest>();
-	ecs->clearComponents<CFullInteractionRequest>(); 
 	ecs->clearComponents<CInteractionRequest>();
 	ecs->clearComponents<CRayCast>();
 }
@@ -89,8 +89,8 @@ void JobProcessRayCasts::update(WECS* ecs, uint8_t iThread)
 	uint32_t slice = (nRays+nThreads-1) /getNumThreads();
 	uint32_t iStart = iThread * slice;
 	ComponentsGroup<CRayCast> rays = queryComponentsGroup<CRayCast>();
-	ComponentsGroup<CLBVHTree> trees = queryComponentsGroup<CLBVHTree>();
-	const CLBVHTree& tree = trees.getRawData<CLBVHTree>()[0];
+	ComponentsGroup<CSceneTreeLBVH> trees = queryComponentsGroup<CSceneTreeLBVH>();
+	const CSceneTreeLBVH& tree = trees.getRawData<CSceneTreeLBVH>()[0];
 	for_each([tree, ecs](HEntity hEntity, CRayCast& rayCast)
 	{
 
@@ -112,24 +112,17 @@ void JobProcessRayCasts::update(WECS* ecs, uint8_t iThread)
 						HEntity shapeEntity = tree.shapesEntities[node.shapeOffset + i];
 
 						CInteractionRequest request;
-						request.rayCastEntity = hEntity;
+						request.ray = ray;
+						request.hRayCast = hEntity;
 						request.hShape = shapeEntity;
 
 						HEntity eRequest = ecs->createEntity();
 						ecs->addComponent<CInteractionRequest>(eRequest, std::move(request));
+						
+						CInteractionRequests& requests = ecs->getComponent<CInteractionRequests>(shapeEntity);
+						requests.push_back(eRequest);
+
 						rayCast.interactionEntities.push_back(eRequest);
-						// CRUNCH!
-						if (shapeEntity.hasComponent<CTriangle>())
-						{
-							CInteractionTriangle interactionTriangle;
-							ecs->addComponent<CInteractionTriangle>(eRequest, std::move(interactionTriangle));
-						}
-						else if(shapeEntity.hasComponent<CSphere>())
-						{
-							CInteractionSphere interactionSphere;
-							//interactionSphere.hSphere = shapeEntity;
-							ecs->addComponent<CInteractionSphere>(eRequest, std::move(interactionSphere));
-						}
 					}
 					if (toVisitOffset == 0)
 					{
@@ -420,7 +413,7 @@ void JobBuildUpperSAH::update(WECS* ecs)
 		BVHBuildNode* root = buildUpperSAH(treeBuilder, 0, treeBuilder.subTreeBuilders.size()-1);
 			
 
-		CLBVHTree linearTree;
+		CSceneTreeLBVH linearTree;
 		uint32_t nNodesTotal = treeBuilder.nSAHNodesTotal + treeBuilder.nSubTreeNodesTotal;
 		linearTree.nodes.resize(nNodesTotal);
 		linearTree.nodesBounds.resize(nNodesTotal);
@@ -429,12 +422,12 @@ void JobBuildUpperSAH::update(WECS* ecs)
 		uint32_t offset = 0;
 		flattenBVHTree(root, linearTree, offset);
 			
-		ecs->addComponent<CLBVHTree>(hEntity, std::move(linearTree));
+		ecs->addComponent<CSceneTreeLBVH>(hEntity, std::move(linearTree));
 		ecs->removeComponent<CLBVHTreeBuilder>(hEntity);
 	}, treeBuilders);
 }
 
-uint32_t JobBuildUpperSAH::flattenBVHTree(BVHBuildNode* node, CLBVHTree& tree, uint32_t& offset)
+uint32_t JobBuildUpperSAH::flattenBVHTree(BVHBuildNode* node, CSceneTreeLBVH& tree, uint32_t& offset)
 {
 	LinearBVHNode *lNode = &tree.nodes[offset];
 	DBounds3f* lNodeBounds = &tree.nodesBounds[offset];
