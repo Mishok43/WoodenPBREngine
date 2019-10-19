@@ -19,7 +19,7 @@
 # Fortran module files
 *.mod
 *.smod
-
+.vs/
 *.opendb
 *.opensdf
 *.suo
