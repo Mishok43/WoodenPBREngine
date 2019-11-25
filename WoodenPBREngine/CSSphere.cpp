@@ -96,7 +96,7 @@ bool SSphere::intersect(
 	float c = rayL.origin.length2() - radius * radius;
 
 	float t0, t1;
-	if (!Solvers::getRootsQuadraticEquation(a, b, c, t0, t1))
+	if (!getRootsQuadraticEquation(a, b, c, t0, t1))
 	{
 		return false;
 	}

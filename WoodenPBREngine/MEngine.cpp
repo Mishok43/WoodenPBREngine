@@ -1,16 +1,17 @@
 #include "pch.h"
 #include "MEngine.h"
-#include "CTexture.h"
+#include "CTextureBase.h"
 #include "CMaterial.h"
 #include "CMaterialMetal.h"
 #include "CMaterialDielectric.h"
 #include "CMaterialPerfectGlass.h"
 #include "CSSphere.h"
 #include "CSFilm.h"
+#include "CSTextureProcess.h"
 #include "SScattering.h"
 #include "CSCameraPerspective.h"
 #include "CSSamplerStratified.h"
-#include "CTexture.h"
+#include "CTextureBase.h"
 #include "CLightInfiniteArea.h"
 #include "SLBVH.h"
 #include "CSpectrum.h"
@@ -161,19 +162,28 @@ void MEngine::buildScene()
 	//	
 	{
 		CTransform p = DTransformf::makeRotateX(radians(-35.0))*DTransformf::makeTranslate(0, 0, 30.0f);
-		HEntity hShape = STriangleMesh::create(p, MeshTools::createQuad(80.0f, 80.0f));
+		HEntity hShape = STriangleMesh::create(p, MeshTools::createQuad(80.0f, 40.0f));
 		addComponent<CMaterialHandle>(hShape, CMaterialHandle(hMaterialDielectric));
 	}
 
 
+	//{
+	//	CTransform p =
+	//		DTransformf::makeRotateX(radians(35.0))*
+	//		DTransformf::makeRotateY(radians(20.0))*
+	//		DTransformf::makeRotateZ(radians(200.0))*
+	//		DTransformf::makeScale(-4.00f, 4.00f, 4.00f)*
+	//		DTransformf::makeTranslate(1.5f, 2.5f, 9.5);
+	//	HEntity hShape = STriangleMesh::create(p, MeshTools::loadMesh("bunny.obj"));
+	//	addComponent<CMaterialHandle>(hShape, CMaterialHandle(hMaterialMetal));
+	//}
+
 	{
 		CTransform p =
 			DTransformf::makeRotateX(radians(35.0))*
-			DTransformf::makeRotateY(radians(20.0))*
-			DTransformf::makeRotateZ(radians(200.0))*
-			DTransformf::makeScale(-4.65f, 4.65f, 4.65f)*
-			DTransformf::makeTranslate(1.5f, 1.2f, 7.5);
-		HEntity hShape = STriangleMesh::create(p, MeshTools::loadMesh("robot.obj"));
+			DTransformf::makeScale(30.00f, -30.00f, 30.00f)*
+			DTransformf::makeTranslate(0.5f, 2.0f, 6.0);
+		HEntity hShape = STriangleMesh::create(p, MeshTools::loadMesh("bunny.obj"));
 		addComponent<CMaterialHandle>(hShape, CMaterialHandle(hMaterialMetal));
 	}
 
@@ -199,20 +209,20 @@ void MEngine::buildScene()
 	}*/
 
 
-	
-	//{
-	//	CTransform p = DTransformf::makeTranslate(0.0, -5.0f, -35.0f);
-	//	HEntity hSphereLight = SSphere::create(std::move(p), CSphere(1.0f));
+	CLight l;
+	{
+		CTransform p = DTransformf::makeTranslate(0.0, -5.0f, -35.0f);
+		HEntity hSphereLight = SSphere::create(std::move(p), CSphere(1.0f));
 
 
-	//	float lambda = 600;
-	//	float lemit;
-	//	blackbody(&lambda, 1, 1500, &lemit);
-	//	l.LEmit = Spectrum(lemit);
-	//	addComponent<CLight>(hSphereLight, l);
-	//	addComponent<CLightComputeRequests>(hSphereLight);
-	//	addComponent<CLightSamplingRequests>(hSphereLight);
-	//}
+		float lambda = 600;
+		float lemit;
+		blackbody(&lambda, 1, 1500, &lemit);
+		l.LEmit = Spectrum(lemit);
+		addComponent<CLight>(hSphereLight, l);
+		addComponent<CLightLiComputeRequests>(hSphereLight);
+		addComponent<CLightLiSampleRequests>(hSphereLight);
+	}
 
 	/*{
 		CTransform p = DTransformf::makeTranslate(-0.0, -14.0f, 30.0f);
@@ -306,7 +316,10 @@ void MEngine::buildScene()
 	//}
 
 	// Loading all textures
-JOB_RUN(JobLoadTextureRGB)
+	JOB_RUN(JobLoadTexture2DR)
+	JOB_RUN(JobLoadTexture2DRGB)
+	JOB_RUN(JobLoadTexture3DR)
+	JOB_RUN(JobLoadTexture3DRGB)
 	JOB_RUN(JobTriangleMeshGenerateTriangles)
 }
 

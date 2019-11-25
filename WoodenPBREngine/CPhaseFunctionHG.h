@@ -1,4 +1,3 @@
-
 #pragma once
 #include "pch.h"
 #include "CPhaseFunction.h"
@@ -8,6 +7,8 @@ WPBR_BEGIN
 struct CPhaseFunctionHG
 {
 	float g;
+
+	DECL_MANAGED_DENSE_COMP_DATA(CPhaseFunctionHG, 16)
 };
 
 class SPhaseFunctionHG

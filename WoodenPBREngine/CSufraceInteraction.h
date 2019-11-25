@@ -4,8 +4,8 @@
 #include "CRay.h"
 #include "WoodenMathLibrarry/DNormal.h"
 #include "WoodenMathLibrarry/DVector.h"
-#include "WoodenMathLibrarry/HSolver.h"
 #include "WoodenMathLibrarry/DPoint.h"
+#include "WoodenMathLibrarry/Utils.h"
 #include "CRayDifferential.h"
 
 WPBR_BEGIN
@@ -135,12 +135,12 @@ struct CSurfaceInteraction: public CInteraction
 			py[dim[1]] - p[dim[1]]
 		};
 
-		if (!Solvers::solveLinearSystem2x2(A, Bx, &dudx, &dvdx))
+		if (!solveLinearSystem2x2(A, Bx, &dudx, &dvdx))
 		{
 			dudx = dvdx = 0;
 		}
 
-		if (!Solvers::solveLinearSystem2x2(A, By, &dudy, &dvdy))
+		if (!solveLinearSystem2x2(A, By, &dudy, &dvdy))
 		{
 			dudy = dvdy = 0;
 		}

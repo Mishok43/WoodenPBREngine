@@ -8,13 +8,15 @@ WPBR_BEGIN
 struct CMediumHomogeneousTransmittance
 {
 	Spectrum tr;
+
+	DECL_MANAGED_DENSE_COMP_DATA(CMediumHomogeneousTransmittance, 4)
 };
 
 
 struct CMediumHomogeneous
 {
 	Spectrum albedo;
-	Spectrum scater;
+	Spectrum scatter;
 
 	DECL_MANAGED_DENSE_COMP_DATA(CMediumHomogeneous, 4)
 };

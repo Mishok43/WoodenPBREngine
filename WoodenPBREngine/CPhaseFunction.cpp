@@ -8,7 +8,7 @@ WPBR_BEGIN
 
 DECL_OUT_COMP_DATA(CPhaseFunctionRequests)
 DECL_OUT_COMP_DATA(CPhaseFunctionRequest)
-
+DECL_OUT_COMP_DATA(CPhaseFunctionResponse)
 class SPhaseFunctionRequest
 {
 public:

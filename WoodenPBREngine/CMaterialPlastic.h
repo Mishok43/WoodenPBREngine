@@ -4,7 +4,7 @@
 //#include "CBXDF.h"
 //#include "CMaterial.h"
 //#include "CSpectrum.h"
-//#include "CTexture.h"
+//#include "CTextureBase.h"
 //
 //WPBR_BEGIN
 //

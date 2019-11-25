@@ -1,8 +1,8 @@
 #include "pch.h"
 #include "CPhaseFunctionHG.h"
 
-
 WPBR_BEGIN
+DECL_OUT_COMP_DATA(CPhaseFunctionHG)
 
 
 float SPhaseFunctionHG::p(const CPhaseFunctionHG& hg, const DVector3f& wo, const DVector3f& wi)

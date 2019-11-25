@@ -3,7 +3,7 @@
 #include "pch.h"
 #include "CLight.h"
 #include "CSSphere.h"
-#include "CTexture.h"
+#include "CTextureBase.h"
 #include "WoodenMathLibrarry/DDistribution.h"
 
 WPBR_BEGIN
@@ -36,30 +36,30 @@ public:
 	void update(WECS* ecs, HEntity hEntity, CPosition& pos, CSphere& sphere) override;
 };
 
-class JobLightInfiniteAreaPreprocessSampling : public JobParallaziblePerCompGroup<CLight, CTextureBindingRGB>
+class JobLightInfiniteAreaPreprocessSampling : public JobParallaziblePerCompGroup<CLight, CTextureBinding2DRGB>
 {
 public:
-	void update(WECS* ecs, HEntity hEntity, CLight& light, CTextureBindingRGB& lMap) override;
+	void update(WECS* ecs, HEntity hEntity, CLight& light, CTextureBinding2DRGB& lMap) override;
 };
 
-class JobLightInfiniteAreaLeCompute: public JobParallaziblePerCompGroup<CLight,  CLightLeComputeRequests,CTextureBindingRGB>
+class JobLightInfiniteAreaLeCompute: public JobParallaziblePerCompGroup<CLight,  CLightLeComputeRequests,CTextureBinding2DRGB>
 {
 public:
-	void update(WECS* ecs, HEntity hEntity, CLight& l, CLightLeComputeRequests& requests, CTextureBindingRGB& lMap) override;
-
-};
-
-class JobLightInfiniteAreaLiSample : public JobParallaziblePerCompGroup<CLight, CLightLiSampleRequests, CLMapDistribution, CTextureBindingRGB>
-{
-public:
-	void update(WECS* ecs, HEntity hEntity, CLight& l, CLightLiSampleRequests& requests, CLMapDistribution& distr, CTextureBindingRGB& lMap) override;
+	void update(WECS* ecs, HEntity hEntity, CLight& l, CLightLeComputeRequests& requests, CTextureBinding2DRGB& lMap) override;
 
 };
 
-class JobLightInfiniteAreaLiCompute : public JobParallaziblePerCompGroup<CLight, CLightLiComputeRequests, CLMapDistribution, CTextureBindingRGB>
+class JobLightInfiniteAreaLiSample : public JobParallaziblePerCompGroup<CLight, CLightLiSampleRequests, CLMapDistribution, CTextureBinding2DRGB>
 {
 public:
-	void update(WECS* ecs, HEntity hEntity, CLight& l, CLightLiComputeRequests& requests, CLMapDistribution& distr, CTextureBindingRGB& lMap) override;
+	void update(WECS* ecs, HEntity hEntity, CLight& l, CLightLiSampleRequests& requests, CLMapDistribution& distr, CTextureBinding2DRGB& lMap) override;
+
+};
+
+class JobLightInfiniteAreaLiCompute : public JobParallaziblePerCompGroup<CLight, CLightLiComputeRequests, CLMapDistribution, CTextureBinding2DRGB>
+{
+public:
+	void update(WECS* ecs, HEntity hEntity, CLight& l, CLightLiComputeRequests& requests, CLMapDistribution& distr, CTextureBinding2DRGB& lMap) override;
 
 };
 

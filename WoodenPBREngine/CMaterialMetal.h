@@ -4,7 +4,7 @@
 #include "CBXDF.h"
 #include "CMaterial.h"
 #include "CSpectrum.h"
-#include "CTexture.h"
+#include "CTextureBase.h"
 #include "WoodenMathLibrarry/Utils.h"
 #include "CBSDFConductorMicroface.h"
 #include "SScattering.h"
@@ -25,8 +25,8 @@ public:
 			
 		CTextureBindings texs;
 		texs.resize(2);
-		texs[0] = STextureBindingRGB::create(texDiffFile);
-		texs[1] = STextureBindingRGB::create(texRoughnessFile);
+		texs[0] = STextureBinding::create<CTextureBinding2DRGB>(texDiffFile);
+		texs[1] = STextureBinding::create<CTextureBinding2DRGB>(texRoughnessFile);
 
 		engine.addComponent<CMaterialMetal>(h);
 		engine.addComponent<CTextureBindings>(h, std::move(texs));

@@ -4,8 +4,8 @@
 #include "WoodenMathLibrarry/DRay.h"
 
 WPBR_BEGIN
-template<typename T, uint8_t alignment = sse_alignment_size_v<__m_t<T>>>
-class alignas(alignment) DRayDifferential: public DRay<T>
+template<typename T>
+class alignas(alignof(DRay<T>)) DRayDifferential: public DRay<T>
 {
 public:
 	DRayDifferential() = default;

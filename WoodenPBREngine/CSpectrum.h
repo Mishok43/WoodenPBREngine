@@ -39,8 +39,4 @@ inline void blackbodyNormalized(const float* lambda, uint32_t n, float T, float*
 }
 
 
-inline Spectrum lerp(const Spectrum& s0, const Spectrum& s1, float t);
-
-inline Spectrum exp(const Spectrum& s0);
-
 WPBR_END

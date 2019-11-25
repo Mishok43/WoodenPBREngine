@@ -27,13 +27,10 @@ SampledSpectrum SampledSpectrum::rgbIllum2SpectBlue;
 DVector3f toXYZ(const SampledSpectrum& s)
 {
 	DVector3f xyz;
-	for (uint32_t i = 0; i < nSpectralSamples / 8; i++)
-	{
-		xyz[0] += dot(s.c[i], SampledSpectrum::X.c[i]);
-		xyz[1] += dot(s.c[i], SampledSpectrum::Y.c[i]);
-		xyz[2] += dot(s.c[i], SampledSpectrum::Z.c[i]);
-	}
-
+	xyz.x() = dot(s, SampledSpectrum::X);
+	xyz.y() = dot(s, SampledSpectrum::Y);
+	xyz.z() = dot(s, SampledSpectrum::Z);
+	
 	float dl = (sampledLambdaEnd - sampledLambdaStart) / float(nSpectralSamples);
 	xyz *= dl;
 	return xyz;
@@ -45,6 +42,5 @@ DVector3f toRGB(const SampledSpectrum& s)
 	DVector3f rgb = xyzToRGB(xyz);
 	return rgb;
 }
-
 
 WPBR_END

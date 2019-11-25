@@ -33,7 +33,7 @@ void JobProcessTriangleInteractionRequests::update(WECS* ecs, HEntity hEntity, C
 		iPermutation.z() = maxDimension(abs(ray.dir));
 		iPermutation.x() = (iPermutation.z() == 2) ? 0 : iPermutation.z() + 1;
 		iPermutation.y() = (iPermutation.z() == 2) ? 1 : iPermutation.z() + 2;
-		DVector3f d = permute(ray.dir, iPermutation);
+		DVector3f d = permuteEach(ray.dir, iPermutation);
 
 		DVector3f shear;
 		shear.x() = -d.x();
@@ -45,7 +45,7 @@ void JobProcessTriangleInteractionRequests::update(WECS* ecs, HEntity hEntity, C
 		for (uint8_t i = 0; i < vPositions.size(); i++)
 		{
 			DVector3f p = vPositions[i] - ray.origin;
-			p = permute(p, iPermutation);
+			p = permuteEach(p, iPermutation);
 			p += DVector3f(shear.x(), shear.y(), 0.0f)*p.z();
 			posT[i] = p;
 		}
@@ -57,8 +57,8 @@ void JobProcessTriangleInteractionRequests::update(WECS* ecs, HEntity hEntity, C
 			posTSoA[i] = DVector3f(posT[0][i], posT[1][i], posT[2][i]);
 		}
 
-		DVector3f y0 = DVector3f(posTSoA[1].permute<0b00001001>()); // 1200
-		DVector3f x0 = DVector3f(posTSoA[0].permute<0b00001001>());
+		DVector3f y0 = DVector3f(posTSoA[1].permuteEach<0b00001001>()); // 1200
+		DVector3f x0 = DVector3f(posTSoA[0].permuteEach<0b00001001>());
 
 		DVector3f res = posTSoA[0] * y0 - x0 * posTSoA[1];
 
@@ -75,7 +75,7 @@ void JobProcessTriangleInteractionRequests::update(WECS* ecs, HEntity hEntity, C
 			continue;
 		}
 
-		res = res.permute<0b00001001>();
+		res = res.permuteEach<0b00001001>();
 
 		float tScale = dot(res, posTSoA[2] * shear.z());
 		if (det < 0.0 && (tScale >= 0))
@@ -255,7 +255,7 @@ void JobProcessTriangleFullInteractionRequests::update(WECS* ecs, HEntity hEntit
 				vNormals[0] * barycentric[0] +
 				vNormals[1] * barycentric[1] +
 				vNormals[2] * barycentric[2];
-			if (!ns.bIsAllZero())
+			if (!ns.isZero())
 			{
 				ns = normalize(ns);
 			}
@@ -274,7 +274,7 @@ void JobProcessTriangleFullInteractionRequests::update(WECS* ecs, HEntity hEntit
 				vTangents[0] * barycentric[0] +
 				vTangents[1] * barycentric[1] +
 				vTangents[2] * barycentric[2];
-			if (!ss.bIsAllZero())
+			if (!ss.isZero())
 			{
 				ss = normalize(ss);
 			}

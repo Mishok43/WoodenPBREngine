@@ -2,8 +2,6 @@
 #include "pch.h"
 WPBR_BEGIN
 
-
-
 struct CPhaseFunctionResponse
 {
 	float inScatterPDF;

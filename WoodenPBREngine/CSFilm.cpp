@@ -3,7 +3,7 @@
 #include "lodepng.h"
 #include <iostream>
 #include "Settings.h"
-#include "CTexture.h"
+#include "CTextureBase.h"
 WPBR_BEGIN
 
 
@@ -156,7 +156,7 @@ void JobOutputFilmTitles::update(WECS* ecs, uint8_t iThread)
 				return;
 			}
 			DVector3f rgb = toRGB(tile.pixLiAccumulated[i]) /(tile.pixFilterWeightAccumulated[i]* 5000000.f);
-			rgb = wml::clamp(rgb, 0.0, 1.0f);
+			rgb = wml::clamp(rgb, 0.0f, 1.0f);
 			rgb.x() = gammaCorrect(rgb.x());
 			rgb.y() = gammaCorrect(rgb.y());
 			rgb.z() = gammaCorrect(rgb.z());

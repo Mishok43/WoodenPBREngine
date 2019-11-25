@@ -11,21 +11,21 @@
 
 WPBR_BEGIN
 
-class alignas(alignof(DVector8f)) SampledSpectrum : public CoefficientSpectrum<nSpectralSamples/8>
+class alignas(alignof(DVector8f)) SampledSpectrum : public DVector<float, nSpectralSamples>
 {
 public:
+	using VectorT = typename DVector<float, nSpectralSamples>;
+
 	explicit SampledSpectrum(float v = 0.0f) :
-		CoefficientSpectrum(v)
+		VectorT(v)
 	{}
 
-	template<uint32_t n> 
-	SampledSpectrum(CoefficientSpectrum<n>&& r) :
-		CoefficientSpectrum(r)
+	SampledSpectrum(VectorT&& r) :
+		VectorT(r)
 	{}
 
-	template<uint32_t n>
-	SampledSpectrum(const CoefficientSpectrum<n>& r):
-		CoefficientSpectrum(r)
+	SampledSpectrum(VectorT& r):
+		VectorT(r)
 	{}
 
 	SampledSpectrum(const RGBSpectrum& r, SpectrumType t =  SpectrumType::Reflectance)
@@ -38,6 +38,10 @@ public:
 		return nSpectralSamples;
 	}
 
+	bool isBlack() const
+	{
+		return isZero();
+	}
 
 	static float averageSpectrumSamples(const float* lambda, const float *values, int n, 
 										float lambdaStart, float lambdaEnd)
@@ -278,11 +282,7 @@ public:
 
 	float y() const
 	{
-		float yy = 0.0f;
-		for (uint32_t i = 0; i < nSpectralSamples / 8; i++)
-		{
-			yy += dot(c[i], Y.c[i]);
-		}
+		float yy = dot(*this, Y);
 		float dl = (sampledLambdaEnd - sampledLambdaStart) / float(nSpectralSamples);
 		return yy * dl;
 	}

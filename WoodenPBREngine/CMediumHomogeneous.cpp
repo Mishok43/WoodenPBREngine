@@ -6,6 +6,10 @@
 
 WPBR_BEGIN
 
+DECL_OUT_COMP_DATA(CMediumHomogeneous)
+DECL_OUT_COMP_DATA(CMediumHomogeneousTransmittance)
+
+
 HEntity SMediumHomogeneous::create(Spectrum sigmaA, Spectrum sigmaS, Spectrum sigmaT, float g)
 {
 	MEngine& engine = MEngine::getInstance();
@@ -14,7 +18,7 @@ HEntity SMediumHomogeneous::create(Spectrum sigmaA, Spectrum sigmaS, Spectrum si
 
 	CMediumHomogeneous medium;
 	medium.albedo = std::move(sigmaA);
-	medium.scater = std::move(sigmaS);
+	medium.scatter = std::move(sigmaS);
 
 	CMediumHomogeneousTransmittance tr;
 	tr.tr = std::move(sigmaT);
@@ -23,7 +27,7 @@ HEntity SMediumHomogeneous::create(Spectrum sigmaA, Spectrum sigmaS, Spectrum si
 	hg.g = g;
 
 	engine.addComponent<CMediumHomogeneous>(h, std::move(medium));
-	engine.addComponent<CMediumHomogeneousTransmittance>(h, std::move(sigmaT));
+	engine.addComponent<CMediumHomogeneousTransmittance>(h, std::move(tr));
 	engine.addComponent<CPhaseFunctionHG>(h, std::move(hg));
 
 	return h;
@@ -50,3 +54,4 @@ void JobMediumHomogeneousTransmitance::update(WECS* ecs, HEntity hEntity, CMediu
 }
 
 
+WPBR_END

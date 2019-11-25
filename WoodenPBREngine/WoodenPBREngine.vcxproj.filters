@@ -135,9 +135,6 @@
     <ClInclude Include="CTextureMapping.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CTexture.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CDistribution.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -429,6 +426,12 @@
     <ClInclude Include="CTextureBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CSTextureProcess.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CBSSRDF.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -512,9 +515,6 @@
     <ClCompile Include="CSufraceInteraction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CTexture.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CTextureMapping.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -579,6 +579,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CLightInfiniteArea.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CSTextureProcess.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CTextureBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CBSSRDF.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

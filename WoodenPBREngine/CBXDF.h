@@ -24,6 +24,11 @@ struct CFresnelDielectric
 {
 	float etaI, etaT;
 
+	float operator()(float cosThetaI) const
+	{
+		return f(cosThetaI);
+	}
+
 	float f(float cosThetaI) const
 	{
 		cosThetaI = wml::clamp(cosThetaI, -1.0, 1.0);
@@ -192,10 +197,14 @@ struct CBXDFLambertian
 
 
 
-
 struct CFresnelConductor
 {
 	Spectrum etaI, etaT, k;
+
+	Spectrum operator()(float cosThetaI) const
+	{
+		return f(cosThetaI);
+	}
 
 	Spectrum f(float cosThetaI) const
 	{

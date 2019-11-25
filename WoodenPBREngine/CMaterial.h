@@ -2,7 +2,7 @@
 #include "pch.h"
 #include "CRayDifferential.h"
 #include "CSufraceInteraction.h"
-#include "CTexture.h"
+#include "CTextureBase.h"
 #include "WoodenECS/Job.h"
 
 WPBR_BEGIN

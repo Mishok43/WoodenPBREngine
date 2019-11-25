@@ -16,6 +16,14 @@ struct CMapUVRequests
 
 struct CTextureMappedPoint
 {
+	CTextureMappedPoint(DPoint2f _p):
+		p(std::move(_p)),
+		dstdx(0.0f),
+		dstdy(0.0f)
+	{ }
+
+	CTextureMappedPoint() = default;
+
 	DPoint2f p;
 	DVector2f dstdx;
 	DVector2f dstdy;

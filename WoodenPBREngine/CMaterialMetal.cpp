@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "CMaterialMetal.h"
+#include "CTextureMapping.h"
+#include "CSTextureProcess.h"
 
 WPBR_BEGIN
 DECL_OUT_COMP_DATA(CMaterialMetal)
@@ -26,8 +28,8 @@ void JobGenerateBSDFMaterialMetal::update(WECS* ecs, uint8_t iThread)
 			anistropic16x.maxAnisotropy = 32;
 			CFilterTableGaussing filterTable = *ecs->getComponentsRawData<CFilterTableGaussing>();
 
-			RGBSpectrum metallic = STextureSampleAnisotropic::evaluate(mp, anistropic16x, filterTable, kd.getTex(ecs));
-			RGBSpectrum roughness = STextureSampleAnisotropic::evaluate(mp, anistropic16x, filterTable, sigma.getTex(ecs));
+			RGBSpectrum metallic = (RGBSpectrum)STexture2DSamplerAnisotropic::eval(mp, anistropic16x, filterTable, kd.getTex(ecs));
+			RGBSpectrum roughness = (RGBSpectrum)STexture2DSamplerAnisotropic::eval(mp, anistropic16x, filterTable, sigma.getTex(ecs));
 
 			//RGBSpectrum metallic = STextureSamplerIsotropic::sample(mp, kd.getTex(ecs));
 			//RGBSpectrum roughness = STextureSamplerIsotropic::sample(mp, sigma.getTex(ecs));

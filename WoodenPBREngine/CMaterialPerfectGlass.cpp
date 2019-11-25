@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "CMaterialPerfectGlass.h"
-
+#include "CTextureMapping.h"
 WPBR_BEGIN
 DECL_OUT_COMP_DATA(CMaterialPerfectGlass)
 
@@ -20,8 +20,8 @@ void JobGenerateBSDFMaterialPerfectGlass::update(WECS* ecs, uint8_t iThread)
 			const CSurfaceInteraction& si = ecs->getComponent<CSurfaceInteraction>(h);
 			const CTextureMappedPoint& mp = ecs->getComponent<CTextureMappedPoint>(h);
 
-			/*const CTextureBindingRGB& kd = ecs->getComponent<CTextureBindingRGB>(texs[0]);
-			const CTextureBindingRGB& sigma = ecs->getComponent<CTextureBindingRGB>(texs[1]);
+			/*const CTextureBinding2DRGB& kd = ecs->getComponent<CTextureBinding2DRGB>(texs[0]);
+			const CTextureBinding2DRGB& sigma = ecs->getComponent<CTextureBinding2DRGB>(texs[1]);
 
 			CTextureSamplerAnistropic anistropic16x;
 			anistropic16x.maxAnisotropy = 16;

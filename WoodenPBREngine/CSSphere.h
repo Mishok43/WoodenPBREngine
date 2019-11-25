@@ -7,7 +7,7 @@
 #include "WoodenECS/Job.h"
 #include "CTextureMapping.h"
 #include "CSpectrum.h"
-#include "WoodenMathLibrarry/HSolver.h"
+#include "WoodenMathLibrarry/Utils.h"
 #include "WoodenMathLibrarry/DRay.h"
 #include "WoodenMathLibrarry/DBounds.h"
 #include "CLight.h"

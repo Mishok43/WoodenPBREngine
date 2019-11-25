@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "CMaterialDielectric.h"
+#include "CTextureMapping.h"
 
 WPBR_BEGIN
 DECL_OUT_COMP_DATA(CMaterialDielectric)

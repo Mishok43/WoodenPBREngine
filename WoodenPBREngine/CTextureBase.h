@@ -2,6 +2,7 @@
 #pragma once
 #include "pch.h"
 #include "MEngine.h"
+#include "WoodenMathLibrarry/DPoint.h"
 
 WPBR_BEGIN
 
@@ -54,11 +55,12 @@ struct Texture3DBase
 	std::vector<DPoint3i, AllocatorAligned2<DPoint3i>> resolutions;
 	std::vector<DPoint3i, AllocatorAligned2<DPoint3i>> mipNBlocks;
 
-	static const DVector3i blockSize = DVector3i(2, 2, 4); // 2*2*4 = 16 elements per block -> 16*4 = 64 bytes per float block = cache line on average
-	uint32_t iTexel(const DPoint2i& p, uint8_t mip) const
+	static DVector3i blockSize; // 2*2*4 = 16 elements per block -> 16*4 = 64 bytes per float block = cache line on average
+
+	uint32_t iTexel(const DPoint3i& p, uint8_t mip) const
 	{
 		const DPoint3i& nBlocks = mipNBlocks[mip];
-		constexpr uint32_t blockArea = blockSize.area();
+		uint32_t blockArea = blockSize.area();
 		DPoint3i block = p / blockSize;
 
 		uint32_t iBlock = block.x() + block.y()*nBlocks.x() + block.z()*(nBlocks.x()*nBlocks.y());
@@ -75,7 +77,7 @@ struct Texture3DBase
 	const T& texel(uint32_t x, uint32_t y, uint32_t z, uint8_t mip) const
 	{
 		mip = 0;
-		return mips[mip][iTexel(DPoint2i(x, y, z), mip)];
+		return mips[mip][iTexel(DPoint3i(x, y, z), mip)];
 	}
 
 	T& texel(const DPoint3i& p, uint8_t mip)
@@ -90,6 +92,7 @@ struct Texture3DBase
 		return mips[mip][iTexel(DPoint3i(x, y, z), mip)];
 	}
 };
+
 
 struct CTexture2DRGB : public Texture2DBase<DVectorPacked<float, 3>>
 {
@@ -117,6 +120,8 @@ struct CTextureBindingBase
 {
 	std::string filename;
 	HEntity tex;
+	bool isLoaded = false;
+	uint32_t resX, resY;
 
 	const T& getTex(WECS* ecs) const
 	{
@@ -137,27 +142,29 @@ struct CTextureBinding2DR : public CTextureBindingBase<CTexture2DR>
 
 struct CTextureBinding3DRGB : public CTextureBindingBase<CTexture3DRGB>
 {
-	DECL_MANAGED_DENSE_COMP_DATA(CTextureBinding2DRGB, 16)
+	DECL_MANAGED_DENSE_COMP_DATA(CTextureBinding3DRGB, 16)
 };
 
 struct CTextureBinding3DR : public CTextureBindingBase<CTexture3DR>
 {
-	DECL_MANAGED_DENSE_COMP_DATA(CTextureBinding2DR, 16)
+	DECL_MANAGED_DENSE_COMP_DATA(CTextureBinding3DR, 16)
 };
 
 
 
-class STextureBindingRGB
+class STextureBinding
 {
 public:
+
+	template<typename CTextureBinding>
 	static HEntity create(const std::string& filename)
 	{
-		CTextureBinding2DRGB tex;
+		CTextureBinding tex;
 		tex.filename = filename;
 
 		MEngine& mEngine = MEngine::getInstance();
 		HEntity h = mEngine.createEntity();
-		mEngine.addComponent<CTextureBinding2DRGB>(h, std::move(tex));
+		mEngine.addComponent<CTextureBinding>(h, std::move(tex));
 		return h;
 	}
 };

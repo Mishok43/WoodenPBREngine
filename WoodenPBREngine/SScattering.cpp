@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "SScattering.h"
-#include "CTexture.h"
+#include "CTextureBase.h"
+#include "CTextureMapping.h"
 #include "CBXDF.h"
 #include "CBSDFSpecularReflectance.h"
 
@@ -238,6 +239,7 @@ void JobScatteringFinish::finish(WECS* ecs)
 	ecs->clearComponents<CReflectDirSamplerMicroface>();
 	ecs->clearComponents<CSpectrumScale>();
 	ecs->clearComponents<CFresnelConductor>();
+	ecs->clearComponents<CFresnelDielectric>();
 }
 
 

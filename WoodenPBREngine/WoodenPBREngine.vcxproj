@@ -243,6 +243,7 @@
     <ClInclude Include="assimp\version.h" />
     <ClInclude Include="assimp\Vertex.h" />
     <ClInclude Include="assimp\XMLTools.h" />
+    <ClInclude Include="CBSSRDF.h" />
     <ClInclude Include="CBSDFConductorMicroface.h" />
     <ClInclude Include="CBSDFDielectricMicroface.h" />
     <ClInclude Include="CBSDFSpecularReflectance.h" />
@@ -286,7 +287,7 @@
     <ClInclude Include="CSSphere.h" />
     <ClInclude Include="CSufraceInteraction.h" />
     <ClInclude Include="CLight.h" />
-    <ClInclude Include="CTexture.h" />
+    <ClInclude Include="CSTextureProcess.h" />
     <ClInclude Include="CTextureBase.h" />
     <ClInclude Include="CTextureMapping.h" />
     <ClInclude Include="DRayDifferential.h" />
@@ -314,6 +315,7 @@
     <ClCompile Include="CBSDFConductorMicroface.cpp" />
     <ClCompile Include="CBSDFDielectricMicroface.cpp" />
     <ClCompile Include="CBSDFSpecularReflectance.cpp" />
+    <ClCompile Include="CBSSRDF.cpp" />
     <ClCompile Include="CBXDF.cpp" />
     <ClCompile Include="CCamera.cpp" />
     <ClCompile Include="CCentroid.cpp" />
@@ -346,7 +348,8 @@
     <ClCompile Include="CSTriangle.cpp" />
     <ClCompile Include="CSTriangleMesh.cpp" />
     <ClCompile Include="CSufraceInteraction.cpp" />
-    <ClCompile Include="CTexture.cpp" />
+    <ClCompile Include="CSTextureProcess.cpp" />
+    <ClCompile Include="CTextureBase.cpp" />
     <ClCompile Include="CTextureMapping.cpp" />
     <ClCompile Include="CTransform.cpp" />
     <ClCompile Include="lodepng.cpp" />
