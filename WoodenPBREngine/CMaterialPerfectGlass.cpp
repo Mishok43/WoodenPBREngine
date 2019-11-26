@@ -38,7 +38,7 @@ void JobGenerateBSDFMaterialPerfectGlass::update(WECS* ecs, uint8_t iThread)
 			microfaceDistr.alphax = CReflectDirSamplerMicroface::roughnessToAlpha(sigmaV);
 			microfaceDistr.alphay = CReflectDirSamplerMicroface::roughnessToAlpha(sigmaV);
 */
-			CSpectrumScale R = Spectrum(1.0f);
+			CSpectrumScale R = Spectrum(1.00f);
 			CFresnelDielectric fresnel;
 			fresnel.etaI = 1.0f;
 			fresnel.etaT = 1.66f;

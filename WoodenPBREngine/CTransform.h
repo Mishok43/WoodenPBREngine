@@ -52,15 +52,15 @@ public:
 		res.dpdy = (*this)(surfInter.dpdx);
 		
 		//res.uv = (*this)(surfInter.uv);
-		res.n = (*this)(surfInter.n);
+		res.n = normalize((*this)(surfInter.n));
 
-		res.wo = (*this)(surfInter.wo);
+		res.wo = normalize((*this)(surfInter.wo));
 
 		res.shading.dndu = (*this)(surfInter.shading.dndu);
 		res.shading.dndv = (*this)(surfInter.shading.dndv);
 		res.shading.dpdu = (*this)(surfInter.shading.dpdu);
 		res.shading.dpdv = (*this)(surfInter.shading.dpdv);
-		res.shading.n = (*this)(surfInter.shading.n);
+		res.shading.n = normalize((*this)(surfInter.shading.n));
 
 		return res;
 	}
@@ -69,9 +69,9 @@ public:
 	{
 		DRayDifferentialf res;
 		res.origin = (*this)(rayDif.origin);
-		res.dir = (*this)(rayDif.dir);
-		res.difXRay = (*this)(rayDif.difXRay);
-		res.difYRay = (*this)(rayDif.difYRay);
+		res.dir = normalize((*this)(rayDif.dir));
+		res.difXRay = ((*this)(rayDif.difXRay));
+		res.difYRay = ((*this)(rayDif.difYRay));
 		return res;
 	}
 

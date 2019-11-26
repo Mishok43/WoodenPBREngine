@@ -35,7 +35,7 @@ void JobGenerateBSDFMaterialMetal::update(WECS* ecs, uint8_t iThread)
 			//RGBSpectrum roughness = STextureSamplerIsotropic::sample(mp, sigma.getTex(ecs));
 		
 			float s = roughness.x();
-			float sigmaV = wml::clamp(s*0.45, 0, 90);
+			float sigmaV = wml::clamp(s*90, 0, 90);
 
 			CReflectDirSamplerMicroface microfaceDistr;
 			microfaceDistr.alphax = CReflectDirSamplerMicroface::roughnessToAlpha(sigmaV);
@@ -43,7 +43,7 @@ void JobGenerateBSDFMaterialMetal::update(WECS* ecs, uint8_t iThread)
 
 			CSpectrumScale R = Spectrum(1.0);
 			CFresnelConductor conductor;
-			conductor.k = metallic;
+			conductor.k = (Spectrum)metallic;	
 			conductor.etaI = Spectrum(1.0f);
 			conductor.etaT = Spectrum(1.5f);
 

@@ -109,6 +109,7 @@ void JobAccumalateLIFromSamples::update(WECS* ecs, uint8_t iThread)
 					}
 					else
 					{
+						int a = 1;
 					}
 
 					tile.pixFilterWeightAccumulated[iPixel] += weight;
@@ -155,7 +156,7 @@ void JobOutputFilmTitles::update(WECS* ecs, uint8_t iThread)
 				tile.rgbOutput[i * 3 + 2] = 0;
 				return;
 			}
-			DVector3f rgb = toRGB(tile.pixLiAccumulated[i]) /(tile.pixFilterWeightAccumulated[i]* 5000000.f);
+			DVector3f rgb = toRGB(tile.pixLiAccumulated[i]) /(tile.pixFilterWeightAccumulated[i]* 800000.f);
 			rgb = wml::clamp(rgb, 0.0f, 1.0f);
 			rgb.x() = gammaCorrect(rgb.x());
 			rgb.y() = gammaCorrect(rgb.y());

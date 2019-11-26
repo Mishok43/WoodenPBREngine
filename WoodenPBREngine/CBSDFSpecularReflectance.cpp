@@ -83,12 +83,12 @@ void JobBSDFSpecularReflectionSample::update(WECS* ecs, HEntity hEntity, CBXDFSp
 
 	CSampledBSDFPDF pdf;
 	CSampledWI wi;
-	CSampledBSDFValue bsdf = SBXDFSpecularReflectance::sample_f(R, fresnel, world(si.wo, INV_TRANFORM), wi, pdf.p);
+	CSampledBSDFValue bsdf = SBXDFSpecularReflectance::sample_f(R, fresnel, world(si.wo), wi, pdf.p);
 	bsdf = Spectrum(bsdf*absCosTheta(wi));
 	ecs->addComponent<CSampledBSDFValue>(request.h, std::move(bsdf));
 	ecs->addComponent<CSampledBSDFPDF>(request.h, std::move(pdf));
 
-	wi = world(wi);
+	wi = world(wi, INV_TRANFORM);
 	ecs->addComponent<CSampledWI>(request.h, std::move(wi));
 }
 

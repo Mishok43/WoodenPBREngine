@@ -70,6 +70,7 @@ struct CSurfaceInteraction: public CInteraction
 		dpdu(dpdu), dpdv(dpdv),
 		dndu(dndu), dndv(dndv)
 	{
+		n = normalize(cross(dpdu, dpdv));
 		shading.n = n;
 		shading.dpdu = std::move(dpdu);
 		shading.dpdv = std::move(dpdv);

@@ -16,6 +16,8 @@ public:
 
 	void loadResources();
 	void render();
+
+	HEntity getEnvLight() const;
 private:
 
 	bool bInit;
@@ -30,6 +32,9 @@ private:
 	void preprocess();
 	void buildMaterials();
 	void runCollisionSystem();
+
+protected:
+	HEntity hEnvLight;
 };
 
 WPBR_END

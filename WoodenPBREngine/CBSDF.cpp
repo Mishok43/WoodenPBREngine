@@ -15,6 +15,8 @@ void JobBSDFComputeTransform::update(WECS* ecs, HEntity hEntity, CSampledBSDF& s
 
 	DVector3f ss = normalize(si.shading.dpdu);
 	const DVector3f& ns = si.shading.n;
+	assert(ns.length2() >= 0.98f && ns.length2() <= 1.02f);
+
 	DVector3f ts = cross(ns, ss);
 	world.m() = DMatrixf(DVector4f(ss), DVector4f(ts), DVector4f(ns), DVector4f(0.0f, 0.0f, 0.0f, 1.0f));
 	world.mInv() = transpose(world.m());

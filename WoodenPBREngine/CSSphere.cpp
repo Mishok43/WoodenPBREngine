@@ -90,7 +90,6 @@ bool SSphere::intersect(
 {
 	const float& radius = sphere.radius;
  	DRayf rayL = world(rayW, INV_TRANFORM);
-
 	float a = rayL.dir.length2();
 	float b = 2 * (dot(rayL.dir, rayL.origin));
 	float c = rayL.origin.length2() - radius * radius;
@@ -178,9 +177,12 @@ CSurfaceInteraction SSphere::computeSurfInteraction(
 	auto res = CSurfaceInteraction(pHit, DVector2f(u, v), -rayL.dir,
 									 dpdu, dpdv, dndu, dndv, rayL.t, hSphere);
 
-	res.n = res.shading.n = DNormal3f(-rayL.dir);
+	//res.n = res.shading.n = DNormal3f(-rayL.dir);
+	res = world(res);
 
-	return world(res);
+	assert(res.n.length2() >= 0.98f && res.n.length2() <= 1.02f);
+
+	return res;
 }
 
 CTextureMappedPoint SSphere::mapUV(

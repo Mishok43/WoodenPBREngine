@@ -87,10 +87,10 @@ WPBR_BEGIN
 		const CSampledWI& sampledWI = ecs->getComponent<CSampledWI>(request.h);
 		const CSurfaceInteraction& si = ecs->getComponent<CSurfaceInteraction>(request.h);
 
-		DVector3f wiL = world(sampledWI, INV_TRANFORM);
+		DVector3f wiL = world(sampledWI);
 
 		CSampledBSDFPDF pdf;
-		CSampledBSDFValue bsdf = SBSDFConductorMicroface::f(microface, R, coductor,  world(si.wo, INV_TRANFORM), wiL, pdf.p);
+		CSampledBSDFValue bsdf = SBSDFConductorMicroface::f(microface, R, coductor,  world(si.wo), wiL, pdf.p);
 		bsdf = Spectrum(bsdf * absCosTheta(wiL));
 		ecs->addComponent<CSampledBSDFValue>(request.h, std::move(bsdf));
 		ecs->addComponent<CSampledBSDFPDF>(request.h, std::move(pdf));
@@ -104,13 +104,13 @@ WPBR_BEGIN
 
 		CSampledBSDFPDF pdf;
 		CSampledWI wi;
-		CSampledBSDFValue bsdf = SBSDFConductorMicroface::sample_f(microface, R, coductor, world(si.wo, INV_TRANFORM),
+		CSampledBSDFValue bsdf = SBSDFConductorMicroface::sample_f(microface, R, coductor, world(si.wo),
 																 samples.next(), wi, pdf.p);
 		bsdf = Spectrum(bsdf*absCosTheta(wi));
 		ecs->addComponent<CSampledBSDFValue>(request.h, std::move(bsdf));
 		ecs->addComponent<CSampledBSDFPDF>(request.h, std::move(pdf));
 
-		wi = world(wi);
+		wi = world(wi, INV_TRANFORM);
 		ecs->addComponent<CSampledWI>(request.h, std::move(wi));
 	}
 

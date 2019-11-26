@@ -156,6 +156,8 @@ void JobProcessRayCasts::update(WECS* ecs, uint8_t iThread)
 
 		}
 
+		
+
 	}, rays);
 }
 

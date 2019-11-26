@@ -64,12 +64,18 @@ void MEngine::buildCameraAndFilm()
 
 	CCamera camera; camera.shutterCloseTime = 1.0f; camera.shutterOpenTime = 0.0f;
 	CCameraProjective cameraProj; cameraProj.screenWindow = DBounds2f(DPoint2f(-1.0f, -1.0f), DPoint2f(1.0, 1.0));
-	CTransform world;
-	HEntity hCamera = SCameraPerspective::create(std::move(camera), std::move(cameraProj), std::move(world), DTransformf::makePerspective(100.0, 1.0, 10000.0), std::move(film));
+	CTransform world = DTransformf::makeRotateX(PI*0.05)*DTransformf::makeTranslate(0.0, -20.0, -35.0);
+	HEntity hCamera = SCameraPerspective::create(std::move(camera), std::move(cameraProj), std::move(world), DTransformf::makePerspective(90.0, 0.1, 10000.0), std::move(film));
 }
 
 void MEngine::buildMaterials()
 {
+}
+
+
+HEntity MEngine::getEnvLight() const
+{
+	return hEnvLight;
 }
 
 
@@ -161,31 +167,39 @@ void MEngine::buildScene()
 	
 	//	
 	{
-		CTransform p = DTransformf::makeRotateX(radians(-35.0))*DTransformf::makeTranslate(0, 0, 30.0f);
-		HEntity hShape = STriangleMesh::create(p, MeshTools::createQuad(80.0f, 40.0f));
+		CTransform p = DTransformf::makeTranslate(0, 0, 0.0f);
+		HEntity hShape = STriangleMesh::create(p, MeshTools::createQuad(40.0f, 40.0f));
 		addComponent<CMaterialHandle>(hShape, CMaterialHandle(hMaterialDielectric));
 	}
 
 
+	/*{
+		CTransform p = DTransformf::makeTranslate(0, 0, 0.0f)*DTransformf::makeScale(1.0);
+		CSphere s;
+		s.radius = 12.0;
+		HEntity hShape = SSphere::create(p, s);
+		addComponent<CMaterialHandle>(hShape, CMaterialHandle(hMaterialDielectric));
+	}
+*/
+	{
+		CTransform p =
+			//DTransformf::makeRotateX(radians(35.0))*
+			DTransformf::makeRotateY(radians(20.0))*
+			DTransformf::makeRotateZ(radians(200.0))*
+			DTransformf::makeScale(-9.00f, 9.00f, 9.00f)*
+			DTransformf::makeTranslate(0.0, -5.1, 0.0f);
+		HEntity hShape = STriangleMesh::create(p, MeshTools::loadMesh("robot.obj"));
+		addComponent<CMaterialHandle>(hShape, CMaterialHandle(hMaterialMetal));
+	}
+
 	//{
 	//	CTransform p =
 	//		DTransformf::makeRotateX(radians(35.0))*
-	//		DTransformf::makeRotateY(radians(20.0))*
-	//		DTransformf::makeRotateZ(radians(200.0))*
-	//		DTransformf::makeScale(-4.00f, 4.00f, 4.00f)*
-	//		DTransformf::makeTranslate(1.5f, 2.5f, 9.5);
+	//		DTransformf::makeScale(30.00f, -30.00f, 30.00f)*
+	//		DTransformf::makeTranslate(0.5f, 2.0f, 6.0);
 	//	HEntity hShape = STriangleMesh::create(p, MeshTools::loadMesh("bunny.obj"));
 	//	addComponent<CMaterialHandle>(hShape, CMaterialHandle(hMaterialMetal));
 	//}
-
-	{
-		CTransform p =
-			DTransformf::makeRotateX(radians(35.0))*
-			DTransformf::makeScale(30.00f, -30.00f, 30.00f)*
-			DTransformf::makeTranslate(0.5f, 2.0f, 6.0);
-		HEntity hShape = STriangleMesh::create(p, MeshTools::loadMesh("bunny.obj"));
-		addComponent<CMaterialHandle>(hShape, CMaterialHandle(hMaterialMetal));
-	}
 
 	//{
 	//	CTransform p =
@@ -198,7 +212,8 @@ void MEngine::buildScene()
 	//}
 
 	{
-		SLightInfiniteArea::create(RGBSpectrum(DVector3f(600000.0f, 600000.0f, 600000.0f)), "env.png");
+		DTransformf world = DTransformf::makeRotateX(-PI / 2.0)*DTransformf::makeRotateY(PI / 1.45);
+		hEnvLight = SLightInfiniteArea::create(RGBSpectrum(DVector3f(85000.0f)), "env.png", world);
 	}
 
 
@@ -209,7 +224,7 @@ void MEngine::buildScene()
 	}*/
 
 
-	CLight l;
+	/*CLight l;
 	{
 		CTransform p = DTransformf::makeTranslate(0.0, -5.0f, -35.0f);
 		HEntity hSphereLight = SSphere::create(std::move(p), CSphere(1.0f));
@@ -222,7 +237,7 @@ void MEngine::buildScene()
 		addComponent<CLight>(hSphereLight, l);
 		addComponent<CLightLiComputeRequests>(hSphereLight);
 		addComponent<CLightLiSampleRequests>(hSphereLight);
-	}
+	}*/
 
 	/*{
 		CTransform p = DTransformf::makeTranslate(-0.0, -14.0f, 30.0f);
@@ -378,6 +393,8 @@ void MEngine::render()
 			JOB_RUN(JobSamplerUpdateCameraSamples)
 			JOB_RUN(JobCameraPerspGenerateRaysDifferential)
 			runCollisionSystem();
+			JOB_RUN(JobScatteringRequestEmittedLight)
+			JOB_RUN(JobLightInfiniteAreaLeCompute)
 			JOB_RUN(JobScatteringAccumulateEmittedLight)
 			JOB_RUN(JobComputeDifferentialsForSurfInter)
 			JOB_RUN(JobMapUVRequestsGenerate)

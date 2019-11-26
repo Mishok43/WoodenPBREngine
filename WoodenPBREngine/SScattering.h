@@ -44,7 +44,12 @@ struct CSampledLightPDF
 };
 
 
-class JobScatteringAccumulateEmittedLight: public Job
+class JobScatteringRequestEmittedLight: public Job
+{
+	void update(WECS* ecs) override;
+};
+
+class JobScatteringAccumulateEmittedLight : public Job
 {
 	void update(WECS* ecs) override;
 	void finish(WECS* ecs) override;

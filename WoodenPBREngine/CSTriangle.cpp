@@ -310,6 +310,9 @@ void JobProcessTriangleFullInteractionRequests::update(WECS* ecs, HEntity hEntit
 
 			res.setShadingGeometry(ss, ts, dndu, dndv, true);
 		}
+
+		
+		
 		ecs->addComponent<CSurfaceInteraction>(interactionRequest.hRayCast, std::move(res));
 	}
 	interactions.clear();

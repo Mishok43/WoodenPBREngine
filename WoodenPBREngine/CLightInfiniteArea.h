@@ -27,7 +27,7 @@ struct CLMapDistribution
 class SLightInfiniteArea
 {
 public:
-	static HEntity create(Spectrum lemit, const std::string& lightMap);
+	static HEntity create(Spectrum lemit, const std::string& lightMap, const DTransformf& world);
 };
 
 class JobLightInfiniteAreaPreprocessLocation: public JobParallaziblePerCompGroup<CPosition, CSphere>
@@ -42,24 +42,24 @@ public:
 	void update(WECS* ecs, HEntity hEntity, CLight& light, CTextureBinding2DRGB& lMap) override;
 };
 
-class JobLightInfiniteAreaLeCompute: public JobParallaziblePerCompGroup<CLight,  CLightLeComputeRequests,CTextureBinding2DRGB>
+class JobLightInfiniteAreaLeCompute: public JobParallaziblePerCompGroup<CLight,  CLightLeComputeRequests,CTextureBinding2DRGB, CTransform>
 {
 public:
-	void update(WECS* ecs, HEntity hEntity, CLight& l, CLightLeComputeRequests& requests, CTextureBinding2DRGB& lMap) override;
+	void update(WECS* ecs, HEntity hEntity, CLight& l, CLightLeComputeRequests& requests, CTextureBinding2DRGB& lMap, CTransform& world) override;
 
 };
 
-class JobLightInfiniteAreaLiSample : public JobParallaziblePerCompGroup<CLight, CLightLiSampleRequests, CLMapDistribution, CTextureBinding2DRGB>
+class JobLightInfiniteAreaLiSample : public JobParallaziblePerCompGroup<CLight, CLightLiSampleRequests, CLMapDistribution, CTextureBinding2DRGB, CTransform>
 {
 public:
-	void update(WECS* ecs, HEntity hEntity, CLight& l, CLightLiSampleRequests& requests, CLMapDistribution& distr, CTextureBinding2DRGB& lMap) override;
+	void update(WECS* ecs, HEntity hEntity, CLight& l, CLightLiSampleRequests& requests, CLMapDistribution& distr, CTextureBinding2DRGB& lMap, CTransform& world) override;
 
 };
 
-class JobLightInfiniteAreaLiCompute : public JobParallaziblePerCompGroup<CLight, CLightLiComputeRequests, CLMapDistribution, CTextureBinding2DRGB>
+class JobLightInfiniteAreaLiCompute : public JobParallaziblePerCompGroup<CLight, CLightLiComputeRequests, CLMapDistribution, CTextureBinding2DRGB, CTransform>
 {
 public:
-	void update(WECS* ecs, HEntity hEntity, CLight& l, CLightLiComputeRequests& requests, CLMapDistribution& distr, CTextureBinding2DRGB& lMap) override;
+	void update(WECS* ecs, HEntity hEntity, CLight& l, CLightLiComputeRequests& requests, CLMapDistribution& distr, CTextureBinding2DRGB& lMap, CTransform& world) override;
 
 };
 

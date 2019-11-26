@@ -10,11 +10,10 @@ DECL_OUT_COMP_DATA(CPosition)
 DECL_OUT_COMP_DATA(CLMapDistribution)
 
 
-HEntity SLightInfiniteArea::create(Spectrum lemit, const std::string& lightMap)
+HEntity SLightInfiniteArea::create(Spectrum lemit, const std::string& lightMap, const DTransformf& world)
 {
 	MEngine& ecs = MEngine::getInstance();
 	HEntity hEntity = ecs.createEntity();
-
 
 	CTextureBinding2DRGB lMap;
 	lMap.filename = lightMap;
@@ -22,8 +21,10 @@ HEntity SLightInfiniteArea::create(Spectrum lemit, const std::string& lightMap)
 	CLight l;
 	l.LEmit = lemit;
 	ecs.addComponent<CLight>(hEntity, l);
-	ecs.addComponent<CSphere>(hEntity);
+	//ecs.addComponent<CSphere>(hEntity);
 	ecs.addComponent<CPosition>(hEntity);
+	ecs.addComponent<CTransform>(hEntity, world);
+
 	ecs.addComponent<CTextureBinding2DRGB>(hEntity, std::move(lMap));
 	ecs.addComponent<CLightLiComputeRequests>(hEntity);
 	ecs.addComponent<CLightLiSampleRequests>(hEntity);
@@ -68,19 +69,21 @@ void JobLightInfiniteAreaPreprocessSampling::update(WECS* ecs, HEntity hEntity, 
 	ecs->addComponent<CLMapDistribution>(hEntity, lMapDistr);
 }
 
-void JobLightInfiniteAreaLeCompute::update(WECS* ecs, HEntity hEntity, CLight& l, CLightLeComputeRequests& requests, CTextureBinding2DRGB& lMap)
+void JobLightInfiniteAreaLeCompute::update(WECS* ecs, HEntity hEntity, CLight& l, CLightLeComputeRequests& requests, CTextureBinding2DRGB& lMap, CTransform& world)
 {
 	for (uint32_t i = 0; i < requests.data.size(); i++)
 	{
 		HEntity hRequest = requests.data[i];
 		const CRayDifferential& ray = ecs->getComponent<CRayDifferential>(hRequest);
 
+		DVector3f dirL = world(ray.dir, INV_TRANFORM);
+
 		CTextureMappedPoint st;
-		st.p = DPoint2f(sphericalPhi(ray.dir) / (2 * PI),
-						sphericalTheta(ray.dir) / PI);
+		st.p = DPoint2f(sphericalPhi(dirL) / (2 * PI),
+						sphericalTheta(dirL) / PI);
 
 		CLightLE le;
-		le.L = (RGBSpectrum)STexture2DSamplerIsotropic::eval(st, lMap.getTex(ecs));
+		le.L = Spectrum(Spectrum((RGBSpectrum)STexture2DSamplerIsotropic::eval(st, lMap.getTex(ecs)), SpectrumType::Illuminant)*l.LEmit);
 		ecs->addComponent<CLightLE>(hRequest, std::move(le));
 	}
 
@@ -89,7 +92,7 @@ void JobLightInfiniteAreaLeCompute::update(WECS* ecs, HEntity hEntity, CLight& l
 
 
 void JobLightInfiniteAreaLiSample::update(WECS* ecs, HEntity hEntity, CLight& l, CLightLiSampleRequests& requests, 
-										  CLMapDistribution& distr, CTextureBinding2DRGB& lMap)
+										  CLMapDistribution& distr, CTextureBinding2DRGB& lMap, CTransform& world)
 {
 	for (uint32_t i = 0; i < requests.data.size(); i++)
 	{
@@ -108,11 +111,11 @@ void JobLightInfiniteAreaLiSample::update(WECS* ecs, HEntity hEntity, CLight& l,
 		DPoint2f uv = distr.d.sampleContinuous(samples.next(), mapPDF);
 		if (mapPDF != 0.0f)
 		{
-			float theta = (1.0-uv[1]) * PI;
+			float theta = uv[1] * PI;
 			float phi = uv[0] * 2 * PI;
 			float cosTheta = std::cos(theta);
 			float sinTheta = std::sin(theta);
-			wi = sphericalToCasterian(sinTheta, cosTheta, phi);
+			wi = world(sphericalToCasterian(sinTheta, cosTheta, phi));
 
 			pdf.p = (sinTheta != 0.0f) ? mapPDF / (2 * PI*PI*sinTheta) : 0.0f;
 		}
@@ -132,20 +135,23 @@ void JobLightInfiniteAreaLiSample::update(WECS* ecs, HEntity hEntity, CLight& l,
 }
 
 void JobLightInfiniteAreaLiCompute::update(WECS* ecs, HEntity hEntity, CLight& l, CLightLiComputeRequests& requests,
-										  CLMapDistribution& distr, CTextureBinding2DRGB& lMap)
+										  CLMapDistribution& distr, CTextureBinding2DRGB& lMap, CTransform& world)
 {
 	for (uint32_t i = 0; i < requests.data.size(); i++)
 	{
 		HEntity hRequest = requests.data[i];
 
 		CSampledWI& wi = ecs->getComponent<CSampledWI>(hRequest);
+
+		DVector3f wiL = world(wi, INV_TRANFORM);
+
 		const CSurfaceInteraction& si = ecs->getComponent<CSurfaceInteraction>(hRequest);
 
 		CSampledLightLI li;
 		CSampledLightPDF pdf;
 
-		float theta = (PI-sphericalTheta(wi));
-		float phi = sphericalPhi(wi);
+		float theta = sphericalTheta(wiL) ;
+		float phi = sphericalPhi(wiL);
 		DPoint2f uv = DPoint2f(phi / (2 * PI), theta / PI);
 		float sinTheta = std::sin(theta);
 		if (sinTheta != 0.0f)
