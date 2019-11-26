@@ -40,3 +40,8 @@ https://drive.google.com/file/d/1mX7miJLeN_xeZ3ocKnfiUIN57I690-i9/view?usp=shari
 <b>Based on</b>:   
   Physically Based Rendering from Theory To Implementation  
   Computer architecture a quantitative approach   
+
+<h1> Features </h1>     
+<h2> Enviroment map </h2>   
+
+<img src="https://github.com/Mishok43/WoodenPBREngine/blob/master/images/testpng.png" width="256" height="256"> <img src="https://github.com/Mishok43/WoodenPBREngine/blob/master/images/ball0.png" width="256" height="256"> <img src="https://github.com/Mishok43/WoodenPBREngine/blob/master/images/ball2.png" width="256" height="256">
