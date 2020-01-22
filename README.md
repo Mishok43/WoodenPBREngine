@@ -45,7 +45,7 @@ https://drive.google.com/file/d/1mX7miJLeN_xeZ3ocKnfiUIN57I690-i9/view?usp=shari
 <h2> Passes </h1>
 
 '''
-for (uint32_t k = 0; k < pow(res /32, 2); k++)
+	for (uint32_t k = 0; k < pow(res /32, 2); k++)
 	{
 
 		JOB_RUN(JobGenerateFilmTiles)
